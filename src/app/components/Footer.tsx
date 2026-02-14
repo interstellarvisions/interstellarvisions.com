@@ -109,8 +109,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="/privacy-policy"
-                  target="_blank"
+                  href="src/app/pages/PrivacyPolicy.tsx"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors text-sm"
                 >
@@ -119,8 +118,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="/terms-conditions"
-                  target="_blank"
+                  href="src/app/pages/TermsConditions.tsx"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors text-sm"
                 >
