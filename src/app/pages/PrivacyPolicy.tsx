@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
             className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors"
           >
             <ArrowLeft size={20} />
-            Back to Home
+            Back to Lobby My FRIEND
           </a>
         </div>
       </header>
