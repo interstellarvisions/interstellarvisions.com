@@ -19,7 +19,7 @@ const benefits = [
     icon: DollarSign,
     title: "Cost-Effective Production",
     description:
-      "Save up to 80% on traditional production costs while maintaining premium quality standards.",
+      "Save up to 70% on traditional production costs while maintaining premium quality standards.",
   },
   {
     icon: Target,
