@@ -36,15 +36,30 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-xl md:text-2xl text-gray-300 mb-12"
+          className="text-xl md:text-2xl text-gray-300 mb-8"
         >
           AI-Powered Creative Content That Converts
         </motion.p>
 
+        {/* Book a Free Consultation Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="mb-12"
+        >
+          <button
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            className="group relative px-8 py-4 border-2 border-white/30 rounded-full text-white font-medium tracking-wide transition-all duration-300 hover:bg-white hover:text-black hover:shadow-lg hover:shadow-white/20 overflow-hidden"
+          >
+            <span className="relative z-10">BOOK A FREE CONSULTATION →</span>
+          </button>
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
           className="border border-cyan-500/30 rounded-lg p-12 bg-black/30 backdrop-blur-sm"
         >
           <p className="text-lg text-gray-400 tracking-wide">

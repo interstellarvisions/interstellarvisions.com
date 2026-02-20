@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { Zap, TrendingUp, DollarSign, Target, Rocket } from "lucide-react";
+import { Zap, TrendingUp, DollarSign, Target, Rocket, Award } from "lucide-react";
 
 const benefits = [
   {
@@ -33,9 +33,15 @@ const benefits = [
     description:
       "Access to the latest AI tools and techniques that keep you ahead of the competition.",
   },
+  {
+    icon: Award,
+    title: "Guaranteed Creative Performance",
+    description:
+      "We don't just deliver content — we deliver results. Every asset we produce is crafted to drive high views, engagement, and conversions, backed by our commitment to creative excellence.",
+  },
 ];
 
-const process = [
+const steps = [
   {
     number: "01",
     title: "Consultation & Brief",
@@ -52,7 +58,7 @@ const process = [
     number: "03",
     title: "Review & Revisions",
     description:
-      "Collaborate with our team to refine and perfect every detail until it exceeds expectations.",
+      "Collaborate with our team to refine and perfect every detail, ensuring flawless execution until it exceeds expectations.",
   },
   {
     number: "04",
@@ -95,9 +101,11 @@ function BenefitCard({
 function ProcessStep({
   step,
   index,
+  isLast,
 }: {
-  step: typeof process[0];
+  step: typeof steps[0];
   index: number;
+  isLast: boolean;
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
@@ -108,25 +116,23 @@ function ProcessStep({
       initial={{ opacity: 0, x: -30 }}
       animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
       transition={{ duration: 0.5, delay: index * 0.15 }}
-      className="relative"
+      className="flex gap-6"
     >
-      <div className="flex items-start gap-6">
-        {/* Number Circle */}
+      {/* Left column: circle + line */}
+      <div className="flex flex-col items-center">
         <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-xl">
           {step.number}
         </div>
-
-        {/* Content */}
-        <div className="flex-1 pt-2">
-          <h3 className="text-2xl font-bold mb-2">{step.title}</h3>
-          <p className="text-gray-400 leading-relaxed">{step.description}</p>
-        </div>
+        {!isLast && (
+          <div className="w-0.5 flex-1 mt-2 bg-gradient-to-b from-cyan-500/50 to-transparent" />
+        )}
       </div>
 
-      {/* Connecting Line */}
-      {index < process.length - 1 && (
-        <div className="absolute left-8 top-20 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500/50 to-transparent"></div>
-      )}
+      {/* Content */}
+      <div className="flex-1 pt-2 pb-12">
+        <h3 className="text-2xl font-bold mb-2">{step.title}</h3>
+        <p className="text-gray-400 leading-relaxed">{step.description}</p>
+      </div>
     </motion.div>
   );
 }
@@ -153,14 +159,12 @@ export default function AboutUs() {
         </motion.h2>
 
         {/* Main Statement */}
-        <div className="max-w-4xl mx-auto text-center mb-20">
+        <div className="max-w-8xl mx-auto text-center mb-20">
+          <p className="text-xl md:text-2xl text-gray-300 leading-relaxed mb-6">
+            We are a cutting-edge AI creative studio transforming how brands create content. By merging artificial intelligence with elite creative direction, we craft stunning visuals and high-performing narratives that captivate audiences and deliver measurable results.
+          </p>
           <p className="text-xl md:text-2xl text-gray-300 leading-relaxed">
-            We are a cutting-edge AI creative studio transforming how brands
-            create content. By combining artificial intelligence with creative
-            expertise, we deliver stunning visuals and engaging narratives that
-            drive real results. Our mission is to democratize premium content
-            creation, making it accessible, scalable, and affordable for
-            businesses of all sizes.
+            Our mission is to make premium content creation accessible, scalable, and affordable for businesses of all sizes.
           </p>
         </div>
 
@@ -181,9 +185,14 @@ export default function AboutUs() {
           <h3 className="text-3xl md:text-5xl font-bold text-center mb-16 tracking-wide">
             HOW IT WORKS
           </h3>
-          <div className="max-w-3xl mx-auto space-y-12">
-            {process.map((step, index) => (
-              <ProcessStep key={step.number} step={step} index={index} />
+          <div className="max-w-3xl mx-auto">
+            {steps.map((step, index) => (
+              <ProcessStep
+                key={step.number}
+                step={step}
+                index={index}
+                isLast={index === steps.length - 1}
+              />
             ))}
           </div>
         </div>

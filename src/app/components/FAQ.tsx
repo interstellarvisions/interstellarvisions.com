@@ -9,9 +9,14 @@ import {
 
 const faqs = [
   {
+    question: "What types of content do you create?",
+    answer:
+      "We specialize in AI-powered video ads, short-form social content for TikTok and Instagram Reels, AI influencer content, product visuals, and full creative campaigns. Whether you need a single video or an entire content strategy, we deliver high-quality creative assets tailored to your brand.",
+  },
+  {
     question: "Is AI content allowed on social platforms?",
     answer:
-      "Yes! AI-generated content is allowed on all major social media platforms including Instagram, TikTok, YouTube, and Facebook. We ensure all our content complies with platform guidelines and best practices. Our AI influencers and content are clearly labeled where required by platform policies, maintaining transparency with your audience.",
+      "Yes! AI-generated content is allowed on all major social media platforms including Instagram, TikTok, YouTube, and Facebook. We ensure all our content complies with platform guidelines and best practices. Our AI influencers and content are clearly labeled where required by platform policies, maintaining full transparency with your audience.",
   },
   {
     question: "Does it look realistic?",
@@ -19,24 +24,29 @@ const faqs = [
       "Absolutely. Our AI technology creates photorealistic content that's virtually indistinguishable from traditional production. We use cutting-edge AI models trained on millions of high-quality images and videos to ensure exceptional realism. From facial expressions to lighting and textures, every detail is meticulously crafted to meet premium quality standards.",
   },
   {
-    question: "Who owns the content?",
+    question: "Can I request a specific look or style for my AI influencer?",
     answer:
-      "You own all the content we create for you. Upon project completion and final payment, you receive full commercial rights to use, modify, and distribute the content as you see fit. We provide a comprehensive license agreement with each project, ensuring complete clarity on ownership and usage rights.",
+      "Yes — completely. We build custom AI influencers from scratch based on your brand identity, target audience, and campaign goals. You choose everything from facial features and personality to content style and tone of voice. Your influencer is 100% unique to your brand and fully owned by you.",
   },
   {
-    question: "Do you manage ad campaigns too?",
+    question: "Who owns the content?",
     answer:
-      "While our primary focus is content creation, we offer campaign consultation services and can connect you with trusted partners for media buying and campaign management. We'll ensure your AI-generated content is optimized for the platforms you're advertising on, and can provide guidance on targeting and strategy.",
+      "You do. Upon project completion and final payment, you receive full commercial rights to use, modify, and distribute all content as you see fit. We provide a comprehensive license agreement with each project, ensuring complete clarity on ownership and usage rights.",
+  },
+  {
+    question: "What do I need to provide to get started?",
+    answer:
+      "To kick things off we typically need your brand guidelines, visual references or inspiration, a brief describing your target audience and campaign goals, and any existing assets you'd like us to work with. The more context you give us, the better the output. Our team will guide you through the entire onboarding process.",
+  },
+  {
+    question: "How many revisions do I get?",
+    answer:
+      "Every project includes a set number of revision rounds depending on the package. We work closely with you throughout the creative process to make sure the final result exceeds your expectations. Additional revision rounds can be added if needed — we're committed to getting it right.",
   },
   {
     question: "What's the typical turnaround time?",
     answer:
-      "Project timelines vary based on complexity and scope. Simple content pieces can be delivered within 3-5 business days, while comprehensive campaigns typically take 2-3 weeks. Our AI-powered workflow is significantly faster than traditional production, often delivering results 5-10x quicker without compromising quality.",
-  },
-  {
-    question: "What industries do you work with?",
-    answer:
-      "We work with a diverse range of industries including fashion, beauty, technology, e-commerce, real estate, fitness, food & beverage, and professional services. Our AI influencers and content creation capabilities are versatile enough to adapt to virtually any industry or niche. We customize our approach to match your specific industry requirements and target audience.",
+      "Timelines vary based on the type and complexity of the project. Individual content pieces are typically delivered within 3-5 business days, while full ad campaigns take 2-3 weeks. For ongoing contracts — whether 3, 6, or 12 months — we establish a consistent weekly delivery schedule tailored to your needs, such as 2-3 videos per week, ensuring a steady stream of high-quality content. We also offer a priority queue option for urgent deliverables, available at an additional fee, guaranteeing faster turnaround without compromising quality.",
   },
 ];
 

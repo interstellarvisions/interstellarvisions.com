@@ -1,108 +1,120 @@
 import { useState, useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { Play, X } from "lucide-react";
-import PortfolioModal from "./PortfolioModal";
+import { Play } from "lucide-react";
+import ProjectModal from "./ProjectModal";
 
 const portfolioItems = [
   {
     id: 1,
     title: "VIDEO AD EXAMPLE 01",
-    thumbnail:
-      "https://images.unsplash.com/photo-1770220742903-f113513d0194?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBSSUyMHRlY2hub2xvZ3klMjBjcmVhdGl2ZXxlbnwxfHx8fDE3NzEwODI0MDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    shortDescription: "High-converting AI-powered video advertisement",
+    coverImage: "https://images.unsplash.com/photo-1770220742903-f113513d0194?w=800&h=500&fit=crop",
     client: "Fashion Brand X",
     techniques: "AI Product Visualization, 3D Rendering, Dynamic Animation",
     description:
-      "High-end product showcase featuring AI-generated visuals and cinematic storytelling.",
+      "High-end product showcase featuring AI-generated visuals and cinematic storytelling designed to elevate brand positioning and drive premium engagement.",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     images: [
       "https://images.unsplash.com/photo-1719176010035-17729577d496?w=800",
       "https://images.unsplash.com/photo-1658806283210-6d7330062704?w=800",
       "https://images.unsplash.com/photo-1612000656409-16fcf948b2d9?w=800",
+      "https://images.unsplash.com/photo-1641312874336-6279a832a3dc?w=800",
+      "https://images.unsplash.com/photo-1770220742903-f113513d0194?w=800",
     ],
   },
   {
     id: 2,
     title: "AI INFLUENCER CONTENT",
-    thumbnail:
-      "https://images.unsplash.com/photo-1641312874336-6279a832a3dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwZGlnaXRhbCUyMGF2YXRhcnxlbnwxfHx8fDE3NzEwODI0MDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    shortDescription: "Engaging AI influencer social media campaigns",
+    coverImage: "https://images.unsplash.com/photo-1641312874336-6279a832a3dc?w=800&h=500&fit=crop",
     client: "Tech Startup Y",
     techniques: "AI Character Generation, Motion Capture, Voice Synthesis",
     description:
-      "Engaging social media content featuring our custom AI influencer with realistic movements and expressions.",
+      "Engaging social media content featuring our custom AI influencer with realistic movements and expressions, optimized for viral engagement across platforms.",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     images: [
       "https://images.unsplash.com/photo-1641312874336-6279a832a3dc?w=800",
       "https://images.unsplash.com/photo-1770220742903-f113513d0194?w=800",
       "https://images.unsplash.com/photo-1696695368125-fc0d809b4ab5?w=800",
+      "https://images.unsplash.com/photo-1719176010035-17729577d496?w=800",
+      "https://images.unsplash.com/photo-1612000656409-16fcf948b2d9?w=800",
     ],
   },
   {
     id: 3,
     title: "PRODUCT VISUALS",
-    thumbnail:
-      "https://images.unsplash.com/photo-1719176010035-17729577d496?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9kdWN0JTIwcGhvdG9ncmFwaHklMjBsdXh1cnl8ZW58MXx8fHwxNzcxMDY5MzY4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    shortDescription: "Stunning AI-generated product photography",
+    coverImage: "https://images.unsplash.com/photo-1719176010035-17729577d496?w=800&h=500&fit=crop",
     client: "Luxury Goods Co.",
     techniques: "AI Image Generation, Color Grading, Compositing",
     description:
-      "Stunning product photography created entirely through AI, showcasing luxury items in premium environments.",
+      "Stunning product photography created entirely through AI, showcasing luxury items in premium environments with photorealistic lighting and textures.",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     images: [
       "https://images.unsplash.com/photo-1719176010035-17729577d496?w=800",
       "https://images.unsplash.com/photo-1612000656409-16fcf948b2d9?w=800",
       "https://images.unsplash.com/photo-1658806283210-6d7330062704?w=800",
+      "https://images.unsplash.com/photo-1641312874336-6279a832a3dc?w=800",
+      "https://images.unsplash.com/photo-1696695368125-fc0d809b4ab5?w=800",
     ],
   },
   {
     id: 4,
     title: "SOCIAL CONTENT 01",
-    thumbnail:
-      "https://images.unsplash.com/photo-1696695368125-fc0d809b4ab5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2NpYWwlMjBtZWRpYSUyMHNtYXJ0cGhvbmV8ZW58MXx8fHwxNzcxMDQ2MzQ4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    shortDescription: "Viral-optimized short-form video content",
+    coverImage: "https://images.unsplash.com/photo-1696695368125-fc0d809b4ab5?w=800&h=500&fit=crop",
     client: "E-commerce Platform",
     techniques: "Short-form Video Creation, Trend Analysis, AI Editing",
     description:
-      "Viral-optimized short-form content designed for maximum engagement on TikTok and Instagram Reels.",
+      "Viral-optimized short-form content designed for maximum engagement on TikTok and Instagram Reels, with data-driven creative decisions.",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     images: [
       "https://images.unsplash.com/photo-1696695368125-fc0d809b4ab5?w=800",
       "https://images.unsplash.com/photo-1641312874336-6279a832a3dc?w=800",
       "https://images.unsplash.com/photo-1770220742903-f113513d0194?w=800",
+      "https://images.unsplash.com/photo-1658806283210-6d7330062704?w=800",
+      "https://images.unsplash.com/photo-1719176010035-17729577d496?w=800",
     ],
   },
   {
     id: 5,
     title: "EXAMPLE 5",
-    thumbnail:
-      "https://images.unsplash.com/photo-1658806283210-6d7330062704?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMHRlY2hub2xvZ3klMjBkaWdpdGFsfGVufDF8fHx8MTc3MTAwMDgzOXww&ixlib=rb-4.1.0&q=80&w=1080",
+    shortDescription: "Interactive gaming content with AI animation",
+    coverImage: "https://images.unsplash.com/photo-1658806283210-6d7330062704?w=800&h=500&fit=crop",
     client: "Gaming Company",
     techniques: "Real-time Rendering, AI Animation, Dynamic Effects",
     description:
-      "Interactive gaming content with AI-powered animations and photorealistic rendering.",
+      "Interactive gaming content with AI-powered animations and photorealistic rendering that pushes the boundaries of virtual production.",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     images: [
       "https://images.unsplash.com/photo-1658806283210-6d7330062704?w=800",
       "https://images.unsplash.com/photo-1719176010035-17729577d496?w=800",
       "https://images.unsplash.com/photo-1641312874336-6279a832a3dc?w=800",
+      "https://images.unsplash.com/photo-1612000656409-16fcf948b2d9?w=800",
+      "https://images.unsplash.com/photo-1696695368125-fc0d809b4ab5?w=800",
     ],
   },
   {
     id: 6,
     title: "EXAMPLE 6",
-    thumbnail:
-      "https://images.unsplash.com/photo-1612000656409-16fcf948b2d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aWRlbyUyMHByb2R1Y3Rpb24lMjBjaW5lbWF0aWN8ZW58MXx8fHwxNzcxMDgyNDAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    shortDescription: "Cinematic AI-assisted trailer production",
+    coverImage: "https://images.unsplash.com/photo-1612000656409-16fcf948b2d9?w=800&h=500&fit=crop",
     client: "Entertainment Studio",
     techniques: "Cinematic AI, Story Generation, Post-production AI",
     description:
-      "Cinematic trailer production with AI-assisted storytelling and advanced post-production techniques.",
+      "Cinematic trailer production with AI-assisted storytelling and advanced post-production techniques that rival traditional film studios.",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     images: [
       "https://images.unsplash.com/photo-1612000656409-16fcf948b2d9?w=800",
       "https://images.unsplash.com/photo-1696695368125-fc0d809b4ab5?w=800",
       "https://images.unsplash.com/photo-1770220742903-f113513d0194?w=800",
+      "https://images.unsplash.com/photo-1641312874336-6279a832a3dc?w=800",
+      "https://images.unsplash.com/photo-1719176010035-17729577d496?w=800",
     ],
   },
 ];
 
-function PortfolioCard({
+function ProjectCard({
   item,
   index,
   onClick,
@@ -117,32 +129,33 @@ function PortfolioCard({
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
       onClick={onClick}
-      className="group relative overflow-hidden rounded-lg border border-white/10 hover:border-cyan-500/80 transition-all duration-300 cursor-pointer aspect-video"
+      className="group relative overflow-hidden rounded-lg cursor-pointer aspect-video bg-black border border-white/10 hover:border-cyan-500/50 transition-all duration-300"
     >
-      {/* Thumbnail */}
+      {/* Cover Image */}
       <div className="absolute inset-0">
         <img
-          src={item.thumbnail}
+          src={item.coverImage}
           alt={item.title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-all duration-300"></div>
       </div>
 
-      {/* Play Button */}
+      {/* Play Icon */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center group-hover:bg-cyan-500/30 group-hover:scale-110 transition-all duration-300">
           <Play className="text-white ml-1" size={24} />
         </div>
       </div>
 
-      {/* Title */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black to-transparent">
-        <h3 className="text-lg font-bold tracking-wide">{item.title}</h3>
+      {/* Content */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent">
+        <h3 className="text-lg font-bold mb-2 tracking-wide">{item.title}</h3>
+        <p className="text-sm text-gray-400">{item.shortDescription}</p>
       </div>
 
       {/* Glow effect on hover */}
@@ -166,9 +179,9 @@ export default function OurWork() {
       <div className="max-w-[1400px] mx-auto">
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="text-center mb-16 md:mb-24"
         >
           <h2 className="text-5xl md:text-7xl font-bold mb-6 tracking-wider">
@@ -179,9 +192,10 @@ export default function OurWork() {
           </p>
         </motion.div>
 
+        {/* Grid of 6 Examples - 3 per row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {portfolioItems.map((item, index) => (
-            <PortfolioCard
+            <ProjectCard
               key={item.id}
               item={item}
               index={index}
@@ -191,9 +205,9 @@ export default function OurWork() {
         </div>
       </div>
 
-      {/* Portfolio Modal */}
+      {/* Project Modal */}
       {selectedItem && (
-        <PortfolioModal
+        <ProjectModal
           item={selectedItem}
           onClose={() => setSelectedItem(null)}
         />

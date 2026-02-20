@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -24,6 +24,20 @@ export default function CreatorProfileModal({
   onClose,
 }: CreatorProfileModalProps) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSelectedGalleryImage((prev) => (prev + 1) % creator.gallery.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [selectedGalleryImage, creator.gallery.length]);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
 
   return (
     <AnimatePresence>
@@ -55,22 +69,19 @@ export default function CreatorProfileModal({
 
             <div className="p-6 md:p-8">
               <div className="flex flex-col lg:flex-row gap-8">
-                {/* Left Panel - Images */}
-                <div className="lg:w-1/3">
+               {/* Left Panel - Images */}
+                <div className="lg:w-1/3 flex flex-col">
                   {/* Full Body Image */}
-                  <div className="mb-6 border border-white/10 rounded-lg overflow-hidden">
+                  <div className="flex-1 border border-white/10 rounded-lg overflow-hidden mb-4">
                     <img
                       src={creator.gallery[selectedGalleryImage]}
                       alt={`${creator.name} - Full body`}
-                      className="w-full aspect-[3/4] object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
 
                   {/* Gallery Selection */}
-                  <div>
-                    <p className="text-xs text-cyan-400 tracking-wider mb-3">
-                      SELECTION OF 6 PHOTOS
-                    </p>
+                  <div> 
                     <div className="grid grid-cols-6 gap-2">
                       {creator.gallery.map((image, index) => (
                         <button
