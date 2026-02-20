@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { motion, useInView } from "motion/react";
+import { motion, useInView } from "framer-motion";
 import { Plus } from "lucide-react";
 import CreatorProfileModal from "./CreatorProfileModal";
 import CustomInfluencerModal from "./CustomInfluencerModal";
@@ -184,7 +184,7 @@ export default function DigitalCreators() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="text-5xl md:text-7xl font-bold text-center mb-16 md:mb-24 tracking-wider"
+          className="text-5xl md:text-7xl font-bold text-center mb-16 md:mb-24 tracking-wider bg-clip-text text-transparent bg-gradient-to-b from-white via-cyan-100 to-cyan-400"
         >
           OUR DIGITAL CREATORS
         </motion.h2>

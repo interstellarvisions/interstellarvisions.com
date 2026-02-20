@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useInView } from "motion/react";
+import { motion, useInView } from "framer-motion";
 import { Zap, TrendingUp, DollarSign, Target, Rocket, Award } from "lucide-react";
 
 const benefits = [
@@ -82,9 +82,9 @@ function BenefitCard({
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.6, delay: index * 0.05 }}
       className="bg-white/5 border border-white/10 rounded-lg p-6 hover:border-cyan-500/30 transition-all duration-300"
     >
       <div className="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-4">
@@ -113,9 +113,9 @@ function ProcessStep({
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, x: -30 }}
-      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-      transition={{ duration: 0.5, delay: index * 0.15 }}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.6, delay: index * 0.05 }}
       className="flex gap-6"
     >
       {/* Left column: circle + line */}
@@ -130,7 +130,9 @@ function ProcessStep({
 
       {/* Content */}
       <div className="flex-1 pt-2 pb-12">
-        <h3 className="text-2xl font-bold mb-2">{step.title}</h3>
+        <h3 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-cyan-200">
+          {step.title}
+        </h3>
         <p className="text-gray-400 leading-relaxed">{step.description}</p>
       </div>
     </motion.div>
@@ -153,7 +155,7 @@ export default function AboutUs() {
           initial={{ opacity: 0, y: 30 }}
           animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6 }}
-          className="text-5xl md:text-7xl font-bold text-center mb-12 md:mb-16 tracking-wider"
+          className="text-5xl md:text-7xl font-bold text-center mb-12 md:mb-16 tracking-wider bg-clip-text text-transparent bg-gradient-to-b from-white via-cyan-100 to-cyan-400"
         >
           ABOUT US
         </motion.h2>
@@ -170,7 +172,7 @@ export default function AboutUs() {
 
         {/* Why Work With Us */}
         <div className="mb-24">
-          <h3 className="text-3xl md:text-5xl font-bold text-center mb-12 tracking-wide">
+          <h3 className="text-3xl md:text-5xl font-bold text-center mb-12 tracking-wide bg-clip-text text-transparent bg-gradient-to-b from-white via-cyan-100 to-cyan-400">
             WHY WORK WITH US?
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -182,7 +184,7 @@ export default function AboutUs() {
 
         {/* How It Works */}
         <div>
-          <h3 className="text-3xl md:text-5xl font-bold text-center mb-16 tracking-wide">
+          <h3 className="text-3xl md:text-5xl font-bold text-center mb-16 tracking-wide bg-clip-text text-transparent bg-gradient-to-b from-white via-cyan-100 to-cyan-400">
             HOW IT WORKS
           </h3>
           <div className="max-w-3xl mx-auto">

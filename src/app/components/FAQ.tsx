@@ -1,11 +1,11 @@
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "./ui/accordion";
+import { useState, useRef } from "react";
+import { motion, useInView, Transition } from "framer-motion";
+import { Plus, Minus } from "lucide-react";
+
+const cosmicTransition: Transition = {
+  duration: 0.8,
+  ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+};
 
 const faqs = [
   {
@@ -50,48 +50,92 @@ const faqs = [
   },
 ];
 
+function FAQItem({
+  faq,
+  index,
+  isOpen,
+  onToggle,
+}: {
+  faq: typeof faqs[0];
+  index: number;
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ ...cosmicTransition, delay: index * 0.1 }}
+      className="border-b border-cyan-400/20"
+    >
+      <button
+        onClick={onToggle}
+        className="w-full py-6 flex justify-between items-center text-left hover:text-cyan-300 transition-colors duration-500"
+      >
+        <span className="text-lg md:text-xl font-semibold pr-8">
+          {faq.question}
+        </span>
+        <div className="flex-shrink-0">
+          {isOpen ? (
+            <Minus size={24} className="text-cyan-400" />
+          ) : (
+            <Plus size={24} className="text-cyan-400" />
+          )}
+        </div>
+      </button>
+
+      <motion.div
+        initial={false}
+        animate={{
+          height: isOpen ? "auto" : 0,
+          opacity: isOpen ? 1 : 0,
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="overflow-hidden"
+      >
+        <p className="pb-6 text-cyan-100/60 leading-relaxed">{faq.answer}</p>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function FAQ() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
+  const handleToggle = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
-    <section
-      id="faq"
-      className="py-24 md:py-32 px-6 bg-gradient-to-b from-black to-slate-900"
-    >
-      <div className="max-w-[1000px] mx-auto">
+    <section id="faq" className="py-24 md:py-32 px-6 relative">
+      <div className="max-w-4xl mx-auto">
         <motion.h2
           ref={ref}
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6 }}
-          className="text-5xl md:text-7xl font-bold text-center mb-16 md:mb-24 tracking-wider"
+          transition={cosmicTransition}
+          className="text-5xl md:text-7xl font-bold text-center mb-16 md:mb-24 tracking-wider bg-clip-text text-transparent bg-gradient-to-b from-white via-cyan-100 to-cyan-400"
         >
           FAQ
         </motion.h2>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <Accordion type="single" collapsible className="space-y-4">
-            {faqs.map((faq, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className="bg-white/5 border border-white/10 rounded-lg px-6 data-[state=open]:border-cyan-500/50 transition-all duration-300"
-              >
-                <AccordionTrigger className="text-left text-lg font-semibold hover:text-cyan-400 transition-colors py-6 hover:no-underline">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-gray-400 leading-relaxed pb-6">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </motion.div>
+        <div className="space-y-0">
+          {faqs.map((faq, index) => (
+            <FAQItem
+              key={index}
+              faq={faq}
+              index={index}
+              isOpen={openIndex === index}
+              onToggle={() => handleToggle(index)}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

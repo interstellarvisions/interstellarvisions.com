@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
+import CosmicBackground from "../components/CosmicBackground";
 import HeroSection from "../components/HeroSection";
 import WhatWeCreate from "../components/WhatWeCreate";
 import OurWork from "../components/OurWork";
@@ -22,16 +23,19 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-[#0a0a0a] text-white min-h-screen">
-      <Header scrolled={scrolled} />
-      <HeroSection />
-      <WhatWeCreate />
-      <OurWork />
-      <DigitalCreators />
-      <AboutUs />
-      <FAQ />
-      <Contact />
-      <Footer />
+    <div className="bg-[#0a0a1a] text-white min-h-screen relative">
+      <CosmicBackground />
+      <div className="relative z-10 bg-transparent">
+        <Header scrolled={scrolled} />
+        <HeroSection />
+        <WhatWeCreate />
+        <OurWork />
+        <DigitalCreators />
+        <AboutUs />
+        <FAQ />
+        <Contact />
+        <Footer />
+      </div>
     </div>
   );
 }
