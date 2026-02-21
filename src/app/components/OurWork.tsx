@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { motion, useInView } from "motion/react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { Play } from "lucide-react";
 import ProjectModal from "./ProjectModal";
 
@@ -117,22 +117,25 @@ function ProjectCard({
   index: number;
   onClick: () => void;
 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0 }}
-      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.05 }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut", delay: index * 0.1 }}
+      style={{ transform: "translateZ(0)", willChange: "opacity, transform" }}
       onClick={onClick}
-      className="group relative overflow-hidden rounded-lg cursor-pointer aspect-video bg-black border border-white/10 hover:border-cyan-500/50 transition-all duration-300"
+      className="group relative overflow-hidden rounded-lg cursor-pointer aspect-video bg-black border border-white/10 hover:border-cyan-500/50 transition-colors duration-300"
     >
-      <div className="absolute inset-0">
+      {/* Image isolated in its own compositing layer */}
+      <div
+        className="absolute inset-0"
+        style={{ transform: "translateZ(0)", isolation: "isolate" }}
+      >
         <img
           src={item.coverImage}
           alt={item.title}
+          style={{ transform: "translateZ(0)", willChange: "transform" }}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-all duration-300"></div>
@@ -158,8 +161,6 @@ function ProjectCard({
 
 export default function OurWork() {
   const [selectedItem, setSelectedItem] = useState<typeof portfolioItems[0] | null>(null);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
     <section
@@ -168,18 +169,18 @@ export default function OurWork() {
     >
       <div className="max-w-[1400px] mx-auto">
         <motion.div
-          ref={ref}
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-16 md:mb-24"
         >
           <h2 className="text-5xl md:text-7xl font-bold mb-6 tracking-wider bg-clip-text text-transparent bg-gradient-to-b from-white via-cyan-100 to-cyan-400">
-  OUR WORK
-</h2>
-<p className="text-xl max-w-3xl mx-auto bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-cyan-300">
-  Explore our latest AI-powered creative projects and see what's possible.
-</p>
+            OUR WORK
+          </h2>
+          <p className="text-xl max-w-3xl mx-auto bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-cyan-300">
+            Explore our latest AI-powered creative projects and see what's possible.
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

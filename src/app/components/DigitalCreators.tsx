@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import CreatorProfileModal from "./CreatorProfileModal";
 import CustomInfluencerModal from "./CustomInfluencerModal";
@@ -106,25 +106,28 @@ function CreatorCard({
   index: number;
   onClick: () => void;
 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut", delay: index * 0.1 }}
+      style={{ transform: "translateZ(0)", willChange: "opacity, transform" }}
       onClick={onClick}
       className="group cursor-pointer text-center"
     >
       {/* Circular Image */}
       <div className="relative w-48 h-48 mx-auto mb-4">
         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"></div>
-        <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-cyan-500/30 group-hover:border-cyan-500 transition-all duration-300">
+        {/* Safari fix: inline borderRadius + overflow + translateZ */}
+        <div
+          className="relative w-full h-full border-2 border-cyan-500/30 group-hover:border-cyan-500 transition-all duration-300"
+          style={{ borderRadius: "50%", overflow: "hidden", transform: "translateZ(0)" }}
+        >
           <img
             src={creator.image}
             alt={creator.name}
+            style={{ willChange: "transform", transform: "translateZ(0)" }}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
         </div>
@@ -139,22 +142,24 @@ function CreatorCard({
 }
 
 function CustomCard({ index, onClick }: { index: number; onClick: () => void }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut", delay: index * 0.1 }}
+      style={{ transform: "translateZ(0)", willChange: "opacity, transform" }}
       onClick={onClick}
       className="group cursor-pointer text-center"
     >
       {/* Circular Plus Icon */}
       <div className="relative w-48 h-48 mx-auto mb-4">
         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"></div>
-        <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-dashed border-cyan-500/50 group-hover:border-cyan-500 transition-all duration-300 bg-white/5 flex items-center justify-center">
+        {/* Safari fix: inline borderRadius + overflow + translateZ */}
+        <div
+          className="relative w-full h-full border-2 border-dashed border-cyan-500/50 group-hover:border-cyan-500 transition-all duration-300 bg-white/5 flex items-center justify-center"
+          style={{ borderRadius: "50%", overflow: "hidden", transform: "translateZ(0)" }}
+        >
           <Plus size={64} className="text-cyan-400 group-hover:scale-110 transition-transform duration-300" />
         </div>
       </div>
@@ -170,8 +175,6 @@ function CustomCard({ index, onClick }: { index: number; onClick: () => void }) 
 export default function DigitalCreators() {
   const [selectedCreator, setSelectedCreator] = useState<typeof creators[0] | null>(null);
   const [showCustomModal, setShowCustomModal] = useState(false);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
     <section
@@ -180,10 +183,10 @@ export default function DigitalCreators() {
     >
       <div className="max-w-[1400px] mx-auto">
         <motion.h2
-          ref={ref}
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-5xl md:text-7xl font-bold text-center mb-16 md:mb-24 tracking-wider bg-clip-text text-transparent bg-gradient-to-b from-white via-cyan-100 to-cyan-400"
         >
           OUR DIGITAL CREATORS
@@ -202,7 +205,6 @@ export default function DigitalCreators() {
         </div>
       </div>
 
-      {/* Creator Profile Modal */}
       {selectedCreator && (
         <CreatorProfileModal
           creator={selectedCreator}
@@ -210,7 +212,6 @@ export default function DigitalCreators() {
         />
       )}
 
-      {/* Custom Influencer Modal */}
       {showCustomModal && (
         <CustomInfluencerModal onClose={() => setShowCustomModal(false)} />
       )}

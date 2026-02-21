@@ -113,7 +113,7 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-24 md:py-32 px-6 relative">
+    <section id="faq" className="py-24 md:py-32 px-6 relative bg-gradient-to-b from-black to-slate-900">
       <div className="max-w-4xl mx-auto">
         <motion.h2
           ref={ref}

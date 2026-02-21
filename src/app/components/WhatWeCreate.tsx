@@ -1,6 +1,4 @@
-import { motion } from "motion/react";
-import { useInView } from "motion/react";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 
 const services = [
   {
@@ -26,28 +24,33 @@ const services = [
 ];
 
 function ServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0 }}
-      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.05 }}
-      className="group relative overflow-hidden rounded-lg border border-white/10 hover:border-cyan-500/50 transition-all duration-300 aspect-[4/3]"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut", delay: index * 0.1 }}
+      style={{ transform: "translateZ(0)", willChange: "opacity, transform" }}
+      className="group relative overflow-hidden rounded-lg border border-white/10 hover:border-cyan-500/50 transition-colors duration-300 aspect-[4/3]"
     >
-      <div className="absolute inset-0">
+      {/* Image sits in its own stacking context, isolated from opacity animation */}
+      <div
+        className="absolute inset-0"
+        style={{ transform: "translateZ(0)", isolation: "isolate" }}
+      >
         <img
           src={service.image}
           alt={service.title}
-          className="w-full h-full object-cover blur-sm group-hover:blur-none group-hover:scale-110 transition-all duration-500"
+          style={{ transform: "translateZ(0)", willChange: "transform" }}
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-all duration-300"></div>
       </div>
 
       <div className="relative z-10 p-8 h-full flex flex-col justify-end">
-        <h3 className="text-2xl font-bold mb-3 tracking-wide">{service.title}</h3>
+        <h3 className="text-2xl font-bold mb-3 tracking-wide bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-cyan-200">
+          {service.title}
+        </h3>
         <p className="text-gray-300 text-sm leading-relaxed">{service.description}</p>
       </div>
     </motion.div>
@@ -55,9 +58,6 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
 }
 
 export default function WhatWeCreate() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-
   return (
     <section
       id="what-we-create"
@@ -65,9 +65,9 @@ export default function WhatWeCreate() {
     >
       <div className="max-w-[1400px] mx-auto">
         <motion.h2
-          ref={ref}
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0 }}
           transition={{ duration: 0.6 }}
           className="text-5xl md:text-7xl font-bold text-center mb-16 md:mb-24 tracking-wider bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-cyan-400"
         >
