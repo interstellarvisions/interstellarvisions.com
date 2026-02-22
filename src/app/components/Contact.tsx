@@ -25,15 +25,15 @@ export default function Contact() {
 
     try {
       await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        "service_fcvtrff",
+        "template_1c1c9uk",
         {
           from_name: formData.name,
           from_email: formData.email,
           company: formData.company,
           message: formData.message,
         },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        "S8e75bNWP5q6wcJP_"
       );
       setSent(true);
       setFormData({ name: "", email: "", company: "", message: "" });
@@ -98,10 +98,7 @@ export default function Contact() {
               <div className="space-y-6">
                 {/* Name */}
                 <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium mb-2 text-gray-300"
-                  >
+                  <label htmlFor="name" className="block text-sm font-medium mb-2 text-gray-300">
                     Name *
                   </label>
                   <input
@@ -117,10 +114,7 @@ export default function Contact() {
 
                 {/* Email */}
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium mb-2 text-gray-300"
-                  >
+                  <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-300">
                     Email *
                   </label>
                   <input
@@ -136,10 +130,7 @@ export default function Contact() {
 
                 {/* Company */}
                 <div>
-                  <label
-                    htmlFor="company"
-                    className="block text-sm font-medium mb-2 text-gray-300"
-                  >
+                  <label htmlFor="company" className="block text-sm font-medium mb-2 text-gray-300">
                     Company/Organization
                   </label>
                   <input
@@ -154,10 +145,7 @@ export default function Contact() {
 
                 {/* Message */}
                 <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium mb-2 text-gray-300"
-                  >
+                  <label htmlFor="message" className="block text-sm font-medium mb-2 text-gray-300">
                     Message *
                   </label>
                   <textarea
@@ -171,7 +159,6 @@ export default function Contact() {
                   ></textarea>
                 </div>
 
-                {/* Success / Error messages */}
                 {sent && (
                   <p className="text-cyan-400 text-sm text-center">
                     ✓ Message sent! We'll be in touch soon.
@@ -183,7 +170,6 @@ export default function Contact() {
                   </p>
                 )}
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={sending}
@@ -202,69 +188,51 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="space-y-8"
           >
-            {/* Contact Details */}
             <div className="bg-white/5 border border-white/10 rounded-lg p-8">
-              <h3 className="text-xl font-bold mb-6 tracking-wide">
-                GET IN TOUCH
-              </h3>
+              <h3 className="text-xl font-bold mb-6 tracking-wide">GET IN TOUCH</h3>
               <div className="space-y-4">
                 <div>
                   <p className="text-sm text-gray-400 mb-1">Email</p>
-                  <a
-                    href="mailto:interstellarvisions.com@gmail.com"
-                    className="text-cyan-400 hover:text-cyan-300 transition-colors"
-                  >
+                  <a href="mailto:interstellarvisions.com@gmail.com" className="text-cyan-400 hover:text-cyan-300 transition-colors">
                     interstellarvisions.com@gmail.com
                   </a>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400 mb-1">WhatsApp</p>
-                  <a
-                    href="tel:+10001234567"
-                    className="text-cyan-400 hover:text-cyan-300 transition-colors"
-                  >
+                  <a href="tel:+10001234567" className="text-cyan-400 hover:text-cyan-300 transition-colors">
                     +1 (508) 360-2090
                   </a>
                 </div>
               </div>
             </div>
 
-           {/* Social Media */}
             <div className="bg-white/5 border border-white/10 rounded-lg p-8">
-              <h3 className="text-xl font-bold mb-6 tracking-wide">
-                FOLLOW US
-              </h3>
+              <h3 className="text-xl font-bold mb-6 tracking-wide">FOLLOW US</h3>
               <div className="flex gap-4 flex-wrap">
-                {/* Instagram */}
                 <a href="https://www.instagram.com/interstellar_visions/" target="_blank" rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500 border border-white/20 transition-all">
                   <Instagram size={20} />
                 </a>
-                {/* Facebook */}
                 <a href="https://www.facebook.com/people/Interstellar-Visions/61588131030281/" target="_blank" rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500 border border-white/20 transition-all">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                   </svg>
                 </a>
-                {/* TikTok */}
                 <a href="https://www.tiktok.com/@interstellar_visions" target="_blank" rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500 border border-white/20 transition-all">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
                   </svg>
                 </a>
-                {/* YouTube */}
                 <a href="https://www.youtube.com/@interstellar_visions" target="_blank" rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500 border border-white/20 transition-all">
                   <Youtube size={20} />
                 </a>
-                {/* LinkedIn */}
                 <a href="https://www.linkedin.com/company/interstellarvisions" target="_blank" rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500 border border-white/20 transition-all">
                   <Linkedin size={20} />
                 </a>
-                {/* Reddit */}
                 <a href="https://www.reddit.com/user/interstellar_visions" target="_blank" rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500 border border-white/20 transition-all">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
