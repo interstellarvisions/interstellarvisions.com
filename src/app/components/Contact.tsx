@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Instagram, Linkedin, Youtube } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -9,16 +10,38 @@ export default function Contact() {
     company: "",
     message: "",
   });
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState(false);
 
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Form submission logic would go here
-    console.log("Form submitted:", formData);
-    alert("Thank you for your message! We'll be in touch soon.");
-    setFormData({ name: "", email: "", company: "", message: "" });
+    setSending(true);
+    setError(false);
+    setSent(false);
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          company: formData.company,
+          message: formData.message,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+      setSent(true);
+      setFormData({ name: "", email: "", company: "", message: "" });
+    } catch (err) {
+      setError(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   const handleChange = (
@@ -148,12 +171,26 @@ export default function Contact() {
                   ></textarea>
                 </div>
 
+                {/* Success / Error messages */}
+                {sent && (
+                  <p className="text-cyan-400 text-sm text-center">
+                    ✓ Message sent! We'll be in touch soon.
+                  </p>
+                )}
+                {error && (
+                  <p className="text-red-400 text-sm text-center">
+                    Something went wrong. Please try again.
+                  </p>
+                )}
+
                 {/* Submit Button */}
-             <button
-             type="submit"
-            className="w-full px-8 py-4 bg-cyan-400/10 border-2 border-cyan-400/40 rounded-full text-white font-medium tracking-wide transition-all duration-700 hover:bg-cyan-400/20 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-400/20">
-             LET'S CREATE
-            </button>
+                <button
+                  type="submit"
+                  disabled={sending}
+                  className="w-full px-8 py-4 bg-cyan-400/10 border-2 border-cyan-400/40 rounded-full text-white font-medium tracking-wide transition-all duration-700 hover:bg-cyan-400/20 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-400/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {sending ? "SENDING..." : "LET'S CREATE"}
+                </button>
               </div>
             </form>
           </motion.div>
@@ -174,7 +211,7 @@ export default function Contact() {
                 <div>
                   <p className="text-sm text-gray-400 mb-1">Email</p>
                   <a
-                    href="mailto:hello@aistudio.com"
+                    href="mailto:interstellarvisions.com@gmail.com"
                     className="text-cyan-400 hover:text-cyan-300 transition-colors"
                   >
                     interstellarvisions.com@gmail.com
@@ -236,7 +273,6 @@ export default function Contact() {
                 </a>
               </div>
             </div>
-
           </motion.div>
         </div>
       </div>
