@@ -315,25 +315,15 @@ export default function TermsConditions() {
               <p className="mb-2">
                 <strong>Email:</strong>{" "}
                 <a
-                  href="mailto:legal@aistudio.com"
+                  href="mailto:interstellarvisions.com@gmail.com"
                   className="text-cyan-400 hover:text-cyan-300"
                 >
-                  legal@aistudio.com
+                  interstellarvisions.com@gmail.com
                 </a>
               </p>
-              <p className="mb-2">
-                <strong>Phone:</strong>{" "}
-                <a
-                  href="tel:+10001234567"
-                  className="text-cyan-400 hover:text-cyan-300"
-                >
-                  +1 (000) 123-4567
-                </a>
-              </p>
-              <p>
-                <strong>Address:</strong> 123 Innovation Street, San Francisco,
-                CA 94105
-              </p>
+              <p className="text-cyan-400 hover:text-cyan-300">
+                  <strong className="text-white">WhatsApp:</strong> +1 (508) 360-2090
+                </p>
             </div>
           </section>
 

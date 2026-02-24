@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
+import logo from "./images/logo.png";
 
 interface HeaderProps {
   scrolled: boolean;
@@ -27,9 +28,18 @@ export default function Header({ scrolled }: HeaderProps) {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-[1400px] mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <div className="text-2xl font-bold tracking-wider">LOGO</div>
+     <div className="max-w-[1400px] mx-auto px-6 py-2 flex items-center justify-between">
+  {/* Logo */}
+  <button 
+    onClick={() => scrollToSection("hero")}
+    className="flex items-center -my-2 cursor-pointer"
+  >
+    <img 
+      src={logo} 
+      alt="Logo" 
+      className="h-20 w-auto scale-120 origin-left"
+    />
+  </button>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">

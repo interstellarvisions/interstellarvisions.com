@@ -199,9 +199,9 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-400 mb-1">WhatsApp</p>
-                  <a href="tel:+10001234567" className="text-cyan-400 hover:text-cyan-300 transition-colors">
+                  <p className="text-cyan-400 hover:text-cyan-300">
                     +1 (508) 360-2090
-                  </a>
+                  </p>
                 </div>
               </div>
             </div>
