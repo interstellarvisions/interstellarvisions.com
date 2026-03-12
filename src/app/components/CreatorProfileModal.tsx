@@ -19,11 +19,21 @@ interface CreatorProfileModalProps {
   onClose: () => void;
 }
 
+// Video mapping for each creator
+const creatorVideos: { [key: string]: string } = {
+  SOFIA: "zN5HF73etx4",
+  MAYA: "BR4hEACzfyg",
+  ISABELLA: "mZ6S8UzlYGo",
+  ALEXANDER: "-O1b5TJ37LU",
+  MARCUS: "HW6TOiw1x1Q",
+};
+
 export default function CreatorProfileModal({
   creator,
   onClose,
 }: CreatorProfileModalProps) {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState(0);
+  const videoId = creatorVideos[creator.name];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -69,38 +79,39 @@ export default function CreatorProfileModal({
 
             <div className="p-6 md:p-8">
               <div className="flex flex-col lg:flex-row gap-8">
-               {/* Left Panel - Images */}
-                <div className="lg:w-1/3 flex flex-col">
-                  {/* Full Body Image */}
-                  <div className="flex-1 border border-white/10 rounded-lg overflow-hidden mb-4">
-                    <img
-                      src={creator.gallery[selectedGalleryImage]}
-                      alt={`${creator.name} - Full body`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
 
-                  {/* Gallery Selection */}
-                  <div> 
-                    <div className="grid grid-cols-6 gap-2">
-                      {creator.gallery.map((image, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setSelectedGalleryImage(index)}
-                          className={`aspect-square rounded-full overflow-hidden border-2 transition-all ${
-                            selectedGalleryImage === index
-                              ? "border-cyan-500 scale-110"
-                              : "border-white/20 hover:border-cyan-400/50"
-                          }`}
-                        >
-                          <img
-                            src={image}
-                            alt={`${creator.name} - Gallery ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </button>
-                      ))}
-                    </div>
+                {/* Left Panel - Images */}
+                <div className="lg:w-1/3 flex flex-col">
+
+                  {/* Main Full Body Image — background-image, no <img> */}
+                  <div
+                    className="border border-white/10 rounded-lg overflow-hidden mb-4"
+                    style={{
+                      aspectRatio: "9/16",
+                      backgroundImage: `url(${creator.gallery[selectedGalleryImage]})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center top",
+                    }}
+                  />
+
+                  {/* Gallery Thumbnails — background-image buttons, no <img> */}
+                  <div className="grid grid-cols-6 gap-2">
+                    {creator.gallery.map((image, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedGalleryImage(index)}
+                        className={`aspect-square rounded-full overflow-hidden border-2 transition-all ${
+                          selectedGalleryImage === index
+                            ? "border-cyan-500 scale-110"
+                            : "border-white/20 hover:border-cyan-400/50"
+                        }`}
+                        style={{
+                          backgroundImage: `url(${image})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center top",
+                        }}
+                      />
+                    ))}
                   </div>
                 </div>
 
@@ -108,24 +119,39 @@ export default function CreatorProfileModal({
                 <div className="lg:w-2/3 space-y-6">
                   {/* Video Player */}
                   <div className="bg-black rounded-lg overflow-hidden border border-white/10">
-                    <div className="aspect-video flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
-                      <div className="text-center">
-                        <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-white/10 flex items-center justify-center">
-                          <svg
-                            className="w-8 h-8 text-white/50"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                          </svg>
+                    <div className="aspect-video">
+                      {videoId ? (
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+                          title={`${creator.name} video`}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="w-full h-full"
+                        ></iframe>
+                      ) : (
+                        <div className="flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900 h-full">
+                          <div className="text-center">
+                            <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-white/10 flex items-center justify-center">
+                              <svg
+                                className="w-8 h-8 text-white/50"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                              </svg>
+                            </div>
+                            <p className="text-white/70 text-sm font-medium">
+                              HORIZONTAL VIDEO
+                            </p>
+                            <p className="text-white/40 text-xs mt-1">
+                              TALKING HEADSHOT OF INFLUENCER
+                            </p>
+                          </div>
                         </div>
-                        <p className="text-white/70 text-sm font-medium">
-                          HORIZONTAL VIDEO
-                        </p>
-                        <p className="text-white/40 text-xs mt-1">
-                          TALKING HEADSHOT OF INFLUENCER
-                        </p>
-                      </div>
+                      )}
                     </div>
                   </div>
 
