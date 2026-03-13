@@ -3,32 +3,27 @@ name: Deploy to cPanel
 on:
   push:
     branches:
-      - master  # Triggers when you push to master branch
+      - master
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
-      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
       
-      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
       
-      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
       
-      # Step 4: Build the project
       - name: Build project
         run: npm run build
       
-      # Step 5: Deploy to cPanel via FTP with passive mode
       - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
@@ -37,8 +32,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
           server-dir: /public_html/
-          protocol: ftp
+          protocol: ftps
           port: 21
           timeout: 120000
-          security: loose
           dangerous-clean-slate: true
