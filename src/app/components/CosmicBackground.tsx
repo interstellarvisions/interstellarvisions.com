@@ -1,118 +1,128 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useRef } from "react";
 
 export default function CosmicBackground() {
-  const [scrollY, setScrollY] = useState(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const scrollYRef = useRef(0);
+  const starsRef = useRef<Array<{ x: number; y: number; size: number; opacity: number; pulseSpeed: number; pulseOffset: number }>>([]);
+  const nebulasRef = useRef<Array<{ x: number; y: number; size: number; color: string; opacity: number }>>([]);
+  const frameRef = useRef(0);
 
+  // Initialize canvas and stars once
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Set canvas size
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Generate stars (reduced from 360 to 150)
+    if (starsRef.current.length === 0) {
+      const stars = [];
+      for (let i = 0; i < 150; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height * 3, // Extended for parallax
+          size: Math.random() * 2 + 0.5,
+          opacity: Math.random() * 0.6 + 0.2,
+          pulseSpeed: Math.random() * 0.02 + 0.01,
+          pulseOffset: Math.random() * Math.PI * 2,
+        });
+      }
+      starsRef.current = stars;
+    }
+
+    // Generate nebulas (reduced from 5 to 3)
+    if (nebulasRef.current.length === 0) {
+      nebulasRef.current = [
+        { x: canvas.width * 0.2, y: canvas.height * 0.5, size: 300, color: "rgba(103, 232, 249, 0.15)", opacity: 0.1 },
+        { x: canvas.width * 0.8, y: canvas.height * 1.5, size: 400, color: "rgba(147, 51, 234, 0.15)", opacity: 0.1 },
+        { x: canvas.width * 0.4, y: canvas.height * 2.5, size: 350, color: "rgba(59, 130, 246, 0.15)", opacity: 0.1 },
+      ];
+    }
+
+    // Scroll listener
+    const handleScroll = () => {
+      scrollYRef.current = window.scrollY;
+    };
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    // Animation loop
+    const animate = () => {
+      frameRef.current = requestAnimationFrame(animate);
+
+      // Clear canvas
+      ctx.fillStyle = "rgba(10, 10, 26, 0.1)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw gradient background (only once per frame, not on every star)
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, "#0a0a1a");
+      gradient.addColorStop(0.5, "#050510");
+      gradient.addColorStop(1, "#000000");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw nebulas
+      nebulasRef.current.forEach((nebula) => {
+        const parallaxY = (scrollYRef.current * 0.3) % (canvas.height * 3);
+        const radialGradient = ctx.createRadialGradient(nebula.x, nebula.y - parallaxY, 0, nebula.x, nebula.y - parallaxY, nebula.size);
+        radialGradient.addColorStop(0, nebula.color);
+        radialGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+        ctx.fillStyle = radialGradient;
+        ctx.fillRect(nebula.x - nebula.size, nebula.y - parallaxY - nebula.size, nebula.size * 2, nebula.size * 2);
+      });
+
+      // Draw stars with pulsing effect
+      const time = Date.now() * 0.001;
+      starsRef.current.forEach((star) => {
+        const parallaxY = (scrollYRef.current * 0.6) % (canvas.height * 3);
+        const pulse = Math.sin(time * star.pulseSpeed + star.pulseOffset) * 0.3 + 0.7;
+        const opacity = star.opacity * pulse;
+
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y - parallaxY, star.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Add glow for larger stars
+        if (star.size > 1.5) {
+          ctx.fillStyle = `rgba(103, 232, 249, ${opacity * 0.4})`;
+          ctx.beginPath();
+          ctx.arc(star.x, star.y - parallaxY, star.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      // Draw vignette
+      const vignette = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height));
+      vignette.addColorStop(0, "rgba(0, 0, 0, 0)");
+      vignette.addColorStop(1, "rgba(0, 0, 0, 0.5)");
+      ctx.fillStyle = vignette;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(frameRef.current);
+    };
   }, []);
 
-  // Generate stars once with useMemo so they don't re-randomize on re-render
-  const largeStars = useMemo(() => Array.from({ length: 60 }).map((_, i) => ({
-    id: i,
-    width: Math.random() * 3 + 1,
-    top: Math.random() * 300,
-    left: Math.random() * 100,
-    opacity: Math.random() * 0.5 + 0.3,
-    duration: Math.random() * 3 + 2,
-    delay: Math.random() * 2,
-  })), []);
-
-  const mediumStars = useMemo(() => Array.from({ length: 100 }).map((_, i) => ({
-    id: i,
-    width: Math.random() * 2 + 0.5,
-    top: Math.random() * 300,
-    left: Math.random() * 100,
-    opacity: Math.random() * 0.6 + 0.2,
-  })), []);
-
-  const smallStars = useMemo(() => Array.from({ length: 200 }).map((_, i) => ({
-    id: i,
-    top: Math.random() * 300,
-    left: Math.random() * 100,
-    opacity: Math.random() * 0.4 + 0.1,
-  })), []);
-
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {/* Deep space gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a1a] via-[#050510] to-black" />
-
-      {/* Parallax star layers */}
-      <div
-        className="absolute inset-0"
-        style={{
-          transform: `translateY(${scrollY * 0.6}px)`,
-          transition: "transform 0.1s linear",
-          height: "300vh",
-        }}
-      >
-        {largeStars.map((star) => (
-          <div
-            key={`star-large-${star.id}`}
-            className="absolute rounded-full bg-white animate-pulse"
-            style={{
-              width: star.width + "px",
-              height: star.width + "px",
-              top: star.top + "vh",
-              left: star.left + "%",
-              opacity: star.opacity,
-              animationDuration: star.duration + "s",
-              animationDelay: star.delay + "s",
-            }}
-          />
-        ))}
-
-        {mediumStars.map((star) => (
-          <div
-            key={`star-medium-${star.id}`}
-            className="absolute rounded-full bg-cyan-300/60"
-            style={{
-              width: star.width + "px",
-              height: star.width + "px",
-              top: star.top + "vh",
-              left: star.left + "%",
-              opacity: star.opacity,
-              boxShadow: "0 0 3px rgba(103, 232, 249, 0.5)",
-            }}
-          />
-        ))}
-
-        {smallStars.map((star) => (
-          <div
-            key={`star-small-${star.id}`}
-            className="absolute rounded-full bg-white/40"
-            style={{
-              width: "1px",
-              height: "1px",
-              top: star.top + "vh",
-              left: star.left + "%",
-              opacity: star.opacity,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Nebula effects */}
-      <div
-        className="absolute inset-0"
-        style={{
-          transform: `translateY(${scrollY * 0.3}px)`,
-          transition: "transform 0.1s linear",
-          height: "300vh",
-        }}
-      >
-        <div className="absolute w-[600px] h-[600px] rounded-full opacity-10" style={{ background: "radial-gradient(circle, rgba(103, 232, 249, 0.3) 0%, transparent 70%)", top: "10vh", left: "10%", filter: "blur(80px)" }} />
-        <div className="absolute w-[800px] h-[800px] rounded-full opacity-10" style={{ background: "radial-gradient(circle, rgba(147, 51, 234, 0.3) 0%, transparent 70%)", top: "60vh", right: "10%", filter: "blur(100px)" }} />
-        <div className="absolute w-[500px] h-[500px] rounded-full opacity-10" style={{ background: "radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%)", top: "120vh", left: "30%", filter: "blur(90px)" }} />
-        <div className="absolute w-[700px] h-[700px] rounded-full opacity-10" style={{ background: "radial-gradient(circle, rgba(103, 232, 249, 0.3) 0%, transparent 70%)", top: "180vh", right: "20%", filter: "blur(90px)" }} />
-        <div className="absolute w-[600px] h-[600px] rounded-full opacity-10" style={{ background: "radial-gradient(circle, rgba(147, 51, 234, 0.3) 0%, transparent 70%)", top: "240vh", left: "15%", filter: "blur(85px)" }} />
-      </div>
-
-      {/* Vignette */}
-      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/50" />
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none z-0"
+      style={{ display: "block" }}
+    />
   );
 }

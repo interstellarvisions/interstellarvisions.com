@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -15,6 +15,35 @@ interface PortfolioItem {
 interface PortfolioModalProps {
   item: PortfolioItem;
   onClose: () => void;
+}
+
+// Lazy image component for modal images
+function LazyModalImage({
+  src,
+  alt,
+  className,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) {
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    // Images in modals load immediately since they're visible
+    setImageSrc(src);
+  }, [src]);
+
+  return (
+    <img
+      ref={imgRef}
+      src={imageSrc || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23222' width='400' height='300'/%3E%3C/svg%3E"}
+      alt={alt}
+      className={className}
+      loading="lazy"
+    />
+  );
 }
 
 export default function PortfolioModal({ item, onClose }: PortfolioModalProps) {
@@ -53,7 +82,7 @@ export default function PortfolioModal({ item, onClose }: PortfolioModalProps) {
 
               <div className="flex flex-col lg:flex-row gap-8">
                 <div className="lg:w-2/3">
-                  <div className="flex gap-2 mb-4 overflow-x-auto">
+                  <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
                     <button
                       onClick={() => setActiveTab("video")}
                       className={`px-6 py-3 rounded-lg text-sm font-medium tracking-wide transition-all whitespace-nowrap ${
@@ -99,10 +128,9 @@ export default function PortfolioModal({ item, onClose }: PortfolioModalProps) {
                       </div>
                     ) : (
                       <div className="aspect-video">
-                        <img
+                        <LazyModalImage
                           src={item.images[selectedImage]}
                           alt={`${item.title} - Image ${selectedImage + 1}`}
-                          loading="lazy"
                           className="w-full h-full object-cover"
                         />
                       </div>

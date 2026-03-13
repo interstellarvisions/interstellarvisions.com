@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
 import ProjectModal from "./ProjectModal";
@@ -142,12 +142,68 @@ const portfolioItems = [
   },
 ];
 
+// Lazy image component using Intersection Observer
+function LazyImage({
+  src,
+  alt,
+  className,
+  style,
+  onLoad,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  style?: React.CSSProperties;
+  onLoad?: () => void;
+}) {
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setImageSrc(src);
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: "50px" } // Start loading 50px before entering viewport
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => {
+      if (imgRef.current) {
+        observer.unobserve(imgRef.current);
+      }
+    };
+  }, [src]);
+
+  return (
+    <img
+      ref={imgRef}
+      src={imageSrc || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23222' width='400' height='300'/%3E%3C/svg%3E"}
+      alt={alt}
+      className={className}
+      style={style}
+      loading="lazy"
+      onLoad={() => {
+        setIsLoading(false);
+        onLoad?.();
+      }}
+    />
+  );
+}
+
 function SafariCard({
   item,
   index,
   onClick,
 }: {
-  item: typeof portfolioItems[0];
+  item: (typeof portfolioItems)[0];
   index: number;
   onClick: () => void;
 }) {
@@ -165,10 +221,9 @@ function SafariCard({
       }}
     >
       <div className="relative w-full h-full bg-black">
-        <img
+        <LazyImage
           src={item.coverImage}
           alt={item.title}
-          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ filter: disabled ? "grayscale(1) brightness(0.25)" : "none" }}
         />
@@ -229,7 +284,7 @@ function ChromeCard({
   index,
   onClick,
 }: {
-  item: typeof portfolioItems[0];
+  item: (typeof portfolioItems)[0];
   index: number;
   onClick: () => void;
 }) {
@@ -263,10 +318,9 @@ function ChromeCard({
       }}
     >
       <div className="relative w-full h-full bg-black">
-        <img
+        <LazyImage
           src={item.coverImage}
           alt={item.title}
-          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
           style={{
             transform: hovered ? "scale(1.08)" : "scale(1)",
@@ -370,7 +424,7 @@ function ChromeCard({
 
 export default function OurWork() {
   const isSafari = useSafari();
-  const [selectedItem, setSelectedItem] = useState<typeof portfolioItems[0] | null>(null);
+  const [selectedItem, setSelectedItem] = useState<(typeof portfolioItems)[0] | null>(null);
 
   return (
     <section

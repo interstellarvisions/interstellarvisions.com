@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -28,6 +28,61 @@ const creatorVideos: { [key: string]: string } = {
   MARCUS: "HW6TOiw1x1Q",
 };
 
+// Lazy background image component
+function LazyBackgroundImage({
+  src,
+  className,
+  style,
+  onClick,
+  isSelected,
+}: {
+  src: string;
+  className?: string;
+  style?: React.CSSProperties;
+  onClick?: () => void;
+  isSelected?: boolean;
+}) {
+  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setBackgroundImage(`url(${src})`);
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: "50px" }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, [src]);
+
+  return (
+    <div
+      ref={containerRef}
+      className={className}
+      style={{
+        ...style,
+        backgroundImage: backgroundImage || "none",
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
+        backgroundColor: backgroundImage ? "transparent" : "#222",
+      }}
+      onClick={onClick}
+    />
+  );
+}
+
 export default function CreatorProfileModal({
   creator,
   onClose,
@@ -40,7 +95,7 @@ export default function CreatorProfileModal({
       setSelectedGalleryImage((prev) => (prev + 1) % creator.gallery.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, [selectedGalleryImage, creator.gallery.length]);
+  }, [creator.gallery.length]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -79,37 +134,30 @@ export default function CreatorProfileModal({
 
             <div className="p-6 md:p-8">
               <div className="flex flex-col lg:flex-row gap-8">
-
                 {/* Left Panel - Images */}
                 <div className="lg:w-1/3 flex flex-col">
-
-                  {/* Main Full Body Image — background-image, no <img> */}
-                  <div
+                  {/* Main Gallery Image — lazy loaded background image */}
+                  <LazyBackgroundImage
+                    src={creator.gallery[selectedGalleryImage]}
                     className="border border-white/10 rounded-lg overflow-hidden mb-4"
                     style={{
                       aspectRatio: "9/16",
-                      backgroundImage: `url(${creator.gallery[selectedGalleryImage]})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center top",
                     }}
                   />
 
-                  {/* Gallery Thumbnails — background-image buttons, no <img> */}
+                  {/* Gallery Thumbnails — lazy loaded background image buttons */}
                   <div className="grid grid-cols-6 gap-2">
                     {creator.gallery.map((image, index) => (
-                      <button
+                      <LazyBackgroundImage
                         key={index}
-                        onClick={() => setSelectedGalleryImage(index)}
-                        className={`aspect-square rounded-full overflow-hidden border-2 transition-all ${
+                        src={image}
+                        className={`aspect-square rounded-full overflow-hidden border-2 transition-all cursor-pointer ${
                           selectedGalleryImage === index
                             ? "border-cyan-500 scale-110"
                             : "border-white/20 hover:border-cyan-400/50"
                         }`}
-                        style={{
-                          backgroundImage: `url(${image})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center top",
-                        }}
+                        onClick={() => setSelectedGalleryImage(index)}
+                        isSelected={selectedGalleryImage === index}
                       />
                     ))}
                   </div>

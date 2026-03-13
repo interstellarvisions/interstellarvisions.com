@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSafari } from "../hooks/useSafari";
 
 const shimmerStyle = `
@@ -55,7 +55,56 @@ const services = [
   },
 ];
 
-function SafariCard({ service }: { service: typeof services[0] }) {
+// Lazy image component using Intersection Observer
+function LazyImage({
+  src,
+  alt,
+  className,
+  style,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setImageSrc(src);
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: "50px" }
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => {
+      if (imgRef.current) {
+        observer.unobserve(imgRef.current);
+      }
+    };
+  }, [src]);
+
+  return (
+    <img
+      ref={imgRef}
+      src={imageSrc || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23222' width='400' height='300'/%3E%3C/svg%3E"}
+      alt={alt}
+      className={className}
+      style={style}
+      loading="lazy"
+    />
+  );
+}
+
+function SafariCard({ service }: { service: (typeof services)[0] }) {
   return (
     <div
       className="relative rounded-xl aspect-[4/3]"
@@ -65,10 +114,9 @@ function SafariCard({ service }: { service: typeof services[0] }) {
       }}
     >
       <div className="relative w-full h-full overflow-hidden rounded-xl">
-        <img
+        <LazyImage
           src={service.image}
           alt={service.title}
-          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div
@@ -97,7 +145,7 @@ function SafariCard({ service }: { service: typeof services[0] }) {
   );
 }
 
-function ChromeCard({ service, index }: { service: typeof services[0]; index: number }) {
+function ChromeCard({ service, index }: { service: (typeof services)[0]; index: number }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -118,10 +166,9 @@ function ChromeCard({ service, index }: { service: typeof services[0]; index: nu
       }}
     >
       <div className="relative w-full h-full overflow-hidden rounded-xl">
-        <img
+        <LazyImage
           src={service.image}
           alt={service.title}
-          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
           style={{ transform: hovered ? "scale(1.08)" : "scale(1)" }}
         />
