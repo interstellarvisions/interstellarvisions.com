@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSafari } from "../hooks/useSafari";
+import logoHeader from "../../assets/logo.webp";
 
 interface HeaderProps {
   scrolled: boolean;
@@ -86,7 +87,7 @@ export default function Header({ scrolled }: HeaderProps) {
         {/* Logo */}
         <button onClick={() => scrollToSection("hero")} className="flex items-center -my-2 cursor-pointer group">
           <img
-            src="/images/logo.png"
+            src={logoHeader}
             alt="Logo"
             loading="lazy"
             draggable={false}

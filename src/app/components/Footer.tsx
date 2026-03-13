@@ -1,6 +1,6 @@
 import { Instagram, Linkedin, Youtube } from "lucide-react";
 import { useSafari } from "../hooks/useSafari";
-
+import logoFooter from "../../assets/logo_footer.webp";
 
 const shimmerStyle = `
   @keyframes shimmer {
