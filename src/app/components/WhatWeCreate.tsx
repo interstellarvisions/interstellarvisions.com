@@ -55,7 +55,6 @@ const services = [
   },
 ];
 
-// ─── SAFARI card — no hover state, no motion, pure static ───
 function SafariCard({ service }: { service: typeof services[0] }) {
   return (
     <div
@@ -69,21 +68,18 @@ function SafariCard({ service }: { service: typeof services[0] }) {
         <img
           src={service.image}
           alt={service.title}
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div
           className="absolute inset-0"
           style={{ background: "linear-gradient(to top, rgba(0,0,0,0.75) 30%, rgba(0,0,0,0.55) 100%)" }}
         />
-
-        {/* Number */}
         <div className="absolute top-5 left-6 z-10">
           <span className="text-5xl font-bold leading-none" style={{ color: "rgba(255,255,255,0.08)" }}>
             {service.number}
           </span>
         </div>
-
-        {/* Tag */}
         <div className="absolute top-5 right-5 z-10">
           <span
             className="text-[10px] font-bold tracking-[0.2em] px-3 py-1 rounded-full border"
@@ -92,8 +88,6 @@ function SafariCard({ service }: { service: typeof services[0] }) {
             {service.tag}
           </span>
         </div>
-
-        {/* Content */}
         <div className="absolute bottom-0 left-0 right-0 z-10 p-7">
           <h3 className="text-xl font-bold mb-2 tracking-wide text-white">{service.title}</h3>
           <p className="text-gray-400 text-sm leading-relaxed">{service.description}</p>
@@ -103,7 +97,6 @@ function SafariCard({ service }: { service: typeof services[0] }) {
   );
 }
 
-// ─── Chrome card — full hover animations ───
 function ChromeCard({ service, index }: { service: typeof services[0]; index: number }) {
   const [hovered, setHovered] = useState(false);
 
@@ -128,6 +121,7 @@ function ChromeCard({ service, index }: { service: typeof services[0]; index: nu
         <img
           src={service.image}
           alt={service.title}
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
           style={{ transform: hovered ? "scale(1.08)" : "scale(1)" }}
         />
@@ -139,16 +133,12 @@ function ChromeCard({ service, index }: { service: typeof services[0]; index: nu
               : "linear-gradient(to top, rgba(0,0,0,0.75) 30%, rgba(0,0,0,0.55) 100%)",
           }}
         />
-
-        {/* Scan line */}
         <motion.div
           className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent pointer-events-none"
           initial={{ top: "100%", opacity: 0 }}
           animate={hovered ? { top: "0%", opacity: [0, 1, 0] } : { top: "100%", opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         />
-
-        {/* Number */}
         <div className="absolute top-5 left-6 z-10">
           <span
             className="text-5xl font-bold leading-none"
@@ -160,8 +150,6 @@ function ChromeCard({ service, index }: { service: typeof services[0]; index: nu
             {service.number}
           </span>
         </div>
-
-        {/* Tag */}
         <div className="absolute top-5 right-5 z-10">
           <span
             className="text-[10px] font-bold tracking-[0.2em] px-3 py-1 rounded-full border"
@@ -175,8 +163,6 @@ function ChromeCard({ service, index }: { service: typeof services[0]; index: nu
             {service.tag}
           </span>
         </div>
-
-        {/* Content */}
         <div className="absolute bottom-0 left-0 right-0 z-10 p-7">
           <motion.div
             animate={hovered ? { y: 0, opacity: 1 } : { y: 6, opacity: 0.85 }}
@@ -190,7 +176,6 @@ function ChromeCard({ service, index }: { service: typeof services[0]; index: nu
             </h3>
             <p className="text-gray-400 text-sm leading-relaxed">{service.description}</p>
           </motion.div>
-
           <div
             className="mt-4 h-[1px] bg-gradient-to-r from-cyan-500/0 via-cyan-400 to-cyan-500/0 transition-all duration-500"
             style={{ opacity: hovered ? 1 : 0, transform: hovered ? "scaleX(1)" : "scaleX(0)" }}
@@ -210,14 +195,9 @@ export default function WhatWeCreate() {
       className="py-24 md:py-32 px-8 md:px-16 bg-gradient-to-b from-black to-slate-900 relative overflow-hidden"
     >
       {!isSafari && <style>{shimmerStyle}</style>}
-
-      {/* Ambient orbs */}
       <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-cyan-500/4 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-blue-600/4 rounded-full blur-[120px] pointer-events-none" />
-
       <div className="max-w-[1400px] mx-auto relative z-10">
-
-        {/* Title */}
         <div className="text-center mb-16 md:mb-20">
           <h2
             className={`text-5xl md:text-7xl font-bold tracking-wider mb-4 ${!isSafari ? "shimmer-title" : ""}`}
@@ -229,7 +209,6 @@ export default function WhatWeCreate() {
             Powered by AI · Built for Impact
           </p>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
           {services.map((service, index) =>
             isSafari ? (

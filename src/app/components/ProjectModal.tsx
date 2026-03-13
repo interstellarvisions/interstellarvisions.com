@@ -30,7 +30,6 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 md:p-8">
-        {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -39,7 +38,6 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
           className="fixed inset-0 bg-black/95 backdrop-blur-sm"
         />
 
-        {/* Modal Content */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -48,7 +46,6 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
           className="relative w-full sm:max-w-7xl bg-gradient-to-br from-slate-900 to-black border border-white/10 sm:rounded-lg overflow-hidden flex flex-col lg:flex-row"
           style={{ maxHeight: "95vh", height: "95vh" }}
         >
-          {/* Close Button */}
           <button
             onClick={onClose}
             className="absolute top-3 right-3 z-50 w-9 h-9 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors"
@@ -58,10 +55,8 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
 
           <div className="flex flex-col lg:flex-row w-full h-full overflow-hidden">
 
-            {/* Main Display */}
             <div className="lg:w-[70%] flex flex-col overflow-y-auto">
               <div className="p-4 md:p-8">
-                {/* Main Media Display */}
                 <div className="bg-black rounded-lg overflow-hidden border border-white/10 mb-4">
                   <motion.div
                     key={String(activeMedia)}
@@ -83,6 +78,7 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                       <img
                         src={item.images[activeMedia as number]}
                         alt={`${item.title} - Image ${(activeMedia as number) + 1}`}
+                        loading="lazy"
                         className="w-full h-full object-cover"
                         draggable={false}
                         onContextMenu={(e) => e.preventDefault()}
@@ -91,7 +87,6 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                   </motion.div>
                 </div>
 
-                {/* Project Details */}
                 <div className="space-y-3">
                   <h3 className="text-2xl md:text-4xl font-bold tracking-wide">
                     {item.title}
@@ -112,7 +107,6 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
               </div>
             </div>
 
-            {/* Thumbnail Selector */}
             <div className="lg:w-[30%] bg-black/50 border-t lg:border-t-0 lg:border-l border-white/10">
 
               {/* Mobile: horizontal scroll */}
@@ -129,6 +123,7 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                     <img
                       src={`https://img.youtube.com/vi/${item.videoUrl.split("/embed/")[1]?.split("?")[0]}/maxresdefault.jpg`}
                       alt="Video thumbnail"
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/40">
@@ -149,7 +144,7 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                     }`}
                   >
                     <div className="relative w-full h-full">
-                      <img src={image} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+                      <img src={image} alt={`Thumbnail ${index + 1}`} loading="lazy" className="w-full h-full object-cover" draggable={false} onContextMenu={(e) => e.preventDefault()} />
                       <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                         <p className="text-xs tracking-[0.2em] font-light" style={{ color: "rgba(6,182,212,0.9)", textShadow: "0 0 12px rgba(6,182,212,0.5)", fontFamily: "system-ui" }}>FRAME {String(index + 1).padStart(2, "0")}</p>
                       </div>
@@ -172,6 +167,7 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                     <img
                       src={`https://img.youtube.com/vi/${item.videoUrl.split("/embed/")[1]?.split("?")[0]}/maxresdefault.jpg`}
                       alt="Video thumbnail"
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/40">
@@ -192,7 +188,7 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                     }`}
                   >
                     <div className="relative w-full h-full">
-                      <img src={image} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" draggable={false} onContextMenu={(e) => e.preventDefault()} />
+                      <img src={image} alt={`Thumbnail ${index + 1}`} loading="lazy" className="w-full h-full object-cover" draggable={false} onContextMenu={(e) => e.preventDefault()} />
                       <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                         <p className="text-sm tracking-[0.2em] font-light" style={{ color: "rgba(6,182,212,0.9)", textShadow: "0 0 12px rgba(6,182,212,0.5)", fontFamily: "system-ui" }}>FRAME {String(index + 1).padStart(2, "0")}</p>
                       </div>

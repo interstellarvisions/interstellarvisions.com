@@ -91,7 +91,7 @@ export default function Footer() {
           {/* Column 1 - Branding */}
           <div className="lg:col-span-1">
             <button onClick={scrollToHero} className="mb-4 cursor-pointer">
-              <img src="/images/logo_footer.png" alt="Logo" draggable={false} onContextMenu={(e) => e.preventDefault()} className="h-12 w-auto" />
+              <img src="/images/logo_footer.png" alt="Logo" loading="lazy" draggable={false} onContextMenu={(e) => e.preventDefault()} className="h-12 w-auto" />
             </button>
             <p className="text-gray-400 text-sm mb-4">AI-Powered Creative Content That Converts</p>
             <p className="text-gray-500 text-xs">© {currentYear} Interstellar Visions</p>

@@ -142,7 +142,6 @@ const portfolioItems = [
   },
 ];
 
-// ─── SAFARI card ───
 function SafariCard({
   item,
   index,
@@ -169,6 +168,7 @@ function SafariCard({
         <img
           src={item.coverImage}
           alt={item.title}
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ filter: disabled ? "grayscale(1) brightness(0.25)" : "none" }}
         />
@@ -224,7 +224,6 @@ function SafariCard({
   );
 }
 
-// ─── Chrome card ───
 function ChromeCard({
   item,
   index,
@@ -267,6 +266,7 @@ function ChromeCard({
         <img
           src={item.coverImage}
           alt={item.title}
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
           style={{
             transform: hovered ? "scale(1.08)" : "scale(1)",

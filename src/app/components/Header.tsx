@@ -85,7 +85,7 @@ export default function Header({ scrolled }: HeaderProps) {
 
         {/* Logo */}
         <button onClick={() => scrollToSection("hero")} className="flex items-center -my-2 cursor-pointer group">
-          <img src="/images/logo.png" alt="Logo" draggable={false} onContextMenu={(e) => e.preventDefault()} className="h-20 w-auto scale-120 origin-left transition-opacity duration-300 group-hover:opacity-80" />
+          <img src="/images/logo.png" alt="Logo" loading="lazy" draggable={false} onContextMenu={(e) => e.preventDefault()} className="h-20 w-auto scale-120 origin-left transition-opacity duration-300 group-hover:opacity-80" />
         </button>
 
         {/* Desktop Navigation */}
