@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -17,41 +17,6 @@ interface ProjectModalProps {
   onClose: () => void;
 }
 
-// Lazy image component
-function LazyImage({
-  src,
-  alt,
-  className,
-  draggable,
-  onContextMenu,
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-  draggable?: boolean;
-  onContextMenu?: (e: React.MouseEvent) => void;
-}) {
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    // Images in modals load immediately since they're visible
-    setImageSrc(src);
-  }, [src]);
-
-  return (
-    <img
-      ref={imgRef}
-      src={imageSrc || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23222' width='400' height='300'/%3E%3C/svg%3E"}
-      alt={alt}
-      className={className}
-      loading="lazy"
-      draggable={draggable}
-      onContextMenu={onContextMenu}
-    />
-  );
-}
-
 export default function ProjectModal({ item, onClose }: ProjectModalProps) {
   const [activeMedia, setActiveMedia] = useState<"video" | number>("video");
 
@@ -62,15 +27,24 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
     };
   }, []);
 
+  const videoThumbSrc = `https://img.youtube.com/vi/${item.videoUrl.split("/embed/")[1]?.split("?")[0]}/maxresdefault.jpg`;
+
+  const thumbClass = (active: boolean) =>
+    `border-2 transition-all duration-300 ${
+      active ? "border-cyan-500" : "border-white/20 hover:border-cyan-400/50"
+    }`;
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 md:p-8">
+
+        {/* Backdrop — no backdrop-blur */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/95 backdrop-blur-sm"
+          className="fixed inset-0 bg-black/90"
         />
 
         <motion.div
@@ -81,14 +55,17 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
           className="relative w-full sm:max-w-7xl bg-gradient-to-br from-slate-900 to-black border border-white/10 sm:rounded-lg overflow-hidden flex flex-col lg:flex-row"
           style={{ maxHeight: "95vh", height: "95vh" }}
         >
+          {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 z-50 w-9 h-9 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors"
+            className="absolute top-3 right-3 z-50 w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
           >
             <X size={18} />
           </button>
 
           <div className="flex flex-col lg:flex-row w-full h-full overflow-hidden">
+
+            {/* Left — main media + info */}
             <div className="lg:w-[70%] flex flex-col overflow-y-auto">
               <div className="p-4 md:p-8">
                 <div className="bg-black rounded-lg overflow-hidden border border-white/10 mb-4">
@@ -109,21 +86,20 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                         style={{ border: "none" }}
                       />
                     ) : (
-                      <LazyImage
+                      <img
                         src={item.images[activeMedia as number]}
                         alt={`${item.title} - Image ${(activeMedia as number) + 1}`}
-                        className="w-full h-full object-cover"
+                        loading="lazy"
                         draggable={false}
                         onContextMenu={(e) => e.preventDefault()}
+                        className="w-full h-full object-cover"
                       />
                     )}
                   </motion.div>
                 </div>
 
                 <div className="space-y-3">
-                  <h3 className="text-2xl md:text-4xl font-bold tracking-wide">
-                    {item.title}
-                  </h3>
+                  <h3 className="text-2xl md:text-4xl font-bold tracking-wide">{item.title}</h3>
                   <div className="space-y-1">
                     <p className="text-cyan-400 text-sm md:text-base">
                       <span className="font-semibold">Client:</span> {item.client}
@@ -140,25 +116,19 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
               </div>
             </div>
 
+            {/* Right — thumbnail sidebar */}
             <div className="lg:w-[30%] bg-black/50 border-t lg:border-t-0 lg:border-l border-white/10">
+
               {/* Mobile: horizontal scroll */}
               <div className="flex lg:hidden overflow-x-auto gap-3 p-3" style={{ scrollbarWidth: "none" }}>
                 <button
                   onClick={() => setActiveMedia("video")}
-                  className={`flex-shrink-0 w-32 aspect-video rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                    activeMedia === "video"
-                      ? "border-cyan-500 shadow-lg shadow-cyan-500/50"
-                      : "border-white/20"
-                  }`}
+                  className={`flex-shrink-0 w-32 aspect-video rounded-lg overflow-hidden ${thumbClass(activeMedia === "video")}`}
                 >
                   <div className="relative w-full h-full">
-                    <LazyImage
-                      src={`https://img.youtube.com/vi/${item.videoUrl.split("/embed/")[1]?.split("?")[0]}/maxresdefault.jpg`}
-                      alt="Video thumbnail"
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={videoThumbSrc} alt="Video thumbnail" loading="lazy" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                      <svg className="w-6 h-6 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                       </svg>
                     </div>
@@ -168,29 +138,19 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                   <button
                     key={index}
                     onClick={() => setActiveMedia(index)}
-                    className={`flex-shrink-0 w-32 aspect-video rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                      activeMedia === index
-                        ? "border-cyan-500 shadow-lg shadow-cyan-500/50"
-                        : "border-white/20"
-                    }`}
+                    className={`flex-shrink-0 w-32 aspect-video rounded-lg overflow-hidden ${thumbClass(activeMedia === index)}`}
                   >
                     <div className="relative w-full h-full">
-                      <LazyImage
+                      <img
                         src={image}
                         alt={`Thumbnail ${index + 1}`}
-                        className="w-full h-full object-cover"
+                        loading="lazy"
                         draggable={false}
                         onContextMenu={(e) => e.preventDefault()}
+                        className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                        <p
-                          className="text-xs tracking-[0.2em] font-light"
-                          style={{
-                            color: "rgba(6,182,212,0.9)",
-                            textShadow: "0 0 12px rgba(6,182,212,0.5)",
-                            fontFamily: "system-ui",
-                          }}
-                        >
+                        <p className="text-xs tracking-[0.2em] font-light text-cyan-400">
                           FRAME {String(index + 1).padStart(2, "0")}
                         </p>
                       </div>
@@ -206,20 +166,12 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
               >
                 <button
                   onClick={() => setActiveMedia("video")}
-                  className={`w-full aspect-video rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                    activeMedia === "video"
-                      ? "border-cyan-500 shadow-lg shadow-cyan-500/50"
-                      : "border-white/20 hover:border-cyan-400/50"
-                  }`}
+                  className={`w-full aspect-video rounded-lg overflow-hidden ${thumbClass(activeMedia === "video")}`}
                 >
                   <div className="relative w-full h-full">
-                    <LazyImage
-                      src={`https://img.youtube.com/vi/${item.videoUrl.split("/embed/")[1]?.split("?")[0]}/maxresdefault.jpg`}
-                      alt="Video thumbnail"
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={videoThumbSrc} alt="Video thumbnail" loading="lazy" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                      <svg className="w-12 h-12 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                       </svg>
                     </div>
@@ -229,29 +181,19 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                   <button
                     key={index}
                     onClick={() => setActiveMedia(index)}
-                    className={`w-full aspect-video rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                      activeMedia === index
-                        ? "border-cyan-500 shadow-lg shadow-cyan-500/50"
-                        : "border-white/20 hover:border-cyan-400/50"
-                    }`}
+                    className={`w-full aspect-video rounded-lg overflow-hidden ${thumbClass(activeMedia === index)}`}
                   >
                     <div className="relative w-full h-full">
-                      <LazyImage
+                      <img
                         src={image}
                         alt={`Thumbnail ${index + 1}`}
-                        className="w-full h-full object-cover"
+                        loading="lazy"
                         draggable={false}
                         onContextMenu={(e) => e.preventDefault()}
+                        className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                        <p
-                          className="text-sm tracking-[0.2em] font-light"
-                          style={{
-                            color: "rgba(6,182,212,0.9)",
-                            textShadow: "0 0 12px rgba(6,182,212,0.5)",
-                            fontFamily: "system-ui",
-                          }}
-                        >
+                        <p className="text-sm tracking-[0.2em] font-light text-cyan-400">
                           FRAME {String(index + 1).padStart(2, "0")}
                         </p>
                       </div>

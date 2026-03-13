@@ -77,7 +77,7 @@ export default function Header({ scrolled }: HeaderProps) {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-black/85 backdrop-blur-md border-b border-cyan-500/10 shadow-lg shadow-black/20"
+          ? "bg-black/90 border-b border-cyan-500/10 shadow-lg shadow-black/20"
           : "bg-transparent"
       }`}
     >
@@ -85,7 +85,14 @@ export default function Header({ scrolled }: HeaderProps) {
 
         {/* Logo */}
         <button onClick={() => scrollToSection("hero")} className="flex items-center -my-2 cursor-pointer group">
-          <img src="/images/logo.png" alt="Logo" loading="lazy" draggable={false} onContextMenu={(e) => e.preventDefault()} className="h-20 w-auto scale-120 origin-left transition-opacity duration-300 group-hover:opacity-80" />
+          <img
+            src="/images/logo.png"
+            alt="Logo"
+            loading="lazy"
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+            className="h-20 w-auto scale-120 origin-left transition-opacity duration-300 group-hover:opacity-80"
+          />
         </button>
 
         {/* Desktop Navigation */}

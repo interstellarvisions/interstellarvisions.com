@@ -1,9 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import CreatorProfileModal from "./CreatorProfileModal";
 import CustomInfluencerModal from "./CustomInfluencerModal";
 import { useSafari } from "../hooks/useSafari";
+
+// ─── Asset imports ───
+import sofia1 from "../../assets/creators/Sofia/sofia_1.webp";
+import sofia2 from "../../assets/creators/Sofia/sofia_2.webp";
+import sofia3 from "../../assets/creators/Sofia/sofia_3.webp";
+import sofia4 from "../../assets/creators/Sofia/sofia_4.webp";
+import sofia5 from "../../assets/creators/Sofia/sofia_5.webp";
+import sofia6 from "../../assets/creators/Sofia/sofia_6.webp";
+
+import maya1 from "../../assets/creators/Maya/maya_1.webp";
+import maya2 from "../../assets/creators/Maya/maya_2.webp";
+import maya3 from "../../assets/creators/Maya/maya_3.webp";
+import maya4 from "../../assets/creators/Maya/maya_4.webp";
+import maya5 from "../../assets/creators/Maya/maya_5.webp";
+import maya6 from "../../assets/creators/Maya/maya_6.webp";
+
+import isabella1 from "../../assets/creators/Isabella/isabella_1.webp";
+import isabella2 from "../../assets/creators/Isabella/isabella_2.webp";
+import isabella3 from "../../assets/creators/Isabella/isabella_3.webp";
+import isabella4 from "../../assets/creators/Isabella/isabella_4.webp";
+import isabella5 from "../../assets/creators/Isabella/isabella_5.webp";
+import isabella6 from "../../assets/creators/Isabella/isabella_6.webp";
+
+import alex1 from "../../assets/creators/Alex/alex_1.webp";
+import alex2 from "../../assets/creators/Alex/alex_2.webp";
+import alex3 from "../../assets/creators/Alex/alex_3.webp";
+import alex4 from "../../assets/creators/Alex/alex_4.webp";
+import alex5 from "../../assets/creators/Alex/alex_5.webp";
+import alex6 from "../../assets/creators/Alex/alex_6.webp";
+
+import marcus1 from "../../assets/creators/Marcus/marcus_1.webp";
+import marcus2 from "../../assets/creators/Marcus/marcus_2.webp";
+import marcus3 from "../../assets/creators/Marcus/marcus_3.webp";
+import marcus4 from "../../assets/creators/Marcus/marcus_4.webp";
+import marcus5 from "../../assets/creators/Marcus/marcus_5.webp";
+import marcus6 from "../../assets/creators/Marcus/marcus_6.webp";
 
 const shimmerStyle = `
   @keyframes shimmer {
@@ -31,96 +67,61 @@ const creators = [
   {
     id: 1,
     name: "SOFIA",
-    image: "/images/Sofia/sofia_1.jpeg",
-    fullBodyImage: "/images/Sofia/sofia_1.jpeg",
+    image: sofia1,
+    fullBodyImage: sofia1,
     bio: "Luxury Lifestyle AI Creator. Focused on high-end fashion, fine dining, and premium brand storytelling. A former fashion editor turned lifestyle entrepreneur, Sofia curates aspirational experiences with elegance and authority — optimized for high-conversion visual campaigns targeting discerning, affluent audiences.",
     personality: ["Sophisticated", "Elegant", "Graceful", "Confident"],
     useCases: ["Fashion campaigns", "Luxury brand partnerships", "Lifestyle content", "Travel & hospitality"],
     specialties: ["Fashion", "Lifestyle", "Beauty", "Travel"],
-    gallery: [
-      "/images/Sofia/sofia_1.jpeg",
-      "/images/Sofia/sofia_2.jpeg",
-      "/images/Sofia/sofia_3.jpeg",
-      "/images/Sofia/sofia_4.jpeg",
-      "/images/Sofia/sofia_5.jpeg",
-      "/images/Sofia/sofia_6.jpeg",
-    ],
+    gallery: [sofia1, sofia2, sofia3, sofia4, sofia5, sofia6],
   },
   {
     id: 2,
     name: "MAYA",
-    image: "/images/Maya/maya_1.jpeg",
-    fullBodyImage: "/images/Maya/maya_1.jpeg",
+    image: maya1,
+    fullBodyImage: maya1,
     bio: "Wellness & Fitness AI Creator. Focused on holistic health, athletic performance, and sustainable living. A former corporate professional turned wellness coach, Maya brings authentic energy and genuine expertise to fitness and nutrition content — optimized for community-driven campaigns that inspire real lifestyle change.",
     personality: ["Approachable", "Motivational", "Authentic", "High-Energy"],
     useCases: ["Fitness campaigns", "Supplement brands", "Wellness content", "Healthy food brands"],
     specialties: ["Fitness", "Wellness", "Nutrition", "Mindfulness"],
-    gallery: [
-      "/images/Maya/maya_1.jpeg",
-      "/images/Maya/maya_2.jpeg",
-      "/images/Maya/maya_3.jpeg",
-      "/images/Maya/maya_4.jpeg",
-      "/images/Maya/maya_5.jpeg",
-      "/images/Maya/maya_6.jpeg",
-    ],
+    gallery: [maya1, maya2, maya3, maya4, maya5, maya6],
   },
   {
     id: 3,
     name: "ISABELLA",
-    image: "/images/Isabella/isabella_1.jpeg",
-    fullBodyImage: "/images/Isabella/isabella_1.jpeg",
+    image: isabella1,
+    fullBodyImage: isabella1,
     bio: "Creative & Street Culture AI Creator. Focused on bold fashion, digital art, and urban lifestyle storytelling. A self-taught designer who built her audience through unfiltered artistic expression and fearless trend-setting, Bella brings magnetic energy to campaigns that demand authenticity and cultural edge.",
     personality: ["Bold", "Creative", "Unapologetic", "Trendsetter"],
     useCases: ["Streetwear campaigns", "Beauty brand launches", "Gen Z targeting", "Music & culture brands"],
     specialties: ["Fashion", "Beauty", "Street Art", "Music"],
-    gallery: [
-      "/images/Isabella/isabella_1.jpeg",
-      "/images/Isabella/isabella_2.jpeg",
-      "/images/Isabella/isabella_3.jpeg",
-      "/images/Isabella/isabella_4.jpeg",
-      "/images/Isabella/isabella_5.jpeg",
-      "/images/Isabella/isabella_6.jpeg",
-    ],
+    gallery: [isabella1, isabella2, isabella3, isabella4, isabella5, isabella6],
   },
   {
     id: 4,
     name: "ALEXANDER",
-    image: "/images/Alex/alex_1.jpeg",
-    fullBodyImage: "/images/Alex/alex_1.jpeg",
+    image: alex1,
+    fullBodyImage: alex1,
     bio: "Business & Tech AI Creator. Focused on entrepreneurship, innovation, and premium professional lifestyle. A former Fortune 500 executive turned tech founder, Alex commands authority and trust — optimized for thought leadership campaigns, premium product launches, and brands targeting ambitious, high-achieving professionals.",
     personality: ["Authoritative", "Driven", "Polished", "Trustworthy"],
     useCases: ["Tech product launches", "Luxury menswear", "Thought leadership", "Financial services"],
     specialties: ["Business", "Tech", "Productivity", "Leadership"],
-    gallery: [
-      "/images/Alex/alex_1.jpeg",
-      "/images/Alex/alex_2.jpeg",
-      "/images/Alex/alex_3.jpeg",
-      "/images/Alex/alex_4.jpeg",
-      "/images/Alex/alex_5.jpeg",
-      "/images/Alex/alex_6.jpeg",
-    ],
+    gallery: [alex1, alex2, alex3, alex4, alex5, alex6],
   },
   {
     id: 5,
     name: "MARCUS",
-    image: "/images/Marcus/marcus_1.jpeg",
-    fullBodyImage: "/images/Marcus/marcus_1.jpeg",
+    image: marcus1,
+    fullBodyImage: marcus1,
     bio: "Culture & Lifestyle AI Creator. Focused on food, urban culture, entertainment, and authentic community connection. A creative storyteller who built his platform on infectious personality and genuine representation, Marcus excels at campaigns that need broad demographic reach, cultural credibility, and magnetic on-screen energy.",
     personality: ["Charismatic", "Playful", "Relatable", "Entertaining"],
     useCases: ["Food & beverage brands", "Streetwear campaigns", "Tech & gadget reviews", "Grooming products"],
     specialties: ["Food Culture", "Lifestyle", "Fitness", "Entertainment"],
-    gallery: [
-      "/images/Marcus/marcus_1.jpeg",
-      "/images/Marcus/marcus_2.jpeg",
-      "/images/Marcus/marcus_3.jpeg",
-      "/images/Marcus/marcus_4.jpeg",
-      "/images/Marcus/marcus_5.jpeg",
-      "/images/Marcus/marcus_6.jpeg",
-    ],
+    gallery: [marcus1, marcus2, marcus3, marcus4, marcus5, marcus6],
   },
 ];
 
-// ─── SAFARI creator card ───
+// ─── SAFARI creator card — static, no animation ───
 function SafariCreatorCard({
   creator,
   onClick,
@@ -135,13 +136,11 @@ function SafariCreatorCard({
           className="relative w-full h-full border-2 border-cyan-500/50"
           style={{ borderRadius: "50%", overflow: "hidden" }}
         >
-          <div
-            className="w-full h-full"
-            style={{
-              backgroundImage: `url(${creator.gallery[0]})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center 20%",
-            }}
+          <img
+            src={creator.gallery[0]}
+            alt={creator.name}
+            loading="lazy"
+            className="w-full h-full object-cover object-top"
           />
           <div
             className="absolute inset-0"
@@ -182,18 +181,19 @@ function ChromeCreatorCard({
   onClick: () => void;
 }) {
   const [currentImage, setCurrentImage] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [visible, setVisible] = useState(true);
 
-  useEffect(() => {
+  // Image swap — no blur, just opacity fade
+  useState(() => {
     const interval = setInterval(() => {
-      setIsTransitioning(true);
+      setVisible(false);
       setTimeout(() => {
         setCurrentImage((prev) => (prev + 1) % creator.gallery.length);
-        setIsTransitioning(false);
-      }, 400);
+        setVisible(true);
+      }, 300);
     }, 3500);
     return () => clearInterval(interval);
-  }, [creator.gallery.length]);
+  });
 
   return (
     <motion.div
@@ -205,26 +205,19 @@ function ChromeCreatorCard({
       className="group cursor-pointer text-center"
     >
       <div className="relative w-48 h-48 mx-auto mb-4">
-        <motion.div
-          animate={{ opacity: [0.2, 0.5, 0.2] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 blur-xl"
-        />
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
+        {/* Glow — opacity only, no blur animation */}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-30 transition-opacity duration-500" />
+
         <div
-          className="relative w-full h-full border-2 border-cyan-500/50 group-hover:border-cyan-500 transition-all duration-300"
+          className="relative w-full h-full border-2 border-cyan-500/50 group-hover:border-cyan-500 transition-colors duration-300"
           style={{ borderRadius: "50%", overflow: "hidden" }}
         >
-          <div
-            className="w-full h-full group-hover:scale-110 transition-transform duration-500"
-            style={{
-              backgroundImage: `url(${creator.gallery[currentImage]})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center 20%",
-              opacity: isTransitioning ? 0 : 1,
-              filter: isTransitioning ? "blur(6px)" : "blur(0px)",
-              transition: "opacity 0.4s ease-in-out, filter 0.4s ease-in-out, transform 0.5s ease",
-            }}
+          <img
+            src={creator.gallery[currentImage]}
+            alt={creator.name}
+            loading="lazy"
+            className="w-full h-full object-cover object-top group-hover:scale-110 transition-all duration-500"
+            style={{ opacity: visible ? 1 : 0, transition: "opacity 0.3s ease-in-out" }}
           />
           <div
             className="absolute inset-0"
@@ -256,7 +249,7 @@ function ChromeCustomCard({ index, onClick }: { index: number; onClick: () => vo
       className="group cursor-pointer text-center"
     >
       <div className="relative w-48 h-48 mx-auto mb-4">
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-30 transition-opacity duration-500" />
         <div
           className="relative w-full h-full border-2 border-dashed border-cyan-500/50 group-hover:border-cyan-500 transition-all duration-300 bg-white/5 flex items-center justify-center"
           style={{ borderRadius: "50%", overflow: "hidden" }}

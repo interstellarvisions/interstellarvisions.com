@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -19,7 +19,6 @@ interface CreatorProfileModalProps {
   onClose: () => void;
 }
 
-// Video mapping for each creator
 const creatorVideos: { [key: string]: string } = {
   SOFIA: "zN5HF73etx4",
   MAYA: "BR4hEACzfyg",
@@ -28,61 +27,6 @@ const creatorVideos: { [key: string]: string } = {
   MARCUS: "HW6TOiw1x1Q",
 };
 
-// Lazy background image component
-function LazyBackgroundImage({
-  src,
-  className,
-  style,
-  onClick,
-  isSelected,
-}: {
-  src: string;
-  className?: string;
-  style?: React.CSSProperties;
-  onClick?: () => void;
-  isSelected?: boolean;
-}) {
-  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setBackgroundImage(`url(${src})`);
-          observer.unobserve(entry.target);
-        }
-      },
-      { rootMargin: "50px" }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
-      }
-    };
-  }, [src]);
-
-  return (
-    <div
-      ref={containerRef}
-      className={className}
-      style={{
-        ...style,
-        backgroundImage: backgroundImage || "none",
-        backgroundSize: "cover",
-        backgroundPosition: "center top",
-        backgroundColor: backgroundImage ? "transparent" : "#222",
-      }}
-      onClick={onClick}
-    />
-  );
-}
-
 export default function CreatorProfileModal({
   creator,
   onClose,
@@ -90,6 +34,7 @@ export default function CreatorProfileModal({
   const [selectedGalleryImage, setSelectedGalleryImage] = useState(0);
   const videoId = creatorVideos[creator.name];
 
+  // Auto-rotate gallery
   useEffect(() => {
     const interval = setInterval(() => {
       setSelectedGalleryImage((prev) => (prev + 1) % creator.gallery.length);
@@ -97,6 +42,7 @@ export default function CreatorProfileModal({
     return () => clearInterval(interval);
   }, [creator.gallery.length]);
 
+  // Lock body scroll
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -107,13 +53,14 @@ export default function CreatorProfileModal({
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 overflow-y-auto">
-        {/* Backdrop */}
+
+        {/* Backdrop — no backdrop-blur, just dark overlay */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/95 backdrop-blur-sm"
+          className="fixed inset-0 bg-black/90"
         />
 
         {/* Modal Content */}
@@ -127,44 +74,56 @@ export default function CreatorProfileModal({
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors"
+              className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
             >
               <X size={20} />
             </button>
 
             <div className="p-6 md:p-8">
               <div className="flex flex-col lg:flex-row gap-8">
+
                 {/* Left Panel - Images */}
                 <div className="lg:w-1/3 flex flex-col">
-                  {/* Main Gallery Image — lazy loaded background image */}
-                  <LazyBackgroundImage
-                    src={creator.gallery[selectedGalleryImage]}
-                    className="border border-white/10 rounded-lg overflow-hidden mb-4"
-                    style={{
-                      aspectRatio: "9/16",
-                    }}
-                  />
 
-                  {/* Gallery Thumbnails — lazy loaded background image buttons */}
+                  {/* Main Gallery Image */}
+                  <div
+                    className="border border-white/10 rounded-lg overflow-hidden mb-4"
+                    style={{ aspectRatio: "9/16" }}
+                  >
+                    <img
+                      src={creator.gallery[selectedGalleryImage]}
+                      alt={`${creator.name} gallery`}
+                      loading="lazy"
+                      className="w-full h-full object-cover object-top transition-opacity duration-300"
+                    />
+                  </div>
+
+                  {/* Gallery Thumbnails */}
                   <div className="grid grid-cols-6 gap-2">
                     {creator.gallery.map((image, index) => (
-                      <LazyBackgroundImage
+                      <button
                         key={index}
-                        src={image}
+                        onClick={() => setSelectedGalleryImage(index)}
                         className={`aspect-square rounded-full overflow-hidden border-2 transition-all cursor-pointer ${
                           selectedGalleryImage === index
                             ? "border-cyan-500 scale-110"
                             : "border-white/20 hover:border-cyan-400/50"
                         }`}
-                        onClick={() => setSelectedGalleryImage(index)}
-                        isSelected={selectedGalleryImage === index}
-                      />
+                      >
+                        <img
+                          src={image}
+                          alt={`${creator.name} ${index + 1}`}
+                          loading="lazy"
+                          className="w-full h-full object-cover object-top"
+                        />
+                      </button>
                     ))}
                   </div>
                 </div>
 
                 {/* Right Panel - Video & Info */}
                 <div className="lg:w-2/3 space-y-6">
+
                   {/* Video Player */}
                   <div className="bg-black rounded-lg overflow-hidden border border-white/10">
                     <div className="aspect-video">
@@ -178,25 +137,17 @@ export default function CreatorProfileModal({
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
                           className="w-full h-full"
-                        ></iframe>
+                        />
                       ) : (
                         <div className="flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900 h-full">
                           <div className="text-center">
                             <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-white/10 flex items-center justify-center">
-                              <svg
-                                className="w-8 h-8 text-white/50"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
+                              <svg className="w-8 h-8 text-white/50" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                               </svg>
                             </div>
-                            <p className="text-white/70 text-sm font-medium">
-                              HORIZONTAL VIDEO
-                            </p>
-                            <p className="text-white/40 text-xs mt-1">
-                              TALKING HEADSHOT OF INFLUENCER
-                            </p>
+                            <p className="text-white/70 text-sm font-medium">HORIZONTAL VIDEO</p>
+                            <p className="text-white/40 text-xs mt-1">TALKING HEADSHOT OF INFLUENCER</p>
                           </div>
                         </div>
                       )}
@@ -214,15 +165,10 @@ export default function CreatorProfileModal({
 
                     {/* Personality Traits */}
                     <div className="mb-6">
-                      <h4 className="text-sm text-cyan-400 tracking-wider mb-3">
-                        PERSONALITY TRAITS
-                      </h4>
+                      <h4 className="text-sm text-cyan-400 tracking-wider mb-3">PERSONALITY TRAITS</h4>
                       <div className="flex flex-wrap gap-2">
                         {creator.personality.map((trait, index) => (
-                          <span
-                            key={index}
-                            className="px-4 py-2 bg-white/5 border border-cyan-500/30 rounded-full text-sm"
-                          >
+                          <span key={index} className="px-4 py-2 bg-white/5 border border-cyan-500/30 rounded-full text-sm">
                             {trait}
                           </span>
                         ))}
@@ -231,16 +177,11 @@ export default function CreatorProfileModal({
 
                     {/* Use Cases */}
                     <div className="mb-6">
-                      <h4 className="text-sm text-cyan-400 tracking-wider mb-3">
-                        USE CASES
-                      </h4>
+                      <h4 className="text-sm text-cyan-400 tracking-wider mb-3">USE CASES</h4>
                       <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         {creator.useCases.map((useCase, index) => (
-                          <li
-                            key={index}
-                            className="flex items-center gap-2 text-sm text-gray-300"
-                          >
-                            <div className="w-1.5 h-1.5 rounded-full bg-cyan-500"></div>
+                          <li key={index} className="flex items-center gap-2 text-sm text-gray-300">
+                            <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 flex-shrink-0" />
                             {useCase}
                           </li>
                         ))}
@@ -249,15 +190,10 @@ export default function CreatorProfileModal({
 
                     {/* Content Specialties */}
                     <div>
-                      <h4 className="text-sm text-cyan-400 tracking-wider mb-3">
-                        CONTENT SPECIALTIES
-                      </h4>
+                      <h4 className="text-sm text-cyan-400 tracking-wider mb-3">CONTENT SPECIALTIES</h4>
                       <div className="flex flex-wrap gap-2">
                         {creator.specialties.map((specialty, index) => (
-                          <span
-                            key={index}
-                            className="px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-sm text-cyan-300"
-                          >
+                          <span key={index} className="px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-sm text-cyan-300">
                             {specialty}
                           </span>
                         ))}

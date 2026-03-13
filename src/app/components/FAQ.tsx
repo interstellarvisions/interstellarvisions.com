@@ -65,7 +65,7 @@ const faqs = [
   },
 ];
 
-// ─── SAFARI FAQ item — static open/close with useState only, no motion ───
+// ─── SAFARI FAQ item ───
 function SafariFAQItem({
   faq,
   isOpen,
@@ -85,11 +85,7 @@ function SafariFAQItem({
           {faq.question}
         </span>
         <div className="flex-shrink-0">
-          {isOpen ? (
-            <Minus size={24} className="text-cyan-400" />
-          ) : (
-            <Plus size={24} className="text-cyan-400" />
-          )}
+          {isOpen ? <Minus size={24} className="text-cyan-400" /> : <Plus size={24} className="text-cyan-400" />}
         </div>
       </button>
       {isOpen && (
@@ -99,27 +95,25 @@ function SafariFAQItem({
   );
 }
 
-// ─── Chrome FAQ item — full motion animations ───
+// ─── Chrome FAQ item — single observer from parent via isVisible prop ───
 function ChromeFAQItem({
   faq,
   index,
   isOpen,
   onToggle,
+  isVisible,
 }: {
   faq: typeof faqs[0];
   index: number;
   isOpen: boolean;
   onToggle: () => void;
+  isVisible: boolean;
 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ ...cosmicTransition, delay: index * 0.1 }}
+      animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ ...cosmicTransition, delay: index * 0.08 }}
       className="border-b border-cyan-400/20"
     >
       <button
@@ -130,11 +124,7 @@ function ChromeFAQItem({
           {faq.question}
         </span>
         <div className="flex-shrink-0">
-          {isOpen ? (
-            <Minus size={24} className="text-cyan-400" />
-          ) : (
-            <Plus size={24} className="text-cyan-400" />
-          )}
+          {isOpen ? <Minus size={24} className="text-cyan-400" /> : <Plus size={24} className="text-cyan-400" />}
         </div>
       </button>
       <motion.div
@@ -153,7 +143,7 @@ export default function FAQ() {
   const isSafari = useSafari();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
 
   const handleToggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -164,18 +154,12 @@ export default function FAQ() {
       {!isSafari && <style>{shimmerStyle}</style>}
 
       <div className="max-w-4xl mx-auto">
-
-        {/* Title */}
         {isSafari ? (
-          <h2
-            className="text-5xl md:text-7xl font-bold text-center mb-4 tracking-wider"
-            style={staticTitleStyle}
-          >
+          <h2 className="text-5xl md:text-7xl font-bold text-center mb-4 tracking-wider" style={staticTitleStyle}>
             FAQ
           </h2>
         ) : (
           <motion.h2
-            ref={ref}
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={cosmicTransition}
@@ -189,7 +173,8 @@ export default function FAQ() {
           Everything you need to know
         </p>
 
-        <div className="space-y-0">
+        {/* Single ref for the whole list — one IntersectionObserver instead of 8 */}
+        <div ref={ref} className="space-y-0">
           {faqs.map((faq, index) =>
             isSafari ? (
               <SafariFAQItem
@@ -205,6 +190,7 @@ export default function FAQ() {
                 index={index}
                 isOpen={openIndex === index}
                 onToggle={() => handleToggle(index)}
+                isVisible={isInView}
               />
             )
           )}

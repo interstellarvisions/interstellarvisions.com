@@ -1,6 +1,5 @@
 import { useState, useEffect, Suspense, lazy } from "react";
 import Header from "../components/Header";
-import CosmicBackground from "../components/CosmicBackground";
 import HeroSection from "../components/HeroSection";
 
 // Lazy load these components - they load only when scrolled into view
@@ -12,7 +11,6 @@ const FAQ = lazy(() => import("../components/FAQ"));
 const Contact = lazy(() => import("../components/Contact"));
 const Footer = lazy(() => import("../components/Footer"));
 
-// Loading placeholder while component loads
 function SectionLoader() {
   return <div className="min-h-screen" />;
 }
@@ -29,18 +27,16 @@ export default function Home() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <div className="bg-[#0a0a1a] text-white min-h-screen relative">
-      <CosmicBackground />
-      <div className="relative z-10 bg-transparent">
+      <div className="relative z-10">
         <Header scrolled={scrolled} />
         <HeroSection />
-        
+
         <Suspense fallback={<SectionLoader />}>
           <WhatWeCreate />
         </Suspense>

@@ -1,6 +1,7 @@
 import { Instagram, Linkedin, Youtube } from "lucide-react";
 import { useSafari } from "../hooks/useSafari";
 
+
 const shimmerStyle = `
   @keyframes shimmer {
     0% { background-position: -200% center; }
@@ -91,7 +92,14 @@ export default function Footer() {
           {/* Column 1 - Branding */}
           <div className="lg:col-span-1">
             <button onClick={scrollToHero} className="mb-4 cursor-pointer">
-              <img src="/images/logo_footer.png" alt="Logo" loading="lazy" draggable={false} onContextMenu={(e) => e.preventDefault()} className="h-12 w-auto" />
+              <img
+                src={logoFooter}
+                alt="Interstellar Visions"
+                loading="lazy"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+                className="h-12 w-auto"
+              />
             </button>
             <p className="text-gray-400 text-sm mb-4">AI-Powered Creative Content That Converts</p>
             <p className="text-gray-500 text-xs">© {currentYear} Interstellar Visions</p>
@@ -164,7 +172,7 @@ export default function Footer() {
                   className={`w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition-all duration-300 ${
                     isSafari
                       ? "text-white"
-                      : "hover:bg-cyan-500/20 hover:border-cyan-500 hover:text-cyan-400 hover:shadow-md hover:shadow-cyan-500/20 hover:scale-110"
+                      : "hover:bg-cyan-500/20 hover:border-cyan-500 hover:text-cyan-400 hover:scale-110"
                   }`}
                 >
                   {social.icon}

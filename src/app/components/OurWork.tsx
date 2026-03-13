@@ -1,8 +1,28 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
 import ProjectModal from "./ProjectModal";
 import { useSafari } from "../hooks/useSafari";
+
+// ─── Asset imports ───
+import aurora1 from "../../assets/work/Aurora/1.webp";
+import aurora2 from "../../assets/work/Aurora/2.webp";
+import aurora3 from "../../assets/work/Aurora/3.webp";
+import aurora4 from "../../assets/work/Aurora/4.webp";
+import aurora5 from "../../assets/work/Aurora/5.webp";
+import aurora6 from "../../assets/work/Aurora/6.webp";
+import aurora7 from "../../assets/work/Aurora/7.webp";
+import aurora8 from "../../assets/work/Aurora/8.webp";
+
+import amber1 from "../../assets/work/Amber/1.webp";
+import amber2 from "../../assets/work/Amber/2.webp";
+import amber3 from "../../assets/work/Amber/3.webp";
+import amber4 from "../../assets/work/Amber/4.webp";
+import amber5 from "../../assets/work/Amber/5.webp";
+import amber6 from "../../assets/work/Amber/6.webp";
+import amber7 from "../../assets/work/Amber/7.webp";
+import amber8 from "../../assets/work/Amber/8.webp";
+import amber9 from "../../assets/work/Amber/9.webp";
 
 const shimmerStyle = `
   @keyframes shimmer {
@@ -26,8 +46,8 @@ const shimmerStyle = `
     animation: shimmer 6s linear infinite;
   }
   @keyframes pulse-play {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(6,182,212,0.4); }
-    50% { box-shadow: 0 0 0 10px rgba(6,182,212,0); }
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.08); }
   }
   .pulse-play {
     animation: pulse-play 2.5s ease-in-out infinite;
@@ -54,43 +74,24 @@ const portfolioItems = [
     comingSoon: false,
     title: "AURORA",
     shortDescription: "AI-generated luxury fashion editorial campaign",
-    coverImage: "/images/Aurora/1.jpeg",
+    coverImage: aurora1,
     client: "Aurora",
     techniques: "AI Image Generation, AI Video Generation, Editorial Direction, Color Grading",
     description: "A fully AI-generated luxury fashion campaign produced for Aurora. Cold light. Platinum hair. The kind of silence that only exists in high-end editorials. Every frame was built from scratch using AI — no studio rental, no photographer, no production schedule. Just a brand identity distilled into visuals that feel like they belong in the pages of Vogue. This is what modern fashion content looks like when creativity is the only budget that matters.",
     videoUrl: "https://www.youtube.com/embed/Bd0_AV60lOc",
-    images: [
-      "/images/Aurora/1.jpeg",
-      "/images/Aurora/2.jpeg",
-      "/images/Aurora/3.jpeg",
-      "/images/Aurora/4.jpeg",
-      "/images/Aurora/5.jpeg",
-      "/images/Aurora/6.jpeg",
-      "/images/Aurora/7.jpeg",
-      "/images/Aurora/8.jpeg",
-    ],
+    images: [aurora1, aurora2, aurora3, aurora4, aurora5, aurora6, aurora7, aurora8],
   },
   {
     id: 2,
     comingSoon: false,
     title: "THE AMBER CASK",
     shortDescription: "Cinematic AI-generated fine dining commercial",
-    coverImage: "/images/Amber/1.jpeg",
+    coverImage: amber1,
     client: "The Amber Cask",
     techniques: "AI Video Generation, Cinematic Food Direction, Sound Design, Color Grading",
     description: "A fully AI-generated cinematic commercial produced for The Amber Cask, a premium fine dining establishment. The brief was simple: make people feel hunger before they understand why. Every shot was crafted to trigger a visceral response — raw Wagyu meeting cast iron, fire catching fat, the slow exhale of steam dissolving into darkness. No crew. No kitchen. No camera. Just AI and a creative vision sharp enough to make it real.",
     videoUrl: "https://www.youtube.com/embed/yR4vKe2DYWs",
-    images: [
-      "/images/Amber/1.jpeg",
-      "/images/Amber/2.jpeg",
-      "/images/Amber/3.jpeg",
-      "/images/Amber/4.jpeg",
-      "/images/Amber/5.jpeg",
-      "/images/Amber/6.jpeg",
-      "/images/Amber/7.jpeg",
-      "/images/Amber/8.jpeg",
-      "/images/Amber/9.jpeg",
-    ],
+    images: [amber1, amber2, amber3, amber4, amber5, amber6, amber7, amber8, amber9],
   },
   {
     id: 3,
@@ -142,62 +143,6 @@ const portfolioItems = [
   },
 ];
 
-// Lazy image component using Intersection Observer
-function LazyImage({
-  src,
-  alt,
-  className,
-  style,
-  onLoad,
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-  style?: React.CSSProperties;
-  onLoad?: () => void;
-}) {
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const imgRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setImageSrc(src);
-          observer.unobserve(entry.target);
-        }
-      },
-      { rootMargin: "50px" } // Start loading 50px before entering viewport
-    );
-
-    if (imgRef.current) {
-      observer.observe(imgRef.current);
-    }
-
-    return () => {
-      if (imgRef.current) {
-        observer.unobserve(imgRef.current);
-      }
-    };
-  }, [src]);
-
-  return (
-    <img
-      ref={imgRef}
-      src={imageSrc || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23222' width='400' height='300'/%3E%3C/svg%3E"}
-      alt={alt}
-      className={className}
-      style={style}
-      loading="lazy"
-      onLoad={() => {
-        setIsLoading(false);
-        onLoad?.();
-      }}
-    />
-  );
-}
-
 function SafariCard({
   item,
   index,
@@ -217,13 +162,13 @@ function SafariCard({
       style={{
         cursor: disabled ? "default" : "pointer",
         border: disabled ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(6,182,212,0.5)",
-        boxShadow: disabled ? "none" : "0 0 0 1px rgba(37,99,235,0.3), inset 0 0 0 1px rgba(6,182,212,0.1)",
       }}
     >
       <div className="relative w-full h-full bg-black">
-        <LazyImage
+        <img
           src={item.coverImage}
           alt={item.title}
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ filter: disabled ? "grayscale(1) brightness(0.25)" : "none" }}
         />
@@ -309,18 +254,14 @@ function ChromeCard({
           : hovered
           ? "1px solid rgba(6,182,212,0.9)"
           : "1px solid rgba(6,182,212,0.5)",
-        boxShadow: disabled
-          ? "none"
-          : hovered
-          ? "0 0 20px rgba(6,182,212,0.3), 0 0 0 1px rgba(37,99,235,0.5)"
-          : "0 0 0 1px rgba(37,99,235,0.3), inset 0 0 0 1px rgba(6,182,212,0.1)",
-        transition: "border 0.4s ease, box-shadow 0.4s ease",
+        transition: "border 0.4s ease",
       }}
     >
       <div className="relative w-full h-full bg-black">
-        <LazyImage
+        <img
           src={item.coverImage}
           alt={item.title}
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
           style={{
             transform: hovered ? "scale(1.08)" : "scale(1)",
@@ -337,6 +278,8 @@ function ChromeCard({
               : "linear-gradient(to top, rgba(0,0,0,0.75) 30%, rgba(0,0,0,0.45) 100%)",
           }}
         />
+
+        {/* Scan line effect on hover */}
         {!disabled && (
           <motion.div
             className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent pointer-events-none"
@@ -345,6 +288,7 @@ function ChromeCard({
             transition={{ duration: 0.6, ease: "easeOut" }}
           />
         )}
+
         <div className="absolute top-4 left-5 z-10">
           <span
             className="text-4xl font-bold leading-none"
@@ -360,6 +304,7 @@ function ChromeCard({
             {number}
           </span>
         </div>
+
         {disabled ? (
           <div className="absolute inset-0 flex items-center justify-center z-10">
             <span
@@ -375,11 +320,10 @@ function ChromeCard({
           </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center z-10">
+            {/* pulse-play now uses transform+opacity only, no box-shadow */}
             <div
               className={`pulse-play w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
-                hovered
-                  ? "bg-cyan-500/40 scale-110 shadow-lg shadow-cyan-500/30"
-                  : "bg-white/10 backdrop-blur-sm"
+                hovered ? "bg-cyan-500/40 scale-110" : "bg-white/10"
               }`}
             >
               <Play
@@ -390,6 +334,7 @@ function ChromeCard({
             </div>
           </div>
         )}
+
         <div className="absolute bottom-0 left-0 right-0 z-10 p-5">
           <motion.div
             animate={hovered && !disabled ? { y: 0, opacity: 1 } : { y: 4, opacity: 0.85 }}
@@ -433,8 +378,15 @@ export default function OurWork() {
     >
       {!isSafari && <style>{shimmerStyle}</style>}
 
-      <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-cyan-500/4 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-blue-600/4 rounded-full blur-[120px] pointer-events-none" />
+      {/* Ambient orbs — reduced blur for performance */}
+      <div
+        className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{ background: "rgba(6,182,212,0.04)", filter: "blur(60px)" }}
+      />
+      <div
+        className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none"
+        style={{ background: "rgba(37,99,235,0.04)", filter: "blur(60px)" }}
+      />
 
       <div className="max-w-[1400px] mx-auto relative z-10">
         <div className="text-center mb-16 md:mb-24">

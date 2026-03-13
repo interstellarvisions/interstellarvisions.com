@@ -98,7 +98,6 @@ export default function Contact() {
 
   const inputClass = "w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500 focus:bg-black/60 transition-all duration-300";
 
-  // ─── Shared form (same for both Safari and Chrome) ───
   const formContent = (
     <div
       className="rounded-xl p-[1px]"
@@ -138,7 +137,6 @@ export default function Contact() {
     </div>
   );
 
-  // ─── Shared info cards (same for both) ───
   const infoContent = (
     <div className="space-y-6">
       <div className="rounded-xl p-[1px]" style={{ background: "linear-gradient(135deg, rgba(6,182,212,0.3), rgba(37,99,235,0.1), rgba(255,255,255,0.05))" }}>
@@ -210,13 +208,18 @@ export default function Contact() {
         }}
       />
 
-      {/* Ambient orbs */}
-      <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
+      {/* Ambient orbs — reduced blur for performance */}
+      <div
+        className="absolute top-1/3 left-1/4 w-96 h-96 rounded-full pointer-events-none"
+        style={{ background: "rgba(6,182,212,0.05)", filter: "blur(40px)" }}
+      />
+      <div
+        className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full pointer-events-none"
+        style={{ background: "rgba(37,99,235,0.05)", filter: "blur(40px)" }}
+      />
 
       <div className="max-w-[1400px] mx-auto relative z-10">
 
-        {/* Title */}
         {isSafari ? (
           <div className="text-center mb-16">
             <h2 className="text-5xl md:text-7xl font-bold mb-4 tracking-wider" style={staticTitleStyle}>
@@ -243,7 +246,6 @@ export default function Contact() {
           </motion.div>
         )}
 
-        {/* Grid */}
         {isSafari ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
             {formContent}

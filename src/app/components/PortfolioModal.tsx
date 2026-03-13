@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -17,48 +17,28 @@ interface PortfolioModalProps {
   onClose: () => void;
 }
 
-// Lazy image component for modal images
-function LazyModalImage({
-  src,
-  alt,
-  className,
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-}) {
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    // Images in modals load immediately since they're visible
-    setImageSrc(src);
-  }, [src]);
-
-  return (
-    <img
-      ref={imgRef}
-      src={imageSrc || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23222' width='400' height='300'/%3E%3C/svg%3E"}
-      alt={alt}
-      className={className}
-      loading="lazy"
-    />
-  );
-}
-
 export default function PortfolioModal({ item, onClose }: PortfolioModalProps) {
   const [activeTab, setActiveTab] = useState<"video" | string>("video");
   const [selectedImage, setSelectedImage] = useState(0);
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 overflow-y-auto">
+
+        {/* Backdrop — no backdrop-blur */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/95 backdrop-blur-sm"
+          className="fixed inset-0 bg-black/90"
         />
 
         <div className="relative min-h-screen flex items-center justify-center p-4 md:p-8">
@@ -68,9 +48,10 @@ export default function PortfolioModal({ item, onClose }: PortfolioModalProps) {
             exit={{ opacity: 0, scale: 0.9 }}
             className="relative w-full max-w-7xl bg-gradient-to-br from-slate-900 to-black border border-white/10 rounded-lg overflow-hidden"
           >
+            {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors"
+              className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
             >
               <X size={20} />
             </button>
@@ -106,7 +87,7 @@ export default function PortfolioModal({ item, onClose }: PortfolioModalProps) {
                             : "bg-white/5 border border-white/10 hover:bg-white/10"
                         }`}
                       >
-                        Image{index + 1}
+                        Image {index + 1}
                       </button>
                     ))}
                   </div>
@@ -128,9 +109,10 @@ export default function PortfolioModal({ item, onClose }: PortfolioModalProps) {
                       </div>
                     ) : (
                       <div className="aspect-video">
-                        <LazyModalImage
+                        <img
                           src={item.images[selectedImage]}
                           alt={`${item.title} - Image ${selectedImage + 1}`}
+                          loading="lazy"
                           className="w-full h-full object-cover"
                         />
                       </div>
@@ -144,12 +126,10 @@ export default function PortfolioModal({ item, onClose }: PortfolioModalProps) {
                       <h3 className="text-sm text-cyan-400 mb-2 tracking-wider">CLIENT</h3>
                       <p className="text-lg font-medium">{item.client}</p>
                     </div>
-
                     <div className="bg-white/5 border border-white/10 rounded-lg p-6">
                       <h3 className="text-sm text-cyan-400 mb-2 tracking-wider">TECHNIQUES</h3>
                       <p className="text-sm leading-relaxed text-gray-300">{item.techniques}</p>
                     </div>
-
                     <div className="bg-white/5 border border-white/10 rounded-lg p-6">
                       <h3 className="text-sm text-cyan-400 mb-2 tracking-wider">DESCRIPTION</h3>
                       <p className="text-sm leading-relaxed text-gray-300">{item.description}</p>

@@ -235,9 +235,15 @@ export default function AboutUs() {
     >
       {!isSafari && <style>{shimmerStyle}</style>}
 
-      {/* Ambient orbs */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/4 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-600/4 rounded-full blur-[120px] pointer-events-none" />
+      {/* Ambient orbs — reduced blur radius for Safari performance */}
+      <div
+        className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{ background: "rgba(6,182,212,0.04)", filter: "blur(60px)", willChange: "auto" }}
+      />
+      <div
+        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none"
+        style={{ background: "rgba(37,99,235,0.04)", filter: "blur(60px)", willChange: "auto" }}
+      />
 
       <div className="max-w-[1400px] mx-auto relative z-10">
 

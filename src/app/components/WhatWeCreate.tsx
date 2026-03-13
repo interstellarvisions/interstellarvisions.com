@@ -1,6 +1,12 @@
 import { motion } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useSafari } from "../hooks/useSafari";
+
+// ─── Asset imports ───
+import wwc1 from "../../assets/what-we-create/1.webp";
+import wwc2 from "../../assets/what-we-create/2.webp";
+import wwc3 from "../../assets/what-we-create/3.webp";
+import wwc4 from "../../assets/what-we-create/4.webp";
 
 const shimmerStyle = `
   @keyframes shimmer {
@@ -28,81 +34,32 @@ const services = [
   {
     title: "AI VIDEO ADS",
     description: "High-converting video advertisements powered by AI technology",
-    image: "/images/WhatWeCreate/1.jpeg",
+    image: wwc1,
     tag: "VIDEO",
     number: "01",
   },
   {
     title: "PRODUCT VISUALS",
     description: "Stunning AI-generated product imagery and 3D visualizations",
-    image: "/images/WhatWeCreate/2.jpeg",
+    image: wwc2,
     tag: "VISUAL",
     number: "02",
   },
   {
     title: "SHORT FORM SOCIAL CONTENT",
     description: "Engaging vertical video content optimized for TikTok, Reels, and Shorts",
-    image: "/images/WhatWeCreate/3.jpeg",
+    image: wwc3,
     tag: "SOCIAL",
     number: "03",
   },
   {
     title: "AI INFLUENCER CONTENT",
     description: "Content featuring our proprietary AI influencers and digital creators",
-    image: "/images/WhatWeCreate/4.jpeg",
+    image: wwc4,
     tag: "AI",
     number: "04",
   },
 ];
-
-// Lazy image component using Intersection Observer
-function LazyImage({
-  src,
-  alt,
-  className,
-  style,
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-  style?: React.CSSProperties;
-}) {
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setImageSrc(src);
-          observer.unobserve(entry.target);
-        }
-      },
-      { rootMargin: "50px" }
-    );
-
-    if (imgRef.current) {
-      observer.observe(imgRef.current);
-    }
-
-    return () => {
-      if (imgRef.current) {
-        observer.unobserve(imgRef.current);
-      }
-    };
-  }, [src]);
-
-  return (
-    <img
-      ref={imgRef}
-      src={imageSrc || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23222' width='400' height='300'/%3E%3C/svg%3E"}
-      alt={alt}
-      className={className}
-      style={style}
-      loading="lazy"
-    />
-  );
-}
 
 function SafariCard({ service }: { service: (typeof services)[0] }) {
   return (
@@ -114,9 +71,10 @@ function SafariCard({ service }: { service: (typeof services)[0] }) {
       }}
     >
       <div className="relative w-full h-full overflow-hidden rounded-xl">
-        <LazyImage
+        <img
           src={service.image}
           alt={service.title}
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div
@@ -166,9 +124,10 @@ function ChromeCard({ service, index }: { service: (typeof services)[0]; index: 
       }}
     >
       <div className="relative w-full h-full overflow-hidden rounded-xl">
-        <LazyImage
+        <img
           src={service.image}
           alt={service.title}
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
           style={{ transform: hovered ? "scale(1.08)" : "scale(1)" }}
         />
@@ -242,8 +201,17 @@ export default function WhatWeCreate() {
       className="py-24 md:py-32 px-8 md:px-16 bg-gradient-to-b from-black to-slate-900 relative overflow-hidden"
     >
       {!isSafari && <style>{shimmerStyle}</style>}
-      <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-cyan-500/4 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-blue-600/4 rounded-full blur-[120px] pointer-events-none" />
+
+      {/* Ambient orbs — reduced blur for performance */}
+      <div
+        className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{ background: "rgba(6,182,212,0.04)", filter: "blur(60px)" }}
+      />
+      <div
+        className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none"
+        style={{ background: "rgba(37,99,235,0.04)", filter: "blur(60px)" }}
+      />
+
       <div className="max-w-[1400px] mx-auto relative z-10">
         <div className="text-center mb-16 md:mb-20">
           <h2
