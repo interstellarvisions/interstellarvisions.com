@@ -5,42 +5,6 @@ import CreatorProfileModal from "./CreatorProfileModal";
 import CustomInfluencerModal from "./CustomInfluencerModal";
 import { useSafari } from "../hooks/useSafari";
 
-// ─── Asset imports ───
-import sofia1 from "../../assets/creators/Sofia/sofia_1.webp";
-import sofia2 from "../../assets/creators/Sofia/sofia_2.webp";
-import sofia3 from "../../assets/creators/Sofia/sofia_3.webp";
-import sofia4 from "../../assets/creators/Sofia/sofia_4.webp";
-import sofia5 from "../../assets/creators/Sofia/sofia_5.webp";
-import sofia6 from "../../assets/creators/Sofia/sofia_6.webp";
-
-import maya1 from "../../assets/creators/Maya/maya_1.webp";
-import maya2 from "../../assets/creators/Maya/maya_2.webp";
-import maya3 from "../../assets/creators/Maya/maya_3.webp";
-import maya4 from "../../assets/creators/Maya/maya_4.webp";
-import maya5 from "../../assets/creators/Maya/maya_5.webp";
-import maya6 from "../../assets/creators/Maya/maya_6.webp";
-
-import isabella1 from "../../assets/creators/Isabella/isabella_1.webp";
-import isabella2 from "../../assets/creators/Isabella/isabella_2.webp";
-import isabella3 from "../../assets/creators/Isabella/isabella_3.webp";
-import isabella4 from "../../assets/creators/Isabella/isabella_4.webp";
-import isabella5 from "../../assets/creators/Isabella/isabella_5.webp";
-import isabella6 from "../../assets/creators/Isabella/isabella_6.webp";
-
-import alex1 from "../../assets/creators/Alex/alex_1.webp";
-import alex2 from "../../assets/creators/Alex/alex_2.webp";
-import alex3 from "../../assets/creators/Alex/alex_3.webp";
-import alex4 from "../../assets/creators/Alex/alex_4.webp";
-import alex5 from "../../assets/creators/Alex/alex_5.webp";
-import alex6 from "../../assets/creators/Alex/alex_6.webp";
-
-import marcus1 from "../../assets/creators/Marcus/marcus_1.webp";
-import marcus2 from "../../assets/creators/Marcus/marcus_2.webp";
-import marcus3 from "../../assets/creators/Marcus/marcus_3.webp";
-import marcus4 from "../../assets/creators/Marcus/marcus_4.webp";
-import marcus5 from "../../assets/creators/Marcus/marcus_5.webp";
-import marcus6 from "../../assets/creators/Marcus/marcus_6.webp";
-
 const shimmerStyle = `
   @keyframes shimmer {
     0% { background-position: -200% center; }
@@ -67,85 +31,102 @@ const creators = [
   {
     id: 1,
     name: "SOFIA",
-    image: sofia1,
-    fullBodyImage: sofia1,
+    image: "/images/creators/Sofia/sofia_1.webp",
+    fullBodyImage: "/images/creators/Sofia/sofia_1.webp",
     bio: "Luxury Lifestyle AI Creator. Focused on high-end fashion, fine dining, and premium brand storytelling. A former fashion editor turned lifestyle entrepreneur, Sofia curates aspirational experiences with elegance and authority — optimized for high-conversion visual campaigns targeting discerning, affluent audiences.",
     personality: ["Sophisticated", "Elegant", "Graceful", "Confident"],
     useCases: ["Fashion campaigns", "Luxury brand partnerships", "Lifestyle content", "Travel & hospitality"],
     specialties: ["Fashion", "Lifestyle", "Beauty", "Travel"],
-    gallery: [sofia1, sofia2, sofia3, sofia4, sofia5, sofia6],
+    gallery: [
+      "/images/creators/Sofia/sofia_1.webp",
+      "/images/creators/Sofia/sofia_2.webp",
+      "/images/creators/Sofia/sofia_3.webp",
+      "/images/creators/Sofia/sofia_4.webp",
+      "/images/creators/Sofia/sofia_5.webp",
+      "/images/creators/Sofia/sofia_6.webp",
+    ],
   },
   {
     id: 2,
     name: "MAYA",
-    image: maya1,
-    fullBodyImage: maya1,
+    image: "/images/creators/Maya/maya_1.webp",
+    fullBodyImage: "/images/creators/Maya/maya_1.webp",
     bio: "Wellness & Fitness AI Creator. Focused on holistic health, athletic performance, and sustainable living. A former corporate professional turned wellness coach, Maya brings authentic energy and genuine expertise to fitness and nutrition content — optimized for community-driven campaigns that inspire real lifestyle change.",
     personality: ["Approachable", "Motivational", "Authentic", "High-Energy"],
     useCases: ["Fitness campaigns", "Supplement brands", "Wellness content", "Healthy food brands"],
     specialties: ["Fitness", "Wellness", "Nutrition", "Mindfulness"],
-    gallery: [maya1, maya2, maya3, maya4, maya5, maya6],
+    gallery: [
+      "/images/creators/Maya/maya_1.webp",
+      "/images/creators/Maya/maya_2.webp",
+      "/images/creators/Maya/maya_3.webp",
+      "/images/creators/Maya/maya_4.webp",
+      "/images/creators/Maya/maya_5.webp",
+      "/images/creators/Maya/maya_6.webp",
+    ],
   },
   {
     id: 3,
     name: "ISABELLA",
-    image: isabella1,
-    fullBodyImage: isabella1,
+    image: "/images/creators/Isabella/isabella_1.webp",
+    fullBodyImage: "/images/creators/Isabella/isabella_1.webp",
     bio: "Creative & Street Culture AI Creator. Focused on bold fashion, digital art, and urban lifestyle storytelling. A self-taught designer who built her audience through unfiltered artistic expression and fearless trend-setting, Bella brings magnetic energy to campaigns that demand authenticity and cultural edge.",
     personality: ["Bold", "Creative", "Unapologetic", "Trendsetter"],
     useCases: ["Streetwear campaigns", "Beauty brand launches", "Gen Z targeting", "Music & culture brands"],
     specialties: ["Fashion", "Beauty", "Street Art", "Music"],
-    gallery: [isabella1, isabella2, isabella3, isabella4, isabella5, isabella6],
+    gallery: [
+      "/images/creators/Isabella/isabella_1.webp",
+      "/images/creators/Isabella/isabella_2.webp",
+      "/images/creators/Isabella/isabella_3.webp",
+      "/images/creators/Isabella/isabella_4.webp",
+      "/images/creators/Isabella/isabella_5.webp",
+      "/images/creators/Isabella/isabella_6.webp",
+    ],
   },
   {
     id: 4,
     name: "ALEXANDER",
-    image: alex1,
-    fullBodyImage: alex1,
+    image: "/images/creators/Alex/alex_1.webp",
+    fullBodyImage: "/images/creators/Alex/alex_1.webp",
     bio: "Business & Tech AI Creator. Focused on entrepreneurship, innovation, and premium professional lifestyle. A former Fortune 500 executive turned tech founder, Alex commands authority and trust — optimized for thought leadership campaigns, premium product launches, and brands targeting ambitious, high-achieving professionals.",
     personality: ["Authoritative", "Driven", "Polished", "Trustworthy"],
     useCases: ["Tech product launches", "Luxury menswear", "Thought leadership", "Financial services"],
     specialties: ["Business", "Tech", "Productivity", "Leadership"],
-    gallery: [alex1, alex2, alex3, alex4, alex5, alex6],
+    gallery: [
+      "/images/creators/Alex/alex_1.webp",
+      "/images/creators/Alex/alex_2.webp",
+      "/images/creators/Alex/alex_3.webp",
+      "/images/creators/Alex/alex_4.webp",
+      "/images/creators/Alex/alex_5.webp",
+      "/images/creators/Alex/alex_6.webp",
+    ],
   },
   {
     id: 5,
     name: "MARCUS",
-    image: marcus1,
-    fullBodyImage: marcus1,
+    image: "/images/creators/Marcus/marcus_1.webp",
+    fullBodyImage: "/images/creators/Marcus/marcus_1.webp",
     bio: "Culture & Lifestyle AI Creator. Focused on food, urban culture, entertainment, and authentic community connection. A creative storyteller who built his platform on infectious personality and genuine representation, Marcus excels at campaigns that need broad demographic reach, cultural credibility, and magnetic on-screen energy.",
     personality: ["Charismatic", "Playful", "Relatable", "Entertaining"],
     useCases: ["Food & beverage brands", "Streetwear campaigns", "Tech & gadget reviews", "Grooming products"],
     specialties: ["Food Culture", "Lifestyle", "Fitness", "Entertainment"],
-    gallery: [marcus1, marcus2, marcus3, marcus4, marcus5, marcus6],
+    gallery: [
+      "/images/creators/Marcus/marcus_1.webp",
+      "/images/creators/Marcus/marcus_2.webp",
+      "/images/creators/Marcus/marcus_3.webp",
+      "/images/creators/Marcus/marcus_4.webp",
+      "/images/creators/Marcus/marcus_5.webp",
+      "/images/creators/Marcus/marcus_6.webp",
+    ],
   },
 ];
 
-// ─── SAFARI creator card — static, no animation ───
-function SafariCreatorCard({
-  creator,
-  onClick,
-}: {
-  creator: typeof creators[0];
-  onClick: () => void;
-}) {
+function SafariCreatorCard({ creator, onClick }: { creator: typeof creators[0]; onClick: () => void }) {
   return (
     <div onClick={onClick} className="group cursor-pointer text-center">
       <div className="relative w-48 h-48 mx-auto mb-4">
-        <div
-          className="relative w-full h-full border-2 border-cyan-500/50"
-          style={{ borderRadius: "50%", overflow: "hidden" }}
-        >
-          <img
-            src={creator.gallery[0]}
-            alt={creator.name}
-            loading="lazy"
-            className="w-full h-full object-cover object-top"
-          />
-          <div
-            className="absolute inset-0"
-            style={{ background: "radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 100%)" }}
-          />
+        <div className="relative w-full h-full border-2 border-cyan-500/50" style={{ borderRadius: "50%", overflow: "hidden" }}>
+          <img src={creator.gallery[0]} alt={creator.name} loading="lazy" className="w-full h-full object-cover object-top" />
+          <div className="absolute inset-0" style={{ background: "radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 100%)" }} />
         </div>
       </div>
       <h3 className="text-xl font-bold tracking-wider text-white">{creator.name}</h3>
@@ -153,15 +134,11 @@ function SafariCreatorCard({
   );
 }
 
-// ─── SAFARI custom card ───
 function SafariCustomCard({ onClick }: { onClick: () => void }) {
   return (
     <div onClick={onClick} className="group cursor-pointer text-center">
       <div className="relative w-48 h-48 mx-auto mb-4">
-        <div
-          className="relative w-full h-full border-2 border-dashed border-cyan-500/50 bg-white/5 flex items-center justify-center"
-          style={{ borderRadius: "50%" }}
-        >
+        <div className="relative w-full h-full border-2 border-dashed border-cyan-500/50 bg-white/5 flex items-center justify-center" style={{ borderRadius: "50%" }}>
           <Plus size={64} className="text-cyan-400" />
         </div>
       </div>
@@ -170,20 +147,10 @@ function SafariCustomCard({ onClick }: { onClick: () => void }) {
   );
 }
 
-// ─── Chrome creator card ───
-function ChromeCreatorCard({
-  creator,
-  index,
-  onClick,
-}: {
-  creator: typeof creators[0];
-  index: number;
-  onClick: () => void;
-}) {
+function ChromeCreatorCard({ creator, index, onClick }: { creator: typeof creators[0]; index: number; onClick: () => void }) {
   const [currentImage, setCurrentImage] = useState(0);
   const [visible, setVisible] = useState(true);
 
-  // Image swap — no blur, just opacity fade
   useState(() => {
     const interval = setInterval(() => {
       setVisible(false);
@@ -205,13 +172,8 @@ function ChromeCreatorCard({
       className="group cursor-pointer text-center"
     >
       <div className="relative w-48 h-48 mx-auto mb-4">
-        {/* Glow — opacity only, no blur animation */}
         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-30 transition-opacity duration-500" />
-
-        <div
-          className="relative w-full h-full border-2 border-cyan-500/50 group-hover:border-cyan-500 transition-colors duration-300"
-          style={{ borderRadius: "50%", overflow: "hidden" }}
-        >
+        <div className="relative w-full h-full border-2 border-cyan-500/50 group-hover:border-cyan-500 transition-colors duration-300" style={{ borderRadius: "50%", overflow: "hidden" }}>
           <img
             src={creator.gallery[currentImage]}
             alt={creator.name}
@@ -219,16 +181,12 @@ function ChromeCreatorCard({
             className="w-full h-full object-cover object-top group-hover:scale-110 transition-all duration-500"
             style={{ opacity: visible ? 1 : 0, transition: "opacity 0.3s ease-in-out" }}
           />
-          <div
-            className="absolute inset-0"
-            style={{ background: "radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 100%)" }}
-          />
+          <div className="absolute inset-0" style={{ background: "radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 100%)" }} />
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
             <span className="text-white text-xs font-bold tracking-widest">VIEW</span>
           </div>
         </div>
       </div>
-
       <h3 className="text-xl font-bold tracking-wider group-hover:text-cyan-400 transition-colors relative inline-block">
         {creator.name}
         <span className="absolute -bottom-1 left-0 w-0 group-hover:w-full h-[1px] bg-cyan-400 transition-all duration-300" />
@@ -237,7 +195,6 @@ function ChromeCreatorCard({
   );
 }
 
-// ─── Chrome custom card ───
 function ChromeCustomCard({ index, onClick }: { index: number; onClick: () => void }) {
   return (
     <motion.div
@@ -250,10 +207,7 @@ function ChromeCustomCard({ index, onClick }: { index: number; onClick: () => vo
     >
       <div className="relative w-48 h-48 mx-auto mb-4">
         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-30 transition-opacity duration-500" />
-        <div
-          className="relative w-full h-full border-2 border-dashed border-cyan-500/50 group-hover:border-cyan-500 transition-all duration-300 bg-white/5 flex items-center justify-center"
-          style={{ borderRadius: "50%", overflow: "hidden" }}
-        >
+        <div className="relative w-full h-full border-2 border-dashed border-cyan-500/50 group-hover:border-cyan-500 transition-all duration-300 bg-white/5 flex items-center justify-center" style={{ borderRadius: "50%", overflow: "hidden" }}>
           <Plus size={64} className="text-cyan-400 group-hover:scale-110 transition-transform duration-300" />
         </div>
       </div>
@@ -271,12 +225,8 @@ export default function DigitalCreators() {
   const [showCustomModal, setShowCustomModal] = useState(false);
 
   return (
-    <section
-      id="digital-creators"
-      className="py-24 md:py-32 px-6 bg-gradient-to-b from-black to-slate-900"
-    >
+    <section id="digital-creators" className="py-24 md:py-32 px-6 bg-gradient-to-b from-black to-slate-900">
       {!isSafari && <style>{shimmerStyle}</style>}
-
       <div className="max-w-[1400px] mx-auto">
         <h2
           className={`text-5xl md:text-7xl font-bold text-center mb-16 md:mb-24 tracking-wider ${!isSafari ? "shimmer-creators" : ""}`}
@@ -284,7 +234,6 @@ export default function DigitalCreators() {
         >
           OUR DIGITAL CREATORS
         </h2>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 md:gap-16">
           {creators.map((creator, index) =>
             isSafari ? (
@@ -300,13 +249,8 @@ export default function DigitalCreators() {
           )}
         </div>
       </div>
-
-      {selectedCreator && (
-        <CreatorProfileModal creator={selectedCreator} onClose={() => setSelectedCreator(null)} />
-      )}
-      {showCustomModal && (
-        <CustomInfluencerModal onClose={() => setShowCustomModal(false)} />
-      )}
+      {selectedCreator && <CreatorProfileModal creator={selectedCreator} onClose={() => setSelectedCreator(null)} />}
+      {showCustomModal && <CustomInfluencerModal onClose={() => setShowCustomModal(false)} />}
     </section>
   );
 }
