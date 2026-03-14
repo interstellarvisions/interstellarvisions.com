@@ -1,6 +1,5 @@
 import { motion, Transition } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { useSafari } from "../hooks/useSafari";
 
 const cosmicTransition: Transition = {
   duration: 0.8,
@@ -29,13 +28,6 @@ const shimmerStyle = `
   }
 `;
 
-const staticTitleStyle = {
-  background: "linear-gradient(to bottom, #ffffff 0%, #a5f3fc 60%, #67e8f9 100%)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  backgroundClip: "text",
-};
-
 const gridStyle = {
   backgroundImage: `linear-gradient(rgba(103,232,249,0.15) 1px, transparent 1px),
                     linear-gradient(90deg, rgba(103,232,249,0.15) 1px, transparent 1px)`,
@@ -43,42 +35,6 @@ const gridStyle = {
 };
 
 export default function HeroSection() {
-  const isSafari = useSafari();
-
-  // ─── SAFARI: static, no animations ───
-  if (isSafari) {
-    return (
-      <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, #0a0a1a, #050510, #000000)" }} />
-          <div className="absolute inset-0 opacity-10" style={gridStyle} />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-[#0a0a1a]" />
-        </div>
-
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-wider mb-6" style={staticTitleStyle}>
-            VISION BEYOND<br />THE STARS
-          </h1>
-          <p className="text-xl md:text-2xl text-cyan-100/70 mb-10">
-            AI-Powered Creative Content That Converts
-          </p>
-          <button
-            onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-            className="group relative px-10 py-4 border-2 border-cyan-400/50 rounded-full text-white font-semibold tracking-widest hover:bg-cyan-400/15 hover:border-cyan-400 overflow-hidden"
-          >
-            <span className="relative z-10">BOOK A FREE CONSULTATION →</span>
-          </button>
-        </div>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
-          <span className="text-xs text-cyan-400/40 tracking-widest uppercase">Scroll</span>
-          <ChevronDown size={28} className="text-cyan-400/40" />
-        </div>
-      </section>
-    );
-  }
-
-  // ─── CHROME: shimmer + button pulse only ───
   return (
     <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
       <style>{shimmerStyle}</style>

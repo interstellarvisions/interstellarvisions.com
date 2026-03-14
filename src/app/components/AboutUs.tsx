@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Zap, TrendingUp, DollarSign, Target, Rocket, Award } from "lucide-react";
-import { useSafari } from "../hooks/useSafari";
 
 const shimmerStyle = `
   @keyframes shimmer {
@@ -26,123 +25,23 @@ const shimmerStyle = `
   }
 `;
 
-const staticTitleStyle = {
-  background: "linear-gradient(to bottom, #ffffff 0%, #a5f3fc 60%, #67e8f9 100%)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  backgroundClip: "text",
-};
-
 const benefits = [
-  {
-    icon: Zap,
-    title: "Faster Turnaround",
-    description: "AI-powered workflows deliver content in days, not weeks. Get your campaigns live faster than ever before.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Scalable Content Creation",
-    description: "Create unlimited variations and iterations without additional production costs or time delays.",
-  },
-  {
-    icon: DollarSign,
-    title: "Cost-Effective Production",
-    description: "Save up to 70% on traditional production costs while maintaining premium quality standards.",
-  },
-  {
-    icon: Target,
-    title: "Data-Driven Results",
-    description: "Every piece of content is optimized using AI insights and performance data for maximum impact.",
-  },
-  {
-    icon: Rocket,
-    title: "Cutting-Edge Technology",
-    description: "Access to the latest AI tools and techniques that keep you ahead of the competition.",
-  },
-  {
-    icon: Award,
-    title: "Guaranteed Creative Performance",
-    description: "We don't just deliver content — we deliver results. Every asset we produce is crafted to drive high views, engagement, and conversions, backed by our commitment to creative excellence.",
-  },
+  { icon: Zap, title: "Faster Turnaround", description: "AI-powered workflows deliver content in days, not weeks. Get your campaigns live faster than ever before." },
+  { icon: TrendingUp, title: "Scalable Content Creation", description: "Create unlimited variations and iterations without additional production costs or time delays." },
+  { icon: DollarSign, title: "Cost-Effective Production", description: "Save up to 70% on traditional production costs while maintaining premium quality standards." },
+  { icon: Target, title: "Data-Driven Results", description: "Every piece of content is optimized using AI insights and performance data for maximum impact." },
+  { icon: Rocket, title: "Cutting-Edge Technology", description: "Access to the latest AI tools and techniques that keep you ahead of the competition." },
+  { icon: Award, title: "Guaranteed Creative Performance", description: "We don't just deliver content — we deliver results. Every asset we produce is crafted to drive high views, engagement, and conversions, backed by our commitment to creative excellence." },
 ];
 
 const steps = [
-  {
-    number: "01",
-    title: "Consultation & Brief",
-    description: "We start with understanding your goals, target audience, and brand vision through detailed consultation.",
-  },
-  {
-    number: "02",
-    title: "AI Content Creation",
-    description: "Our AI systems generate multiple variations of your content, ensuring perfect alignment with your brand.",
-  },
-  {
-    number: "03",
-    title: "Review & Revisions",
-    description: "Collaborate with our team to refine and perfect every detail, ensuring flawless execution until it exceeds expectations.",
-  },
-  {
-    number: "04",
-    title: "Final Delivery",
-    description: "Receive production-ready assets optimized for your chosen platforms and ready to convert.",
-  },
+  { number: "01", title: "Consultation & Brief", description: "We start with understanding your goals, target audience, and brand vision through detailed consultation." },
+  { number: "02", title: "AI Content Creation", description: "Our AI systems generate multiple variations of your content, ensuring perfect alignment with your brand." },
+  { number: "03", title: "Review & Revisions", description: "Collaborate with our team to refine and perfect every detail, ensuring flawless execution until it exceeds expectations." },
+  { number: "04", title: "Final Delivery", description: "Receive production-ready assets optimized for your chosen platforms and ready to convert." },
 ];
 
-// ─── SAFARI benefit card — static, no hover ───
-function SafariBenefitCard({ benefit }: { benefit: typeof benefits[0] }) {
-  const Icon = benefit.icon;
-  return (
-    <div
-      className="rounded-xl"
-      style={{
-        padding: "1px",
-        background: "linear-gradient(135deg, rgba(6,182,212,0.6), rgba(37,99,235,0.4), rgba(6,182,212,0.6))",
-      }}
-    >
-      <div className="bg-gradient-to-br from-slate-900/95 to-black/95 rounded-[11px] p-6 h-full">
-        <div
-          className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
-          style={{ background: "rgba(6,182,212,0.08)" }}
-        >
-          <Icon size={22} style={{ color: "#06b6d4" }} />
-        </div>
-        <h3 className="text-lg font-bold mb-2 tracking-wide text-white">{benefit.title}</h3>
-        <p className="text-gray-400 text-sm leading-relaxed">{benefit.description}</p>
-      </div>
-    </div>
-  );
-}
-
-// ─── SAFARI process step — static, no animation ───
-function SafariProcessStep({ step, isLast }: { step: typeof steps[0]; isLast: boolean }) {
-  return (
-    <div className="flex gap-6">
-      <div className="flex flex-col items-center">
-        <div
-          className="flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg relative"
-          style={{ background: "linear-gradient(135deg, #06b6d4, #2563eb)" }}
-        >
-          {step.number}
-          <div
-            className="absolute inset-0 rounded-full"
-            style={{ border: "1px solid rgba(6,182,212,0.3)", transform: "scale(1.3)" }}
-          />
-        </div>
-        {!isLast && (
-          <div className="w-[1px] flex-1 mt-3 bg-gradient-to-b from-cyan-500/50 to-transparent" />
-        )}
-      </div>
-      <div className="flex-1 pt-1 pb-12">
-        <h3 className="text-xl font-bold mb-2 tracking-wide text-white">{step.title}</h3>
-        <p className="text-gray-400 leading-relaxed text-sm">{step.description}</p>
-      </div>
-    </div>
-  );
-}
-
-// ─── Chrome benefit card — full hover animations ───
-function ChromeBenefitCard({ benefit, index }: { benefit: typeof benefits[0]; index: number }) {
+function BenefitCard({ benefit, index }: { benefit: typeof benefits[0]; index: number }) {
   const Icon = benefit.icon;
   const [hovered, setHovered] = useState(false);
 
@@ -173,10 +72,7 @@ function ChromeBenefitCard({ benefit, index }: { benefit: typeof benefits[0]; in
         >
           <Icon size={22} style={{ color: hovered ? "#67e8f9" : "#06b6d4", transition: "color 0.3s" }} />
         </div>
-        <h3
-          className="text-lg font-bold mb-2 tracking-wide transition-colors duration-300"
-          style={{ color: hovered ? "#67e8f9" : "#ffffff" }}
-        >
+        <h3 className="text-lg font-bold mb-2 tracking-wide transition-colors duration-300" style={{ color: hovered ? "#67e8f9" : "#ffffff" }}>
           {benefit.title}
         </h3>
         <p className="text-gray-400 text-sm leading-relaxed">{benefit.description}</p>
@@ -189,8 +85,7 @@ function ChromeBenefitCard({ benefit, index }: { benefit: typeof benefits[0]; in
   );
 }
 
-// ─── Chrome process step — full animations ───
-function ChromeProcessStep({ step, index, isLast }: { step: typeof steps[0]; index: number; isLast: boolean }) {
+function ProcessStep({ step, index, isLast }: { step: typeof steps[0]; index: number; isLast: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -202,20 +97,12 @@ function ChromeProcessStep({ step, index, isLast }: { step: typeof steps[0]; ind
       <div className="flex flex-col items-center">
         <div
           className="flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg relative"
-          style={{
-            background: "linear-gradient(135deg, #06b6d4, #2563eb)",
-            boxShadow: "0 0 16px rgba(6,182,212,0.4), 0 0 32px rgba(6,182,212,0.15)",
-          }}
+          style={{ background: "linear-gradient(135deg, #06b6d4, #2563eb)", boxShadow: "0 0 16px rgba(6,182,212,0.4), 0 0 32px rgba(6,182,212,0.15)" }}
         >
           {step.number}
-          <div
-            className="absolute inset-0 rounded-full"
-            style={{ border: "1px solid rgba(6,182,212,0.3)", transform: "scale(1.3)" }}
-          />
+          <div className="absolute inset-0 rounded-full" style={{ border: "1px solid rgba(6,182,212,0.3)", transform: "scale(1.3)" }} />
         </div>
-        {!isLast && (
-          <div className="w-[1px] flex-1 mt-3 bg-gradient-to-b from-cyan-500/50 to-transparent" />
-        )}
+        {!isLast && <div className="w-[1px] flex-1 mt-3 bg-gradient-to-b from-cyan-500/50 to-transparent" />}
       </div>
       <div className="flex-1 pt-1 pb-12">
         <h3 className="text-xl font-bold mb-2 tracking-wide shimmer-sub">{step.title}</h3>
@@ -226,36 +113,16 @@ function ChromeProcessStep({ step, index, isLast }: { step: typeof steps[0]; ind
 }
 
 export default function AboutUs() {
-  const isSafari = useSafari();
-
   return (
-    <section
-      id="about"
-      className="py-24 md:py-32 px-6 bg-gradient-to-b from-slate-900 to-black relative overflow-hidden"
-    >
-      {!isSafari && <style>{shimmerStyle}</style>}
+    <section id="about" className="py-24 md:py-32 px-6 bg-gradient-to-b from-slate-900 to-black relative overflow-hidden">
+      <style>{shimmerStyle}</style>
 
-      {/* Ambient orbs — reduced blur radius for Safari performance */}
-      <div
-        className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: "rgba(6,182,212,0.04)", filter: "blur(60px)", willChange: "auto" }}
-      />
-      <div
-        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none"
-        style={{ background: "rgba(37,99,235,0.04)", filter: "blur(60px)", willChange: "auto" }}
-      />
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none" style={{ background: "rgba(6,182,212,0.04)", filter: "blur(60px)" }} />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "rgba(37,99,235,0.04)", filter: "blur(60px)" }} />
 
       <div className="max-w-[1400px] mx-auto relative z-10">
+        <h2 className="text-5xl md:text-7xl font-bold text-center mb-12 md:mb-16 tracking-wider shimmer-about">ABOUT US</h2>
 
-        {/* ── ABOUT US ── */}
-        <h2
-          className={`text-5xl md:text-7xl font-bold text-center mb-12 md:mb-16 tracking-wider ${!isSafari ? "shimmer-about" : ""}`}
-          style={isSafari ? staticTitleStyle : undefined}
-        >
-          ABOUT US
-        </h2>
-
-        {/* Main statement */}
         <div className="max-w-4xl mx-auto text-center mb-24">
           <div className="w-16 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto mb-8" />
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
@@ -267,50 +134,21 @@ export default function AboutUs() {
           <div className="w-16 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto mt-8" />
         </div>
 
-        {/* ── WHY WORK WITH US ── */}
         <div className="mb-28">
-          <h3
-            className={`text-3xl md:text-5xl font-bold text-center mb-4 tracking-wide ${!isSafari ? "shimmer-about" : ""}`}
-            style={isSafari ? staticTitleStyle : undefined}
-          >
-            WHY WORK WITH US?
-          </h3>
-          <p className="text-center text-gray-500 text-sm tracking-[0.2em] uppercase mb-12">
-            Built for results · Powered by AI
-          </p>
+          <h3 className="text-3xl md:text-5xl font-bold text-center mb-4 tracking-wide shimmer-about">WHY WORK WITH US?</h3>
+          <p className="text-center text-gray-500 text-sm tracking-[0.2em] uppercase mb-12">Built for results · Powered by AI</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {benefits.map((benefit, index) =>
-              isSafari ? (
-                <SafariBenefitCard key={benefit.title} benefit={benefit} />
-              ) : (
-                <ChromeBenefitCard key={benefit.title} benefit={benefit} index={index} />
-              )
-            )}
+            {benefits.map((benefit, index) => <BenefitCard key={benefit.title} benefit={benefit} index={index} />)}
           </div>
         </div>
 
-        {/* ── HOW IT WORKS ── */}
         <div>
-          <h3
-            className={`text-3xl md:text-5xl font-bold text-center mb-4 tracking-wide ${!isSafari ? "shimmer-about" : ""}`}
-            style={isSafari ? staticTitleStyle : undefined}
-          >
-            HOW IT WORKS
-          </h3>
-          <p className="text-center text-gray-500 text-sm tracking-[0.2em] uppercase mb-16">
-            Simple · Fast · Effective
-          </p>
+          <h3 className="text-3xl md:text-5xl font-bold text-center mb-4 tracking-wide shimmer-about">HOW IT WORKS</h3>
+          <p className="text-center text-gray-500 text-sm tracking-[0.2em] uppercase mb-16">Simple · Fast · Effective</p>
           <div className="max-w-3xl mx-auto">
-            {steps.map((step, index) =>
-              isSafari ? (
-                <SafariProcessStep key={step.number} step={step} isLast={index === steps.length - 1} />
-              ) : (
-                <ChromeProcessStep key={step.number} step={step} index={index} isLast={index === steps.length - 1} />
-              )
-            )}
+            {steps.map((step, index) => <ProcessStep key={step.number} step={step} index={index} isLast={index === steps.length - 1} />)}
           </div>
         </div>
-
       </div>
     </section>
   );
