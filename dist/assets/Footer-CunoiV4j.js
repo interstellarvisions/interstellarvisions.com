@@ -1,4 +1,4 @@
-import{j as e}from"./index-DWhHRK2N.js";import{I as i,Y as a,L as l}from"./youtube-DPbh5IG6.js";const n=`
+import{j as e}from"./index-bY2cLopi.js";import{I as i,Y as a,L as l}from"./youtube-BzLHE1vE.js";const n=`
   @keyframes shimmer {
     0% { background-position: -200% center; }
     100% { background-position: 200% center; }
