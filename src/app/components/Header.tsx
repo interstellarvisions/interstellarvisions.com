@@ -148,7 +148,7 @@ export default function Header({ scrolled }: HeaderProps) {
             loading="lazy"
             draggable={false}
             onContextMenu={(e) => e.preventDefault()}
-            className="h-20 w-auto scale-120 origin-left transition-all duration-300 group-hover:opacity-80 group-hover:drop-shadow-[0_0_18px_rgba(6,182,212,0.55)]"
+            className="h-20 w-auto scale-120 origin-left transition-all duration-300 group-hover:opacity-80 group-hover:drop-shadow-[0_0_12px_rgba(6,182,212,0.35)]"
           />
         </button>
 
