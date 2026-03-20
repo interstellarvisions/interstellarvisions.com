@@ -64,13 +64,28 @@ const projects = [
       "/images/work/Amber/9.webp",
     ],
   },
+  {
+    id: 3,
+    title: "VOLT",
+    client: "Volt Energy Drink",
+    techniques: "AI Cinematic Video, AI Image Generation, Motion Graphics",
+    description: "A fully AI-generated cinematic sports commercial for Volt Energy Drink. Every frame was generated using AI image and video technology — no film crew, no production budget, no studio. Just a creative vision and the tools to bring it to life.",
+    videoUrl: "https://www.youtube.com/embed/Th7OGU1KZzc",
+    images: [
+      "/images/work/Volt/1.webp",
+      "/images/work/Volt/2.webp",
+      "/images/work/Volt/3.webp",
+      "/images/work/Volt/4.webp",
+      "/images/work/Volt/5.webp",
+      "/images/work/Volt/6.webp",
+    ],
+  },
 ];
 
 const comingSoonCards = [
-  { id: 3, image: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80" },
-  { id: 4, image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" },
-  { id: 5, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" },
-  { id: 6, image: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=800&q=80" },
+  { id: 4, image: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80" },
+  { id: 5, image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" },
+  { id: 6, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" },
 ];
 
 function SafariProjectCard({ project, onClick }: { project: typeof projects[0]; onClick: () => void }) {
