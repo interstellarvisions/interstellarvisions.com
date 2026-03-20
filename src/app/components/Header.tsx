@@ -25,15 +25,13 @@ export default function Header({ scrolled }: HeaderProps) {
   const [aiMediaOpen, setAiMediaOpen] = useState(false);
   const [mobileAiMediaOpen, setMobileAiMediaOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
-  const isScrollingRef = useRef(false); // 🔒 lock flag
+  const isScrollingRef = useRef(false);
 
   useEffect(() => {
     const sectionIds = ["hero", "our-work", "digital-creators", "about", "faq", "contact"];
     const observer = new IntersectionObserver(
       (entries) => {
-        // Don't update while we're programmatically scrolling
         if (isScrollingRef.current) return;
-
         const intersecting = entries.find((e) => e.isIntersecting);
         if (intersecting) {
           const id = intersecting.target.id;
@@ -55,21 +53,21 @@ export default function Header({ scrolled }: HeaderProps) {
     setAiMediaOpen(false);
     setMobileAiMediaOpen(false);
 
-    // Set active immediately when clicking
     if (id === "our-work" || id === "digital-creators") {
       setActiveSection("ai-media");
     } else {
       setActiveSection(id);
     }
 
-    // Lock the observer while scrolling
     isScrollingRef.current = true;
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
-    // Unlock after scroll settles (smooth scroll ~1s max)
+    // small delay so mobile menu closes before scrolling
     setTimeout(() => {
-      isScrollingRef.current = false;
-    }, 1000);
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 1000);
+    }, 350);
   };
 
   const isAiMediaActive = activeSection === "ai-media";
@@ -148,7 +146,7 @@ export default function Header({ scrolled }: HeaderProps) {
             loading="lazy"
             draggable={false}
             onContextMenu={(e) => e.preventDefault()}
-            className="h-20 w-auto scale-120 origin-left transition-all duration-300 group-hover:opacity-80 group-hover:drop-shadow-[0_0_12px_rgba(6,182,212,0.35)]"
+            className="h-20 w-auto scale-120 origin-left transition-all duration-300 group-hover:opacity-80 group-hover:drop-shadow-[0_0_18px_rgba(6,182,212,0.55)]"
           />
         </button>
 
