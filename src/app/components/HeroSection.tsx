@@ -155,7 +155,8 @@ function StarField() {
 
     const init = () => {
       resize();
-      stars = Array.from({ length: 180 }, () => createStar(true));
+      const isMobile = canvas.width < 768;
+      stars = Array.from({ length: isMobile ? 80 : 180 }, () => createStar(true));
     };
 
     let frame = 0;
@@ -163,7 +164,8 @@ function StarField() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       frame++;
 
-      if (Math.random() < 0.25 && stars.length < 220) stars.push(createStar());
+      const isMobile = canvas.width < 768;
+      if (Math.random() < 0.25 && stars.length < (isMobile ? 100 : 220)) stars.push(createStar());
       stars = stars.filter((s) => s.y < canvas.height + 10);
 
       for (const star of stars) {

@@ -38,7 +38,7 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 md:p-8">
 
-        {/* Backdrop — no backdrop-blur */}
+        {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -140,21 +140,14 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                     onClick={() => setActiveMedia(index)}
                     className={`flex-shrink-0 w-32 aspect-video rounded-lg overflow-hidden ${thumbClass(activeMedia === index)}`}
                   >
-                    <div className="relative w-full h-full">
-                      <img
-                        src={image}
-                        alt={`Thumbnail ${index + 1}`}
-                        loading="lazy"
-                        draggable={false}
-                        onContextMenu={(e) => e.preventDefault()}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                        <p className="text-xs tracking-[0.2em] font-light text-cyan-400">
-                          FRAME {String(index + 1).padStart(2, "0")}
-                        </p>
-                      </div>
-                    </div>
+                    <img
+                      src={image}
+                      alt={`Thumbnail ${index + 1}`}
+                      loading="lazy"
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
@@ -183,21 +176,14 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                     onClick={() => setActiveMedia(index)}
                     className={`w-full aspect-video rounded-lg overflow-hidden ${thumbClass(activeMedia === index)}`}
                   >
-                    <div className="relative w-full h-full">
-                      <img
-                        src={image}
-                        alt={`Thumbnail ${index + 1}`}
-                        loading="lazy"
-                        draggable={false}
-                        onContextMenu={(e) => e.preventDefault()}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                        <p className="text-sm tracking-[0.2em] font-light text-cyan-400">
-                          FRAME {String(index + 1).padStart(2, "0")}
-                        </p>
-                      </div>
-                    </div>
+                    <img
+                      src={image}
+                      alt={`Thumbnail ${index + 1}`}
+                      loading="lazy"
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>

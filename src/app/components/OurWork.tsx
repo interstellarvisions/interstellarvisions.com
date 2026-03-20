@@ -51,7 +51,7 @@ const projects = [
     client: "Amber Jewellery",
     techniques: "AI Image Generation, 3D Visualization, Product Photography",
     description: "Luxury jewellery campaign with AI-generated product visuals and lifestyle imagery.",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    videoUrl: "https://www.youtube.com/embed/yR4vKe2DYWs",
     images: [
       "/images/work/Amber/1.webp",
       "/images/work/Amber/2.webp",

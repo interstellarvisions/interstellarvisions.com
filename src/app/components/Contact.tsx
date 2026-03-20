@@ -17,6 +17,14 @@ const shimmerStyle = `
     background-clip: text;
     animation: shimmer 4s linear infinite;
   }
+  .shimmer-label {
+    background: linear-gradient(90deg, #06b6d4 0%, #06b6d4 40%, #ffffff 50%, #06b6d4 60%, #06b6d4 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+  }
 `;
 
 const staticTitleStyle = {
@@ -108,19 +116,19 @@ export default function Contact() {
         className="bg-gradient-to-br from-slate-900/90 to-black/90 rounded-xl p-8 space-y-6"
       >
         <div>
-          <label htmlFor="name" className="block text-xs font-semibold mb-2 text-cyan-400/80 tracking-widest uppercase">Name *</label>
+          <label htmlFor="name" className="shimmer-label block text-xs font-semibold mb-2 tracking-widest uppercase">Name *</label>
           <input type="text" id="name" name="name" required value={formData.name} onChange={handleChange} className={inputClass} />
         </div>
         <div>
-          <label htmlFor="email" className="block text-xs font-semibold mb-2 text-cyan-400/80 tracking-widest uppercase">Email *</label>
+          <label htmlFor="email" className="shimmer-label block text-xs font-semibold mb-2 tracking-widest uppercase">Email *</label>
           <input type="email" id="email" name="email" required value={formData.email} onChange={handleChange} className={inputClass} />
         </div>
         <div>
-          <label htmlFor="company" className="block text-xs font-semibold mb-2 text-cyan-400/80 tracking-widest uppercase">Company/Organization</label>
+          <label htmlFor="company" className="shimmer-label block text-xs font-semibold mb-2 tracking-widest uppercase">Company/Organization</label>
           <input type="text" id="company" name="company" value={formData.company} onChange={handleChange} className={inputClass} />
         </div>
         <div>
-          <label htmlFor="message" className="block text-xs font-semibold mb-2 text-cyan-400/80 tracking-widest uppercase">Message *</label>
+          <label htmlFor="message" className="shimmer-label block text-xs font-semibold mb-2 tracking-widest uppercase">Message *</label>
           <textarea id="message" name="message" required rows={5} value={formData.message} onChange={handleChange} className={`${inputClass} resize-none`} />
         </div>
         {sent && <p className="text-cyan-400 text-sm text-center font-medium tracking-wide">✓ Message sent! We'll be in touch soon.</p>}
@@ -141,16 +149,16 @@ export default function Contact() {
     <div className="space-y-6">
       <div className="rounded-xl p-[1px]" style={{ background: "linear-gradient(135deg, rgba(6,182,212,0.3), rgba(37,99,235,0.1), rgba(255,255,255,0.05))" }}>
         <div className="bg-gradient-to-br from-slate-900/90 to-black/90 rounded-xl p-8">
-          <h3 className="text-sm font-bold mb-6 tracking-widest text-cyan-400">GET IN TOUCH</h3>
+          <h3 className="shimmer-label text-sm font-bold mb-6 tracking-widest uppercase">Get In Touch</h3>
           <div className="space-y-5">
             <div>
-              <p className="text-xs text-gray-500 mb-1 tracking-widest uppercase">Email</p>
+              <p className="shimmer-label text-xs mb-1 tracking-widest uppercase font-semibold">Email</p>
               <a href="mailto:interstellarvisions.com@gmail.com" className="text-white hover:text-cyan-400 transition-colors duration-300 text-sm">
                 interstellarvisions.com@gmail.com
               </a>
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1 tracking-widest uppercase">WhatsApp</p>
+              <p className="shimmer-label text-xs mb-1 tracking-widest uppercase font-semibold">WhatsApp</p>
               <p className="text-white text-sm cursor-pointer">+1 (508) 360-2090</p>
             </div>
           </div>
@@ -159,28 +167,15 @@ export default function Contact() {
 
       <div className="rounded-xl p-[1px]" style={{ background: "linear-gradient(135deg, rgba(6,182,212,0.3), rgba(37,99,235,0.1), rgba(255,255,255,0.05))" }}>
         <div className="bg-gradient-to-br from-slate-900/90 to-black/90 rounded-xl p-8">
-          <h3 className="text-sm font-bold mb-6 tracking-widest text-cyan-400">FOLLOW US</h3>
+          <h3 className="shimmer-label text-sm font-bold mb-6 tracking-widest uppercase">Follow Us</h3>
           <div className="flex gap-4 flex-wrap">
             {socials.map((social, i) =>
               isSafari ? (
-                <a
-                  key={i}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white"
-                >
+                <a key={i} href={social.href} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white">
                   {social.icon}
                 </a>
               ) : (
-                <motion.a
-                  key={i}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.15 }}
-                  className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500 hover:text-cyan-400 hover:shadow-md hover:shadow-cyan-500/20 transition-all duration-300"
-                >
+                <motion.a key={i} href={social.href} target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.15 }} className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-500 hover:text-cyan-400 hover:shadow-md hover:shadow-cyan-500/20 transition-all duration-300">
                   {social.icon}
                 </motion.a>
               )
@@ -192,57 +187,23 @@ export default function Contact() {
   );
 
   return (
-    <section
-      id="contact"
-      className="py-24 md:py-32 px-6 bg-gradient-to-b from-slate-900 to-black relative overflow-hidden"
-    >
-      {!isSafari && <style>{shimmerStyle}</style>}
+    <section id="contact" className="py-24 md:py-32 px-6 bg-gradient-to-b from-slate-900 to-black relative overflow-hidden">
+      <style>{shimmerStyle}</style>
 
-      {/* Background grid */}
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                           linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-          backgroundSize: "50px 50px",
-        }}
-      />
-
-      {/* Ambient orbs — reduced blur for performance */}
-      <div
-        className="absolute top-1/3 left-1/4 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: "rgba(6,182,212,0.05)", filter: "blur(40px)" }}
-      />
-      <div
-        className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: "rgba(37,99,235,0.05)", filter: "blur(40px)" }}
-      />
+      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`, backgroundSize: "50px 50px" }} />
+      <div className="absolute top-1/3 left-1/4 w-96 h-96 rounded-full pointer-events-none" style={{ background: "rgba(6,182,212,0.05)", filter: "blur(40px)" }} />
+      <div className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full pointer-events-none" style={{ background: "rgba(37,99,235,0.05)", filter: "blur(40px)" }} />
 
       <div className="max-w-[1400px] mx-auto relative z-10">
-
         {isSafari ? (
           <div className="text-center mb-16">
-            <h2 className="text-5xl md:text-7xl font-bold mb-4 tracking-wider" style={staticTitleStyle}>
-              CONTACT
-            </h2>
-            <p className="text-gray-500 text-sm tracking-[0.2em] uppercase">
-              Let's Create Something Extraordinary
-            </p>
+            <h2 className="text-5xl md:text-7xl font-bold mb-4 tracking-wider" style={staticTitleStyle}>CONTACT</h2>
+            <p className="text-gray-500 text-sm tracking-[0.2em] uppercase">Let's Create Something Extraordinary</p>
           </div>
         ) : (
-          <motion.div
-            ref={ref}
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl md:text-7xl font-bold mb-4 tracking-wider shimmer-contact">
-              CONTACT
-            </h2>
-            <p className="text-gray-500 text-sm tracking-[0.2em] uppercase">
-              Let's Create Something Extraordinary
-            </p>
+          <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }} transition={{ duration: 0.6 }} className="text-center mb-16">
+            <h2 className="text-5xl md:text-7xl font-bold mb-4 tracking-wider shimmer-contact">CONTACT</h2>
+            <p className="text-gray-500 text-sm tracking-[0.2em] uppercase">Let's Create Something Extraordinary</p>
           </motion.div>
         )}
 
@@ -253,18 +214,10 @@ export default function Contact() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
+            <motion.div initial={{ opacity: 0, x: -30 }} animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }} transition={{ duration: 0.6, delay: 0.2 }}>
               {formContent}
             </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
+            <motion.div initial={{ opacity: 0, x: 30 }} animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }} transition={{ duration: 0.6, delay: 0.4 }}>
               {infoContent}
             </motion.div>
           </div>
