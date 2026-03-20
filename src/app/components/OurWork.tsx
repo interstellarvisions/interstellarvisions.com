@@ -67,16 +67,18 @@ const projects = [
 ];
 
 const comingSoonCards = [
-  { id: 3, title: "COMING SOON", image: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80" },
-  { id: 4, title: "COMING SOON", image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" },
+  { id: 3, image: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80" },
+  { id: 4, image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" },
+  { id: 5, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" },
+  { id: 6, image: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=800&q=80" },
 ];
 
 function SafariProjectCard({ project, onClick }: { project: typeof projects[0]; onClick: () => void }) {
   return (
     <div
       onClick={onClick}
-      className="relative rounded-xl overflow-hidden cursor-pointer aspect-[4/3]"
-      style={{ border: "1px solid rgba(6,182,212,0.3)" }}
+      className="relative rounded-xl overflow-hidden cursor-pointer"
+      style={{ border: "1px solid rgba(6,182,212,0.3)", aspectRatio: "16/9" }}
     >
       <img src={project.images[0]} alt={project.title} loading="lazy" className="w-full h-full object-cover" />
       <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.2) 100%)" }} />
@@ -101,12 +103,12 @@ function ChromeProjectCard({ project, index, onClick }: { project: typeof projec
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, ease: "easeOut", delay: index * 0.15 }}
+      transition={{ duration: 0.7, ease: "easeOut", delay: index * 0.1 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={onClick}
-      className="relative rounded-xl overflow-hidden cursor-pointer aspect-[4/3]"
-      style={{ border: `1px solid ${hovered ? "rgba(6,182,212,0.6)" : "rgba(6,182,212,0.3)"}`, transition: "border-color 0.3s ease" }}
+      className="relative rounded-xl overflow-hidden cursor-pointer"
+      style={{ border: `1px solid ${hovered ? "rgba(6,182,212,0.6)" : "rgba(6,182,212,0.3)"}`, transition: "border-color 0.3s ease", aspectRatio: "16/9" }}
     >
       <img
         src={project.images[0]}
@@ -145,12 +147,12 @@ function ComingSoonCard({ card, index, isSafari }: { card: typeof comingSoonCard
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   const inner = (
-    <div className="relative rounded-xl overflow-hidden aspect-[4/3]" style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
+    <div className="relative rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.1)", aspectRatio: "16/9" }}>
       <img src={card.image} alt="Coming Soon" loading="lazy" className="w-full h-full object-cover opacity-30" />
       <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(0,0,0,0.5)" }}>
         <div className="text-center">
           <p className="text-white/30 text-xs tracking-[0.4em] mb-2">NEXT PROJECT</p>
-          <h3 className="text-2xl font-bold tracking-wider text-white/40">{card.title}</h3>
+          <h3 className="text-xl font-bold tracking-wider text-white/40">COMING SOON</h3>
         </div>
       </div>
     </div>
@@ -163,7 +165,7 @@ function ComingSoonCard({ card, index, isSafari }: { card: typeof comingSoonCard
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, ease: "easeOut", delay: index * 0.15 }}
+      transition={{ duration: 0.7, ease: "easeOut", delay: index * 0.1 }}
     >
       {inner}
     </motion.div>
@@ -177,13 +179,13 @@ export default function OurWork() {
   const titleInView = useInView(titleRef, { once: true, amount: 0.5 });
 
   return (
-    <section id="our-work" className="py-24 md:py-32 px-8 md:px-16 bg-gradient-to-b from-slate-900 to-black relative overflow-hidden">
+    <section id="our-work" className="py-24 md:py-32 px-4 md:px-8 bg-gradient-to-b from-slate-900 to-black relative overflow-hidden">
       {!isSafari && <style>{shimmerStyle}</style>}
 
       <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "rgba(6,182,212,0.03)", filter: "blur(60px)" }} />
       <div className="absolute bottom-1/4 left-1/3 w-[300px] h-[300px] rounded-full pointer-events-none" style={{ background: "rgba(37,99,235,0.03)", filter: "blur(60px)" }} />
 
-      <div className="max-w-[1400px] mx-auto relative z-10">
+      <div className="max-w-[1600px] mx-auto relative z-10">
         <div className="text-center mb-16 md:mb-20">
           {isSafari ? (
             <h2 className="text-5xl md:text-7xl font-bold tracking-wider mb-4" style={staticTitleStyle}>OUR WORK</h2>
@@ -201,7 +203,7 @@ export default function OurWork() {
           <p className="text-gray-500 text-sm tracking-[0.2em] uppercase">Campaigns · Content · Results</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {projects.map((project, index) =>
             isSafari ? (
               <SafariProjectCard key={project.id} project={project} onClick={() => setSelectedProject(project)} />

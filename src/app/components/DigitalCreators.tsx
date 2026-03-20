@@ -18,6 +18,25 @@ const shimmerStyle = `
     background-clip: text;
     animation: shimmer 4s linear infinite;
   }
+  @keyframes circle-pulse {
+    0%, 100% {
+      box-shadow:
+        0 0 6px 1px rgba(6,182,212,0.2),
+        0 0 0px 0px rgba(6,182,212,0),
+        inset 0 0 6px rgba(6,182,212,0.05);
+      border-color: rgba(6,182,212,0.4);
+    }
+    50% {
+      box-shadow:
+        0 0 16px 4px rgba(6,182,212,0.55),
+        0 0 40px 6px rgba(6,182,212,0.15),
+        inset 0 0 14px rgba(6,182,212,0.1);
+      border-color: rgba(6,182,212,0.95);
+    }
+  }
+  .circle-pulse {
+    animation: circle-pulse 3.5s ease-in-out infinite;
+  }
 `;
 
 const staticTitleStyle = {
@@ -124,7 +143,7 @@ function SafariCreatorCard({ creator, onClick }: { creator: typeof creators[0]; 
   return (
     <div onClick={onClick} className="group cursor-pointer text-center">
       <div className="relative w-48 h-48 mx-auto mb-4">
-        <div className="relative w-full h-full border-2 border-cyan-500/50" style={{ borderRadius: "50%", overflow: "hidden" }}>
+        <div className="circle-pulse relative w-full h-full border-2 border-cyan-500/50" style={{ borderRadius: "50%", overflow: "hidden" }}>
           <img src={creator.gallery[0]} alt={creator.name} loading="lazy" className="w-full h-full object-cover object-top" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 100%)" }} />
         </div>
@@ -138,7 +157,7 @@ function SafariCustomCard({ onClick }: { onClick: () => void }) {
   return (
     <div onClick={onClick} className="group cursor-pointer text-center">
       <div className="relative w-48 h-48 mx-auto mb-4">
-        <div className="relative w-full h-full border-2 border-dashed border-cyan-500/50 bg-white/5 flex items-center justify-center" style={{ borderRadius: "50%" }}>
+        <div className="circle-pulse relative w-full h-full border-2 border-dashed border-cyan-500/50 bg-white/5 flex items-center justify-center" style={{ borderRadius: "50%" }}>
           <Plus size={64} className="text-cyan-400" />
         </div>
       </div>
@@ -173,7 +192,10 @@ function ChromeCreatorCard({ creator, index, onClick }: { creator: typeof creato
     >
       <div className="relative w-48 h-48 mx-auto mb-4">
         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-30 transition-opacity duration-500" />
-        <div className="relative w-full h-full border-2 border-cyan-500/50 group-hover:border-cyan-500 transition-colors duration-300" style={{ borderRadius: "50%", overflow: "hidden" }}>
+        <div
+          className="circle-pulse relative w-full h-full border-2 border-cyan-500/50 group-hover:border-cyan-500 transition-colors duration-300"
+          style={{ borderRadius: "50%", overflow: "hidden" }}
+        >
           <img
             src={creator.gallery[currentImage]}
             alt={creator.name}
@@ -207,7 +229,10 @@ function ChromeCustomCard({ index, onClick }: { index: number; onClick: () => vo
     >
       <div className="relative w-48 h-48 mx-auto mb-4">
         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-30 transition-opacity duration-500" />
-        <div className="relative w-full h-full border-2 border-dashed border-cyan-500/50 group-hover:border-cyan-500 transition-all duration-300 bg-white/5 flex items-center justify-center" style={{ borderRadius: "50%", overflow: "hidden" }}>
+        <div
+          className="circle-pulse relative w-full h-full border-2 border-dashed border-cyan-500/50 group-hover:border-cyan-500 transition-all duration-300 bg-white/5 flex items-center justify-center"
+          style={{ borderRadius: "50%", overflow: "hidden" }}
+        >
           <Plus size={64} className="text-cyan-400 group-hover:scale-110 transition-transform duration-300" />
         </div>
       </div>
@@ -226,7 +251,7 @@ export default function DigitalCreators() {
 
   return (
     <section id="digital-creators" className="py-24 md:py-32 px-6 bg-gradient-to-b from-black to-slate-900">
-      {!isSafari && <style>{shimmerStyle}</style>}
+      <style>{shimmerStyle}</style>
       <div className="max-w-[1400px] mx-auto">
         <h2
           className={`text-5xl md:text-7xl font-bold text-center mb-16 md:mb-24 tracking-wider ${!isSafari ? "shimmer-creators" : ""}`}
