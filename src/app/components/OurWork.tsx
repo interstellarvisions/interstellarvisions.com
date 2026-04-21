@@ -32,8 +32,8 @@ const projects = [
     title: "AURORA",
     client: "Aurora Skincare",
     techniques: "AI Image Generation, Video Synthesis, Voice Cloning",
-    description: "A full campaign for Aurora Skincare featuring AI-generated visuals and synthetic video content.",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    description: "AURORA — A fully AI-generated fashion campaign created by Interstellar Visions. Every frame was built entirely with artificial intelligence — no film crew, no production budget, no studio. Just a creative vision and the tools to bring it to life.",
+    videoUrl: "https://www.youtube.com/embed/7Obn0jr_hjs",
     images: [
       "/images/work/Aurora/1.webp",
       "/images/work/Aurora/2.webp",
@@ -48,9 +48,9 @@ const projects = [
   {
     id: 2,
     title: "AMBER",
-    client: "Amber Jewellery",
+    client: "The Amber Cask",
     techniques: "AI Image Generation, 3D Visualization, Product Photography",
-    description: "Luxury jewellery campaign with AI-generated product visuals and lifestyle imagery.",
+    description: "A fully AI-generated cinematic food commercial created by Interstellar Visions for The Amber Cask. Every frame was generated using AI image and video technology — no film crew, no production budget, no studio. Just a creative vision and the tools to bring it to life.",
     videoUrl: "https://www.youtube.com/embed/yR4vKe2DYWs",
     images: [
       "/images/work/Amber/1.webp",
@@ -80,12 +80,52 @@ const projects = [
       "/images/work/Volt/6.webp",
     ],
   },
-];
-
-const comingSoonCards = [
-  { id: 4, image: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80" },
-  { id: 5, image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" },
-  { id: 6, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" },
+  {
+    id: 4,
+    title: "SOLUM",
+    client: "Solum",
+    techniques: "AI Image Generation, Visual Storytelling, Brand Identity",
+    description: "A fully AI-generated cinematic fragrance commercial created by Interstellar Visions for SOLUM Parfume. This spot showcases what's possible when artificial intelligence meets world-class luxury fragrance cinematography. Every frame was generated using AI image and video technology — no film crew, no production budget, no studio. Just a creative vision and the tools to bring it to life.",
+    videoUrl: "https://www.youtube.com/embed/b6Wb9SVC6G8",
+    images: [
+      "/images/work/Solum/1.webp",
+      "/images/work/Solum/2.webp",
+      "/images/work/Solum/3.webp",
+      "/images/work/Solum/4.webp",
+      "/images/work/Solum/5.webp",
+      "/images/work/Solum/6.webp",
+      "/images/work/Solum/7.webp",
+      "/images/work/Solum/8.webp",
+    ],
+  },
+  {
+    id: 5,
+    title: "SHADOWDRIFT",
+    client: "ShadowDrift",
+    techniques: "AI Image Generation, Cinematic Composition, Atmosphere Design",
+    description: "A fully AI-generated cinematic sneaker commercial created by Interstellar Visions for ShadowDrift Footwear. This spot showcases what's possible when artificial intelligence meets world-class sneaker culture cinematography. Every frame was generated using AI image and video technology — no film crew, no production budget, no studio. Just a creative vision and the tools to bring it to life.",
+    videoUrl: "https://www.youtube.com/embed/eEIIEHiU_Vc",
+    images: [
+      "/images/work/ShadowDrift/1.webp",
+      "/images/work/ShadowDrift/2.webp",
+      "/images/work/ShadowDrift/3.webp",
+      "/images/work/ShadowDrift/4.webp",
+    ],
+  },
+  {
+    id: 6,
+    title: "NOXSOUND",
+    client: "Noxsound",
+    techniques: "AI Image Generation, Audio Branding, Motion Concepts",
+    description: "A fully AI-generated cinematic fashion campaign created by Interstellar Visions for Noxsound. Every frame was generated using AI image and video technology — no film crew, no production budget, no studio. Just a creative vision and the tools to bring it to life.",
+    videoUrl: "https://www.youtube.com/embed/nlzDPoSCVDk",
+    images: [
+      "/images/work/Noxsound/1.webp",
+      "/images/work/Noxsound/2.webp",
+      "/images/work/Noxsound/3.webp",
+      "/images/work/Noxsound/4.webp",
+    ],
+  },
 ];
 
 function SafariProjectCard({ project, onClick }: { project: typeof projects[0]; onClick: () => void }) {
@@ -157,36 +197,6 @@ function ChromeProjectCard({ project, index, onClick }: { project: typeof projec
   );
 }
 
-function ComingSoonCard({ card, index, isSafari }: { card: typeof comingSoonCards[0]; index: number; isSafari: boolean }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-
-  const inner = (
-    <div className="relative rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.1)", aspectRatio: "16/9" }}>
-      <img src={card.image} alt="Coming Soon" loading="lazy" className="w-full h-full object-cover opacity-30" />
-      <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(0,0,0,0.5)" }}>
-        <div className="text-center">
-          <p className="text-white/30 text-xs tracking-[0.4em] mb-2">NEXT PROJECT</p>
-          <h3 className="text-xl font-bold tracking-wider text-white/40">COMING SOON</h3>
-        </div>
-      </div>
-    </div>
-  );
-
-  if (isSafari) return inner;
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, ease: "easeOut", delay: index * 0.1 }}
-    >
-      {inner}
-    </motion.div>
-  );
-}
-
 export default function OurWork() {
   const isSafari = useSafari();
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
@@ -226,9 +236,6 @@ export default function OurWork() {
               <ChromeProjectCard key={project.id} project={project} index={index} onClick={() => setSelectedProject(project)} />
             )
           )}
-          {comingSoonCards.map((card, index) => (
-            <ComingSoonCard key={card.id} card={card} index={index + projects.length} isSafari={isSafari} />
-          ))}
         </div>
       </div>
 

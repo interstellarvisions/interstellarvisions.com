@@ -89,7 +89,6 @@ const steps = [
   },
 ];
 
-// ─── SAFARI benefit card — static, no hover ───
 function SafariBenefitCard({ benefit }: { benefit: typeof benefits[0] }) {
   const Icon = benefit.icon;
   return (
@@ -114,7 +113,6 @@ function SafariBenefitCard({ benefit }: { benefit: typeof benefits[0] }) {
   );
 }
 
-// ─── SAFARI process step — static, no animation ───
 function SafariProcessStep({ step, isLast }: { step: typeof steps[0]; isLast: boolean }) {
   return (
     <div className="flex gap-6">
@@ -141,7 +139,6 @@ function SafariProcessStep({ step, isLast }: { step: typeof steps[0]; isLast: bo
   );
 }
 
-// ─── Chrome benefit card — full hover animations ───
 function ChromeBenefitCard({ benefit, index }: { benefit: typeof benefits[0]; index: number }) {
   const Icon = benefit.icon;
   const [hovered, setHovered] = useState(false);
@@ -189,7 +186,6 @@ function ChromeBenefitCard({ benefit, index }: { benefit: typeof benefits[0]; in
   );
 }
 
-// ─── Chrome process step — full animations ───
 function ChromeProcessStep({ step, index, isLast }: { step: typeof steps[0]; index: number; isLast: boolean }) {
   return (
     <motion.div
@@ -231,11 +227,10 @@ export default function AboutUs() {
   return (
     <section
       id="about"
-      className="py-24 md:py-32 px-6 bg-gradient-to-b from-slate-900 to-black relative overflow-hidden"
+      className="py-24 md:py-32 px-6 md:px-12 bg-gradient-to-b from-slate-900 to-black relative overflow-hidden"
     >
       {!isSafari && <style>{shimmerStyle}</style>}
 
-      {/* Ambient orbs — reduced blur radius for Safari performance */}
       <div
         className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
         style={{ background: "rgba(6,182,212,0.04)", filter: "blur(60px)", willChange: "auto" }}
@@ -247,7 +242,6 @@ export default function AboutUs() {
 
       <div className="max-w-[1400px] mx-auto relative z-10">
 
-        {/* ── ABOUT US ── */}
         <h2
           className={`text-5xl md:text-7xl font-bold text-center mb-12 md:mb-16 tracking-wider ${!isSafari ? "shimmer-about" : ""}`}
           style={isSafari ? staticTitleStyle : undefined}
@@ -256,7 +250,7 @@ export default function AboutUs() {
         </h2>
 
         {/* Main statement */}
-        <div className="max-w-4xl mx-auto text-center mb-24">
+        <div className="max-w-5xl mx-auto text-center mb-24">
           <div className="w-16 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto mb-8" />
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
             We are a cutting-edge AI creative studio transforming how brands create content. By merging artificial intelligence with elite creative direction, we craft stunning visuals and high-performing narratives that captivate audiences and deliver measurable results.
@@ -267,7 +261,7 @@ export default function AboutUs() {
           <div className="w-16 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto mt-8" />
         </div>
 
-        {/* ── WHY WORK WITH US ── */}
+        {/* WHY WORK WITH US */}
         <div className="mb-28">
           <h3
             className={`text-3xl md:text-5xl font-bold text-center mb-4 tracking-wide ${!isSafari ? "shimmer-about" : ""}`}
@@ -289,7 +283,7 @@ export default function AboutUs() {
           </div>
         </div>
 
-        {/* ── HOW IT WORKS ── */}
+        {/* HOW IT WORKS */}
         <div>
           <h3
             className={`text-3xl md:text-5xl font-bold text-center mb-4 tracking-wide ${!isSafari ? "shimmer-about" : ""}`}
