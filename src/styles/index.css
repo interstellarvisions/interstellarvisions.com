@@ -2,44 +2,16 @@
 @import './tailwind.css';
 @import './theme.css';
 
-* {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='24' viewBox='0 0 20 24'%3E%3Cpath d='M4 2L4 20L8.5 15L11.5 22L13.5 21L10.5 14L17 14Z' fill='%2306b6d4' stroke='%2306b6d4' stroke-width='0.5' stroke-linejoin='round'/%3E%3C/svg%3E") 4 2, auto;
-}
+html { scroll-behavior: smooth; }
+html, body { background-color: #080510; }
 
-/* Smooth scroll behavior */
-html {
-  scroll-behavior: smooth;
-}
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #080510; }
+::-webkit-scrollbar-thumb { background: #2d2d2d; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #3d3d3d; }
 
-/* iPhone safe area / white bar fix */
-html, body {
-  background-color: #0a0a1a;
-}
+body { overflow-x: hidden; }
 
-/* Custom scrollbar for dark theme */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #0a0a0a;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #2d2d2d;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #3d3d3d;
-}
-
-/* Prevent horizontal scroll */
-body {
-  overflow-x: hidden;
-}
-
-/* ── Prevent image drag & right-click save ── */
 img {
   -webkit-user-drag: none;
   user-drag: none;
@@ -47,7 +19,6 @@ img {
   user-select: none;
 }
 
-/* ── Safari: kill all expensive effects ── */
 @supports (-webkit-hue-rotate: 0deg) {
   .backdrop-blur-sm,
   .backdrop-blur,
@@ -57,19 +28,135 @@ img {
     -webkit-backdrop-filter: none !important;
     background: rgba(0, 0, 0, 0.88) !important;
   }
-
-  * {
-    will-change: auto !important;
-  }
-
-  .pulse-button {
-    animation: none !important;
-    box-shadow: 0 0 10px rgba(6, 182, 212, 0.2) !important;
-  }
-
-  /* Kill animated background orbs */
+  * { will-change: auto !important; }
   .safari-no-animate {
     animation: none !important;
     transition: none !important;
   }
 }
+
+/* ─────────────────────────────────────────
+   SHIMMER
+   Title flash: white → cyan (electric pop)
+   Accent labels: cyan glow
+───────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* Main section titles — white base, cyan flash */
+.shimmer-text {
+  background: linear-gradient(90deg,
+    #ffffff 0%,
+    #ffffff 30%,
+    #67e8f9 50%,
+    #ffffff 70%,
+    #ffffff 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Footer / label accents — cyan shimmer */
+.shimmer-accent {
+  background: linear-gradient(90deg,
+    #06b6d4 0%,
+    #06b6d4 35%,
+    #ffffff 50%,
+    #06b6d4 65%,
+    #06b6d4 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Safari static fallback — keeps purple depth */
+.gradient-text-static {
+  background: linear-gradient(to bottom, #ffffff 0%, #c4b5fd 60%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─────────────────────────────────────────
+   BORDER PULSE — cyan electric on purple bg
+───────────────────────────────────────── */
+@keyframes border-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 6px 1px rgba(6,182,212,0.2),
+      0 0 0px 0px rgba(6,182,212,0),
+      inset 0 0 6px rgba(6,182,212,0.05);
+    border-color: rgba(6,182,212,0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 16px 4px rgba(6,182,212,0.55),
+      0 0 40px 6px rgba(6,182,212,0.15),
+      inset 0 0 14px rgba(6,182,212,0.1);
+    border-color: rgba(103,232,249,0.95);
+  }
+}
+
+.border-pulse-btn {
+  border: 1.5px solid rgba(6,182,212,0.35);
+  animation: border-pulse 3.5s ease-in-out infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.border-pulse-btn:hover {
+  animation: none;
+  border-color: rgba(103,232,249,1);
+  box-shadow:
+    0 0 20px 5px rgba(6,182,212,0.5),
+    0 0 50px 10px rgba(6,182,212,0.15),
+    inset 0 0 18px rgba(6,182,212,0.12);
+  transform: scale(1.05);
+}
+
+/* ─────────────────────────────────────────
+   CURSOR BLINK — cyan
+───────────────────────────────────────── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.cursor-blink {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: rgba(103,232,249,0.85);
+  margin-left: 2px;
+  vertical-align: middle;
+  border-radius: 1px;
+  animation: blink 0.9s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────
+   PARTICLES CANVAS
+───────────────────────────────────────── */
+.particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── AllWorkModal scrollbar styling ── */
+[data-allwork-modal] ::-webkit-scrollbar { width: 4px; }
+[data-allwork-modal] ::-webkit-scrollbar-track { background: transparent; }
+[data-allwork-modal] ::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.3); border-radius: 4px; }
+[data-allwork-modal] ::-webkit-scrollbar-thumb:hover { background: rgba(124,58,237,0.5); }
+
+/* Hide scrollbar when modal is open */
+.hide-scrollbar::-webkit-scrollbar { display: none; }

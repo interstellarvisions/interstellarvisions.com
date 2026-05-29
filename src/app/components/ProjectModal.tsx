@@ -21,9 +21,30 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
   const [activeMedia, setActiveMedia] = useState<"video" | number>("video");
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    const scrollY = window.scrollY;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.documentElement.classList.add("hide-scrollbar");
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handleKey);
     return () => {
-      document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleKey);
+      document.documentElement.classList.remove("hide-scrollbar");
+      if (!document.querySelector("[data-allwork-modal]")) {
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.left = "";
+        document.body.style.right = "";
+        document.documentElement.style.scrollBehavior = "auto";
+        document.body.style.scrollBehavior = "auto";
+        window.scrollTo({ top: scrollY, behavior: "instant" as ScrollBehavior });
+        requestAnimationFrame(() => {
+          document.documentElement.style.scrollBehavior = "";
+          document.body.style.scrollBehavior = "";
+        });
+      }
     };
   }, []);
 
@@ -31,12 +52,12 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
 
   const thumbClass = (active: boolean) =>
     `border-2 transition-all duration-300 ${
-      active ? "border-cyan-500" : "border-white/20 hover:border-cyan-400/50"
+      active ? "border-violet-500" : "border-white/20 hover:border-violet-400/50"
     }`;
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 md:p-8">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
 
         {/* Backdrop */}
         <motion.div
@@ -44,31 +65,57 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/90"
+          className="fixed inset-0"
+          style={{ background: "rgba(5,3,13,0.85)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}
         />
 
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 50 }}
-          transition={{ duration: 0.2 }}
-          className="relative w-full sm:max-w-7xl bg-gradient-to-br from-slate-900 to-black border border-white/10 sm:rounded-lg overflow-hidden flex flex-col lg:flex-row"
-          style={{ maxHeight: "95vh", height: "95vh" }}
+        {/* X button — outside the card, top right of screen */}
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.2, delay: 0.1 }}
+          onClick={onClose}
+          className="fixed top-5 right-5 z-[101] w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300"
+          style={{
+            background: "rgba(124,58,237,0.15)",
+            border: "1px solid rgba(124,58,237,0.4)",
+            backdropFilter: "blur(8px)",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.background = "rgba(124,58,237,0.35)";
+            (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(167,139,250,0.8)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.background = "rgba(124,58,237,0.15)";
+            (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(124,58,237,0.4)";
+          }}
         >
-          {/* Close Button */}
-          <button
-            onClick={onClose}
-            className="absolute top-3 right-3 z-50 w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-          >
-            <X size={18} />
-          </button>
+          <X size={18} className="text-white" />
+        </motion.button>
 
+        {/* Card — frosted glass floating feel */}
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 40, scale: 0.97 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="relative w-full sm:max-w-7xl sm:rounded-2xl overflow-hidden flex flex-col lg:flex-row"
+          style={{
+            maxHeight: "90vh",
+            height: "90vh",
+            background: "linear-gradient(135deg, rgba(20,12,40,0.98) 0%, rgba(8,5,16,0.99) 100%)",
+            border: "1px solid rgba(124,58,237,0.2)",
+            boxShadow: "0 0 60px rgba(124,58,237,0.15), 0 0 120px rgba(124,58,237,0.05), 0 40px 80px rgba(0,0,0,0.6)",
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="flex flex-col lg:flex-row w-full h-full overflow-hidden">
 
             {/* Left — main media + info */}
             <div className="lg:w-[70%] flex flex-col overflow-y-auto">
               <div className="p-4 md:p-8">
-                <div className="bg-black rounded-lg overflow-hidden border border-white/10 mb-4">
+                <div className="rounded-xl overflow-hidden mb-4" style={{ border: "1px solid rgba(124,58,237,0.2)" }}>
                   <motion.div
                     key={String(activeMedia)}
                     initial={{ opacity: 0 }}
@@ -101,10 +148,10 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                 <div className="space-y-3">
                   <h3 className="text-2xl md:text-4xl font-bold tracking-wide">{item.title}</h3>
                   <div className="space-y-1">
-                    <p className="text-cyan-400 text-sm md:text-base">
+                    <p className="text-violet-400 text-sm md:text-base">
                       <span className="font-semibold">Client:</span> {item.client}
                     </p>
-                    <p className="text-cyan-400 text-sm md:text-base">
+                    <p className="text-violet-400 text-sm md:text-base">
                       <span className="font-semibold">Techniques:</span> {item.techniques}
                     </p>
                   </div>
@@ -117,7 +164,7 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
             </div>
 
             {/* Right — thumbnail sidebar */}
-            <div className="lg:w-[30%] bg-black/50 border-t lg:border-t-0 lg:border-l border-white/10">
+            <div className="lg:w-[30%] border-t lg:border-t-0 lg:border-l" style={{ borderColor: "rgba(124,58,237,0.15)", background: "rgba(0,0,0,0.3)" }}>
 
               {/* Mobile: horizontal scroll */}
               <div className="flex lg:hidden overflow-x-auto gap-3 p-3" style={{ scrollbarWidth: "none" }}>
@@ -140,14 +187,7 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                     onClick={() => setActiveMedia(index)}
                     className={`flex-shrink-0 w-32 aspect-video rounded-lg overflow-hidden ${thumbClass(activeMedia === index)}`}
                   >
-                    <img
-                      src={image}
-                      alt={`Thumbnail ${index + 1}`}
-                      loading="lazy"
-                      draggable={false}
-                      onContextMenu={(e) => e.preventDefault()}
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={image} alt={`Thumbnail ${index + 1}`} loading="lazy" draggable={false} onContextMenu={(e) => e.preventDefault()} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
@@ -155,7 +195,7 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
               {/* Desktop: vertical scroll */}
               <div
                 className="hidden lg:block overflow-y-auto h-full p-4 space-y-3"
-                style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(6,182,212,0.3) transparent" }}
+                style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(124,58,237,0.3) transparent" }}
               >
                 <button
                   onClick={() => setActiveMedia("video")}
@@ -176,14 +216,7 @@ export default function ProjectModal({ item, onClose }: ProjectModalProps) {
                     onClick={() => setActiveMedia(index)}
                     className={`w-full aspect-video rounded-lg overflow-hidden ${thumbClass(activeMedia === index)}`}
                   >
-                    <img
-                      src={image}
-                      alt={`Thumbnail ${index + 1}`}
-                      loading="lazy"
-                      draggable={false}
-                      onContextMenu={(e) => e.preventDefault()}
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={image} alt={`Thumbnail ${index + 1}`} loading="lazy" draggable={false} onContextMenu={(e) => e.preventDefault()} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>

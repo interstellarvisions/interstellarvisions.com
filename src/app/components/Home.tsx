@@ -28,7 +28,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-[#0a0a1a] text-white min-h-screen relative">
+    <div className="bg-[#080510] text-white min-h-screen relative">
       <div className="relative z-10">
         <Header scrolled={scrolled} />
         <HeroSection />

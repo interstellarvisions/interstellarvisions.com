@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface PortfolioItem {
   id: number;
@@ -68,7 +68,7 @@ export default function PortfolioModal({ item, onClose }: PortfolioModalProps) {
                       onClick={() => setActiveTab("video")}
                       className={`px-6 py-3 rounded-lg text-sm font-medium tracking-wide transition-all whitespace-nowrap ${
                         activeTab === "video"
-                          ? "bg-cyan-500/20 border-2 border-cyan-500 text-cyan-400"
+                          ? "bg-violet-500/20 border-2 border-violet-500 text-violet-400"
                           : "bg-white/5 border border-white/10 hover:bg-white/10"
                       }`}
                     >
@@ -83,7 +83,7 @@ export default function PortfolioModal({ item, onClose }: PortfolioModalProps) {
                         }}
                         className={`px-6 py-3 rounded-lg text-sm font-medium tracking-wide transition-all whitespace-nowrap ${
                           activeTab === `image${index}`
-                            ? "bg-cyan-500/20 border-2 border-cyan-500 text-cyan-400"
+                            ? "bg-violet-500/20 border-2 border-violet-500 text-violet-400"
                             : "bg-white/5 border border-white/10 hover:bg-white/10"
                         }`}
                       >
@@ -123,15 +123,15 @@ export default function PortfolioModal({ item, onClose }: PortfolioModalProps) {
                 <div className="lg:w-1/3">
                   <div className="lg:sticky lg:top-8 space-y-6">
                     <div className="bg-white/5 border border-white/10 rounded-lg p-6">
-                      <h3 className="text-sm text-cyan-400 mb-2 tracking-wider">CLIENT</h3>
+                      <h3 className="text-sm text-violet-400 mb-2 tracking-wider">CLIENT</h3>
                       <p className="text-lg font-medium">{item.client}</p>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-lg p-6">
-                      <h3 className="text-sm text-cyan-400 mb-2 tracking-wider">TECHNIQUES</h3>
+                      <h3 className="text-sm text-violet-400 mb-2 tracking-wider">TECHNIQUES</h3>
                       <p className="text-sm leading-relaxed text-gray-300">{item.techniques}</p>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-lg p-6">
-                      <h3 className="text-sm text-cyan-400 mb-2 tracking-wider">DESCRIPTION</h3>
+                      <h3 className="text-sm text-violet-400 mb-2 tracking-wider">DESCRIPTION</h3>
                       <p className="text-sm leading-relaxed text-gray-300">{item.description}</p>
                     </div>
                   </div>
